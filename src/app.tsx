@@ -1,3 +1,13 @@
+import { Button } from 'irmas-preact-form-components';
+
 export function App() {
-  return <>This is a new app!</>;
+  return (
+    <>
+      <Button
+        value="Click me!"
+        action={() => console.log('Clicked!')}
+        singleClick
+      />
+    </>
+  );
 }
