@@ -1,13 +1,9 @@
-import { Button } from 'irmas-preact-form-components';
+import { DesktopControls } from './components/desktop/DesktopControls.component';
 
 export function App() {
   return (
     <>
-      <Button
-        value="Click me!"
-        action={() => console.log('Clicked!')}
-        singleClick
-      />
+      <DesktopControls />
     </>
   );
 }

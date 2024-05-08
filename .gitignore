@@ -16,6 +16,11 @@ dist-ssr
 
 # Development helper files
 TODO.md
+.dockerignore
+compose.yaml
+Dockerfile
+Dockerfile.dev
+README.Docker.md
 
 # Editor directories and files
 .vscode/*
