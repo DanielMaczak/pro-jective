@@ -1,18 +1,18 @@
 import { useState } from 'preact/hooks';
 import { DropdownInput, Option } from 'irmas-preact-form-components';
 
-import { colorByOptions } from '../../services/options.service';
+import { sortByOptions } from '../../services/options.service';
 import { CSS_CONTROL } from '../../services/constants.service';
 
-export function ColorByControl() {
-  const [selectedOption, selectOption] = useState<Option>(colorByOptions[0]);
+export const SortByControl = () => {
+  const [selectedOption, selectOption] = useState<Option>(sortByOptions[0]);
   return (
     <DropdownInput
       value={selectedOption}
-      setValue={o => selectOption(o)}
-      options={colorByOptions}
-      label="Color by"
+      setValue={selectOption}
+      options={sortByOptions}
+      label="Sort by"
       className={CSS_CONTROL}
     />
   );
-}
+};

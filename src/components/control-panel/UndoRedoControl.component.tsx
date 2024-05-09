@@ -3,7 +3,7 @@ import { Button } from 'irmas-preact-form-components';
 
 import { CSS_CONTROL } from '../../services/constants.service';
 
-export function UndoRedoControl() {
+export const UndoRedoControl = () => {
   return (
     <>
       <Button value="" action={() => {}} className={CSS_CONTROL}>
@@ -14,4 +14,4 @@ export function UndoRedoControl() {
       </Button>
     </>
   );
-}
+};

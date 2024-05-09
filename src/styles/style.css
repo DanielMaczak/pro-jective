@@ -115,7 +115,7 @@ body {
 .control-group .pj-control__button:last-child {
   border-right: none;
 }
-.control-group .pj-control__option:has(input[type='radio']:checked),
+.control-group .pj-control__option:has(input[type='checkbox']:checked),
 .control-group .pj-control__button:hover {
   background-position: 0 -100%;
 }

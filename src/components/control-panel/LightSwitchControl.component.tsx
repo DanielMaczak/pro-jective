@@ -4,7 +4,7 @@ import { Button } from 'irmas-preact-form-components';
 
 import { CSS_CONTROL, CSS_NIGHTMODE } from '../../services/constants.service';
 
-export function LightSwitchControl() {
+export const LightSwitchControl = () => {
   const [nightMode, switchNightMode] = useState<boolean>(false);
   const changeMode = () => {
     document.body.classList.toggle(CSS_NIGHTMODE);
@@ -15,4 +15,4 @@ export function LightSwitchControl() {
       {nightMode ? <MdNightlightRound /> : <MdSunny />}
     </Button>
   );
-}
+};

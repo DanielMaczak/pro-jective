@@ -4,7 +4,7 @@ import { DropdownInput, Option } from 'irmas-preact-form-components';
 import { workdaysOptions } from '../../services/options.service';
 import { CSS_CONTROL } from '../../services/constants.service';
 
-export function WorkdaysControl() {
+export const WorkdaysControl = () => {
   const [selectedOption, selectOption] = useState<Option>(workdaysOptions[0]);
   return (
     <DropdownInput
@@ -15,4 +15,4 @@ export function WorkdaysControl() {
       className={CSS_CONTROL}
     />
   );
-}
+};

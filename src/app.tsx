@@ -1,9 +1,9 @@
-import { DesktopControls } from './components/desktop/DesktopControls.component';
+import { DesktopControlPanel } from './components/desktop/DesktopControlPanel.component';
 
-export function App() {
+export const App = () => {
   return (
     <>
-      <DesktopControls />
+      <DesktopControlPanel />
     </>
   );
-}
+};

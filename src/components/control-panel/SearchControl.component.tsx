@@ -3,7 +3,7 @@ import { TextInput } from 'irmas-preact-form-components';
 
 import { CSS_CONTROL } from '../../services/constants.service';
 
-export function SearchControl() {
+export const SearchControl = () => {
   const [searchText, setSearchText] = useState<string>('');
   return (
     <TextInput
@@ -13,4 +13,4 @@ export function SearchControl() {
       className={CSS_CONTROL}
     />
   );
-}
+};
