@@ -7,12 +7,14 @@ import { CSS_CONTROL } from '../../services/constants.service';
 export const WorkdaysControl = () => {
   const [selectedOption, selectOption] = useState<Option>(workdaysOptions[0]);
   return (
-    <DropdownInput
-      value={selectedOption}
-      setValue={o => selectOption(o)}
-      options={workdaysOptions}
-      label="Workdays"
-      className={CSS_CONTROL}
-    />
+    <div class="control-group workdays-control">
+      <DropdownInput
+        value={selectedOption}
+        setValue={o => selectOption(o)}
+        options={workdaysOptions}
+        label="Workdays"
+        className={CSS_CONTROL}
+      />
+    </div>
   );
 };

@@ -11,8 +11,10 @@ export const LightSwitchControl = () => {
     switchNightMode(!nightMode);
   };
   return (
-    <Button value="" action={() => changeMode()} className={CSS_CONTROL}>
-      {nightMode ? <MdNightlightRound /> : <MdSunny />}
-    </Button>
+    <div class="control-group light-switch-control">
+      <Button value="" action={() => changeMode()} className={CSS_CONTROL}>
+        {nightMode ? <MdNightlightRound /> : <MdSunny />}
+      </Button>
+    </div>
   );
 };

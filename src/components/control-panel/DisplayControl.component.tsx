@@ -9,12 +9,14 @@ export const DisplayControl = () => {
     new Set([displayOptions[0].id, displayOptions[1].id, displayOptions[2].id])
   );
   return (
-    <SwitchInput
-      value={selectedOptions}
-      setValue={o => selectOptions(o)}
-      options={displayOptions}
-      label="Display"
-      className={CSS_CONTROL}
-    />
+    <div class="control-group display-control">
+      <SwitchInput
+        value={selectedOptions}
+        setValue={o => selectOptions(o)}
+        options={displayOptions}
+        label="Display"
+        className={CSS_CONTROL}
+      />
+    </div>
   );
 };

@@ -6,11 +6,13 @@ import { CSS_CONTROL } from '../../services/constants.service';
 export const SearchControl = () => {
   const [searchText, setSearchText] = useState<string>('');
   return (
-    <TextInput
-      value={searchText}
-      setValue={setSearchText}
-      placeholder="Search..."
-      className={CSS_CONTROL}
-    />
+    <div class="control-group search-control">
+      <TextInput
+        value={searchText}
+        setValue={setSearchText}
+        placeholder="Search..."
+        className={CSS_CONTROL}
+      />
+    </div>
   );
 };

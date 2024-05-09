@@ -12,6 +12,12 @@ export const colorByOptions: Option[] = [
   { id: 'color-by-2', value: 'Category' },
 ];
 
+export const colorPickOptions: Option[] = [
+  { id: 'color-pick-0', value: 'Red', color: '#ff0000' },
+  { id: 'color-pick-1', value: 'Green', color: '#00ff00' },
+  { id: 'color-pick-2', value: 'Blue', color: '#0000ff' },
+];
+
 export const sortByOptions: Option[] = [
   { id: 'sort-by-0', value: 'Planned start date' },
   { id: 'sort-by-1', value: 'Real start date' },

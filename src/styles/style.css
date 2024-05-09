@@ -22,6 +22,8 @@ body {
   --color-controls: #ffffff;
   --color-controls-hover: #eeeeee;
   --color-controls-hover-2: #ffd95b 50%, #ffb45f 100%;
+  --color-task-panel: linear-gradient(135deg, #e4e1e1 0%, #d0d6d8 100%);
+  --color-task-panel-section: #cacaca;
   --border-width: 0.1rem;
   --transition-len: 0.2s;
 }
@@ -38,15 +40,17 @@ body.nightmode {
 /* Global styling */
 
 body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--padding-body);
-  padding: var(--padding-body);
   background: var(--color-bg);
   color: var(--color-font);
   font-family: Roboto;
   font-size: 0.9rem;
   font-weight: 400;
+}
+#app {
+  display: flex;
+  flex-direction: column;
+  gap: var(--padding-body);
+  padding: var(--padding-body);
 }
 .pj-control__label,
 .pj-control__input,
@@ -92,6 +96,7 @@ body {
   flex-shrink: 0;
 }
 .control-group {
+  display: inline-block;
   overflow: hidden;
   background: var(--color-controls);
   border: var(--border-width) solid var(--color-controls);
@@ -132,6 +137,41 @@ body {
   background: var(--color-controls-hover);
 }
 
+/* Task panel */
+
+.task-panel {
+  --text-input-max-width: 10rem;
+  display: flex;
+  padding: var(--padding-panel);
+  border-radius: calc(var(--padding-panel) * 2);
+  background: var(--color-task-panel);
+}
+.task-panel-table {
+  border-spacing: 0;
+}
+.task-panel-table td {
+  min-width: var(--padding-panel);
+  padding: 0.2rem 0.6rem;
+  background: var(--color-task-panel-section);
+}
+.task-panel-table .top-left {
+  border-radius: var(--padding-panel) 0 0 0;
+}
+.task-panel-table .top-right {
+  border-radius: 0 var(--padding-panel) 0 0;
+}
+.task-panel-table .bottom-right {
+  border-radius: 0 0 var(--padding-panel) 0;
+}
+.task-panel-table .bottom-left {
+  border-radius: 0 0 0 var(--padding-panel);
+}
+.task-panel-table .task-panel-space {
+  min-width: calc(var(--padding-panel) / 2);
+  padding: 0;
+  background: transparent;
+}
+
 /* Controls individually */
 
 .search-control {
@@ -158,7 +198,16 @@ body {
   padding-bottom: 0;
   font-size: 1.4rem;
 }
-.light-switch-control .pj-control__button {
+.light-switch-control .pj-control__button,
+.new-category .pj-control__button,
+.new-task .pj-control__button {
+  width: calc(var(--padding-panel) * 1.8);
+  padding-left: 0;
+  padding-right: 0;
   padding-bottom: 0;
+}
+.light-switch-control,
+.new-category,
+.new-task {
   font-size: 1.1rem;
 }

@@ -1,18 +1,20 @@
 import { useState } from 'preact/hooks';
 import { DropdownInput, Option } from 'irmas-preact-form-components';
 
-import { colorByOptions } from '../../services/options.service';
 import { CSS_CONTROL } from '../../services/constants.service';
 
-export const ColorByControl = () => {
-  const [selectedOption, selectOption] = useState<Option>(colorByOptions[0]);
+const dependencyOptions: Option[] = [
+  { id: 'dependency-option-0', value: 'Independent' },
+];
+
+export const PickDependencyControl = () => {
+  const [selectedOption, selectOption] = useState<Option>(dependencyOptions[0]);
   return (
-    <div class="control-group color-by-control">
+    <div class="control-group pick-dependency-control">
       <DropdownInput
         value={selectedOption}
         setValue={o => selectOption(o)}
-        options={colorByOptions}
-        label="Color by"
+        options={dependencyOptions}
         className={CSS_CONTROL}
       />
     </div>
