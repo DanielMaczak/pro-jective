@@ -26,16 +26,16 @@ export function DesktopControls() {
         <div class="control-group color-by-control">
           <ColorByControl />
         </div>
+      </div>
+      <div class="desktop-controls-right">
         <div class="control-group undo-redo-control">
           <UndoRedoControl />
         </div>
-        <div class="control-group light-switch-control">
-          <LightSwitchControl />
-        </div>
-      </div>
-      <div class="desktop-controls-right">
         <div class="control-group save-load-control">
           <SaveLoadControl />
+        </div>
+        <div class="control-group light-switch-control">
+          <LightSwitchControl />
         </div>
       </div>
     </div>

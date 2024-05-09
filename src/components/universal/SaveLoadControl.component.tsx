@@ -1,13 +1,12 @@
-import { useState } from 'preact/hooks';
-import { Button, TextInput } from 'irmas-preact-form-components';
+import { Button } from 'irmas-preact-form-components';
+
+import { CSS_CONTROL } from '../../services/constants.service';
 
 export function SaveLoadControl() {
-  const [fileName, setFileName] = useState<string>('');
   return (
     <>
-      <TextInput value={fileName} setValue={n => setFileName(n)} />
-      <Button value="Save" action={() => {}} />
-      <Button value="Load" action={() => {}} />
+      <Button value="Save" action={() => {}} className={CSS_CONTROL} />
+      <Button value="Load" action={() => {}} className={CSS_CONTROL} />
     </>
   );
 }

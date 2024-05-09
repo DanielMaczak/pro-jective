@@ -1,6 +1,8 @@
 import { useState } from 'preact/hooks';
 import { TextInput } from 'irmas-preact-form-components';
 
+import { CSS_CONTROL } from '../../services/constants.service';
+
 export function SearchControl() {
   const [searchText, setSearchText] = useState<string>('');
   return (
@@ -8,6 +10,7 @@ export function SearchControl() {
       value={searchText}
       setValue={setSearchText}
       placeholder="Search..."
+      className={CSS_CONTROL}
     />
   );
 }
