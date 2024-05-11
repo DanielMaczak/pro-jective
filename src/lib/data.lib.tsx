@@ -12,6 +12,7 @@ export interface Task {
     color: string;
     name: string;
     owner: string;
+    commentary?: string;
   };
   plan: {
     startDate: number;

@@ -2,8 +2,15 @@ import { useState } from 'preact/hooks';
 import { NumInput } from 'irmas-preact-form-components';
 
 import { CSS_CONTROL } from '../../services/constants.service';
+import { metricHeaders } from '../../services/options.service';
 
-export const RealityDoneControl = ({ doneInput }: { doneInput: number }) => {
+export const RealityDoneControl = ({
+  doneInput,
+  label,
+}: {
+  doneInput: number;
+  label?: boolean;
+}) => {
   const [done, setDone] = useState<number>(doneInput * 100);
   return (
     <div class="input-group reality-done-control">
@@ -13,6 +20,7 @@ export const RealityDoneControl = ({ doneInput }: { doneInput: number }) => {
         className={CSS_CONTROL}
         min={0}
         max={100}
+        {...(label ? { label: metricHeaders.reality_done } : {})}
       />
     </div>
   );

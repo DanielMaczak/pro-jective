@@ -18,6 +18,23 @@ export const colorPickOptions: Option[] = [
   { id: 'color-pick-2', value: 'Blue', color: '#ccc' },
 ];
 
+export const metricHeaders = {
+  info_name: 'Name',
+  info_owner: 'Owner',
+  info_commentary: 'Commentary',
+  plan_startDate: 'Start date',
+  plan_durationIdeal: 'Best possible duration',
+  plan_durationNormal: 'Expected duration',
+  plan_durationBad: 'Worst possible duration',
+  plan_durationCalculated: 'Forecasted duration',
+  plan_endDate: 'End date',
+  reality_startDate: 'Start date',
+  reality_startDelay: 'Delay',
+  reality_done: 'Done',
+  reality_endDate: 'End date',
+  reality_endDelay: 'Delay',
+};
+
 export const sortByOptions: Option[] = [
   { id: 'sort-by-0', value: 'Planned start date' },
   { id: 'sort-by-1', value: 'Real start date' },

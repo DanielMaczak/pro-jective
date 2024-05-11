@@ -2,6 +2,8 @@
 /* TODO: fix space after End date in Reality */
 /* TODO: accessiblity - figure out nice way to highlight focused fields for TAB */
 /* TODO: add nice masking for scrolling main area over headers and make round corners around */
+/* TODO: make categories properly sticky on scrolling, review z-index and make overview of priority */
+/* TODO: make nicer popup headers */
 
 /* Font imports */
 
@@ -23,6 +25,8 @@ body {
   --padding-control: 0.3rem 0.8rem;
   --padding-control-v: 0.3rem;
   --padding-control-h: 0.8rem;
+  --table-input-height: 2.2rem;
+  --table-line-height: 1.7rem;
   --color-bg: linear-gradient(to bottom right, #fdfbfb 0%, #ebedee 100%);
   --color-border: #ebedee;
   --color-font: #111;
@@ -123,6 +127,29 @@ body {
 .pj-control__button {
   cursor: pointer;
 }
+::-webkit-scrollbar {
+  width: 0.6rem;
+  height: 0.6rem;
+  offset: 10px;
+}
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: var(--color-scrollbar-back);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar);
+  border-radius: 0.4rem;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-scrollbar-hover);
+}
+@-moz-document url-prefix() {
+  .task-panel {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-back);
+  }
+}
 
 /* Control panel */
 
@@ -190,6 +217,7 @@ body {
   --sticky-col-0-width: 3.5rem;
   --sticky-col-1-width: var(--text-input-max-width);
   --sticky-col-2-width: var(--text-input-max-width);
+  --header-height: 3.8rem;
   display: flex;
   align-items: flex-start;
   flex: 1 1 auto;
@@ -209,38 +237,9 @@ body {
   padding-bottom: calc(var(--padding-panel) / 2);
   border-radius: var(--padding-panel);
 }
-.task-panel-scroll-area::-webkit-scrollbar {
-  width: 0.6rem;
-  height: 0.6rem;
-  offset: 10px;
-}
-.task-panel-scroll-area::-webkit-scrollbar-button,
-.task-panel-scroll-area::-webkit-scrollbar-track,
-.task-panel-scroll-area::-webkit-scrollbar-corner {
-  background: var(--color-scrollbar-back);
-}
-.task-panel-scroll-area::-webkit-scrollbar-thumb {
-  background: var(--color-scrollbar);
-  border-radius: 0.4rem;
-}
-.task-panel-scroll-area::-webkit-scrollbar-thumb:hover {
-  background: var(--color-scrollbar-hover);
-}
-@-moz-document url-prefix() {
-  .task-panel {
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-back);
-  }
-}
 .task-panel-table {
   position: relative;
   border-spacing: 0;
-}
-.task-panel-header {
-  position: sticky;
-  top: 0;
-  overflow: hidden;
-  z-index: 9;
 }
 .task-panel-table .sticky-col-0,
 .task-panel-table .sticky-col-1,
@@ -283,6 +282,12 @@ body {
   background: transparent;
   border: 0;
 }
+.task-panel-header {
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+  z-index: 9;
+}
 .task-panel-header h3 {
   position: absolute;
   top: 0.5rem;
@@ -298,6 +303,7 @@ body {
   font-weight: 400;
 }
 .task-panel-header th {
+  height: var(--header-height);
   padding: var(--padding-control-v) var(--padding-control-h);
   padding-top: 1.6rem;
   background-image: var(--color-task-panel-header);
@@ -308,6 +314,8 @@ body {
   text-align: left;
 }
 .task-panel-category td {
+  position: sticky;
+  top: var(--header-height);
   background-image: var(--color-task-panel-category);
 }
 .task-panel-task td {
@@ -319,8 +327,13 @@ body {
   background: var(--color-task-panel-footer);
 }
 .task-panel-task .pj-control__input {
-  height: 2.2rem;
-  line-height: 1.7rem;
+  height: var(--table-input-height);
+  line-height: var(--table-line-height);
+}
+.task-panel-task .hover-effect:hover {
+  z-index: 30;
+  border-radius: 0.1rem;
+  outline: solid var(--color-scrollbar-hover);
 }
 .input-group {
   display: flex;
@@ -329,6 +342,71 @@ body {
 }
 .input-group .pj-control__input:disabled {
   background: var(--color-controls-disabled);
+}
+
+/* Popup */
+
+.task-panel-popup-container {
+  --label-max-width: 10.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+  height: fit-content;
+  max-width: calc(100% - 2 * var(--padding-panel));
+  max-height: calc(100% - 2 * var(--padding-panel));
+  min-width: 33vw;
+  z-index: 100;
+  overflow: hidden;
+  padding: var(--padding-panel);
+  background: var(--color-top-panel);
+  border-radius: calc(var(--padding-panel) * 2);
+  box-shadow: 0.5rem 0.5rem 0.5rem 1rem var(--color-dropdown-shadow);
+}
+.task-panel-popup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  gap: calc(var(--padding-panel) / 2);
+  margin-bottom: var(--padding-body);
+  background: var(--color-bg);
+  border-radius: var(--padding-panel);
+}
+.task-panel-popup-header {
+  position: sticky;
+  top: var(--header-height);
+  padding: 0.6rem var(--padding-control-h) 0.4rem;
+  background: var(--color-task-panel-category);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+.task-panel-popup .control-group,
+.task-panel-popup .input-group {
+  display: flex;
+  margin: var(--border-width) var(--padding-control-h);
+}
+.task-panel-popup .pj-control__label {
+  width: var(--label-max-width);
+  height: var(--table-input-height);
+  line-height: var(--table-line-height);
+  align-self: flex-start;
+  vertical-align: middle;
+  padding-left: 0;
+}
+.task-panel-popup .pj-control__label::after {
+  content: ':';
+}
+.task-panel-popup .pj-control__input {
+  width: calc(100% - var(--label-max-width));
+  height: var(--table-input-height);
+  line-height: var(--table-line-height);
+  background: var(--color-controls);
 }
 
 /* Controls individually */
@@ -400,13 +478,16 @@ body {
   padding-right: 0;
   font-size: 0;
 }
-.category-name-control,
-.category-name-control .pj-control__input,
-.task-name-control,
-.task-name-control .pj-control__input,
-.task-owner-control,
-.task-owner-control .pj-control__input {
+.task-panel .category-name-control,
+.task-panel .category-name-control .pj-control__input,
+.task-panel .task-name-control,
+.task-panel .task-name-control .pj-control__input,
+.task-panel .task-owner-control,
+.task-panel .task-owner-control .pj-control__input {
   width: var(--text-input-max-width);
+}
+.plan-start-date-control {
+  display: flex;
 }
 .plan-start-date-control .pj-control__input {
   padding-right: 0;
@@ -420,7 +501,7 @@ body {
 .plan-duration-calculated-control .pj-control__input,
 .reality-start-delay-control .pj-control__input,
 .reality-end-delay-control .pj-control__input,
-.reality-done-control {
+.task-panel .reality-done-control {
   width: 3.5rem;
   text-align: center;
 }
@@ -437,19 +518,23 @@ body {
 .reality-done-control::after {
   content: '%';
   padding-top: calc(var(--padding-control-v) + 0.24rem);
+  padding-right: 0.35rem;
+  background: var(--color-controls);
 }
 .gantt-bar-control {
   --bar-max-height: 1.5rem;
+  cursor: pointer;
   position: relative;
   height: var(--bar-max-height);
 }
 .gantt-bar-plan-control,
 .gantt-bar-reality-control {
   position: absolute;
-  height: 1rem;
+  border-radius: 0.2rem;
 }
 .gantt-bar-plan-control {
   height: var(--bar-max-height);
+  opacity: 0.6;
   background: var(--color-bar-plan);
 }
 .gantt-bar-reality-control {
@@ -459,4 +544,7 @@ body {
 }
 .gantt-bar-control td {
   border: 0;
+}
+.save-popup-control {
+  min-height: 1.8rem;
 }

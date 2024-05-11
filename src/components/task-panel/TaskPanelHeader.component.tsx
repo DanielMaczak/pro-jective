@@ -1,5 +1,6 @@
 import { FaRegStar, FaStarHalfAlt, FaStar } from 'react-icons/fa';
 import { NewCategoryControl } from './NewCategoryControl.component';
+import { metricHeaders } from '../../services/options.service';
 
 export const TaskPanelHeader = () => {
   return (
@@ -11,17 +12,17 @@ export const TaskPanelHeader = () => {
         </th>
         <th className="task-panel-info sticky-col-1 header-to-left">
           <h3>Info</h3>
-          Name
+          {metricHeaders.info_name}
         </th>
         <th className="task-panel-info sticky-col-2 top-right header-to-left">
-          Owner
+          {metricHeaders.info_owner}
         </th>
         {/* Space */}
         <th className="task-panel-space"></th>
         {/* Plan */}
         <th className="task-panel-plan top-left header-to-left">
           <h3>Plan</h3>
-          Start date
+          {metricHeaders.plan_startDate}
         </th>
         <th className="task-panel-plan">
           <FaStar />
@@ -34,18 +35,24 @@ export const TaskPanelHeader = () => {
           <FaRegStar />
         </th>
         <th className="task-panel-plan">Calc.</th>
-        <th className="task-panel-plan top-right">End date</th>
+        <th className="task-panel-plan top-right">
+          {metricHeaders.plan_endDate}
+        </th>
         {/* Space */}
         <th className="task-panel-space"></th>
         {/* Reality */}
         <th className="task-panel-reality top-left header-to-left">
           <h3>Reality</h3>
-          Start date
+          {metricHeaders.reality_startDate}
         </th>
-        <th className="task-panel-reality">Delay</th>
-        <th className="task-panel-reality">Done</th>
-        <th className="task-panel-reality">End date</th>
-        <th className="task-panel-reality top-right">Delay</th>
+        <th className="task-panel-reality">
+          {metricHeaders.reality_startDelay}
+        </th>
+        <th className="task-panel-reality">{metricHeaders.reality_done}</th>
+        <th className="task-panel-reality">{metricHeaders.reality_endDate}</th>
+        <th className="task-panel-reality top-right">
+          {metricHeaders.reality_endDelay}
+        </th>
         {/* Space */}
         <th className="task-panel-space"></th>
         {/* Gantt */}

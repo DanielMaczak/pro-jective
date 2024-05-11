@@ -8,7 +8,13 @@ export const fakeData: Data = {
       tasks: [
         {
           id: 'task-0',
-          info: { color: 'color-pick-0', name: 'Wash dishes', owner: 'Le me' },
+          info: {
+            color: 'color-pick-0',
+            name: 'Wash dishes',
+            owner: 'Le me',
+            commentary:
+              'Super long commentary its all going to hell Im late everywhere its insane I think I need some vacation or I will literary DIE LOL',
+          },
           plan: {
             startDate: 1715286061264,
             durationIdeal: 2,

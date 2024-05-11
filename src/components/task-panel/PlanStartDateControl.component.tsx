@@ -2,6 +2,7 @@ import { useState } from 'preact/hooks';
 import { DateInput, DropdownInput, Option } from 'irmas-preact-form-components';
 
 import { CSS_CONTROL } from '../../services/constants.service';
+import { metricHeaders } from '../../services/options.service';
 
 const dependencyOptions: Option[] = [
   { id: 'dependency-option-0', value: 'Independent' },
@@ -9,8 +10,10 @@ const dependencyOptions: Option[] = [
 
 export const PlanStartDateControl = ({
   startDateInput,
+  label,
 }: {
   startDateInput: number;
+  label?: boolean;
 }) => {
   const [startDate, setStartDate] = useState<number>(startDateInput);
   const [selectedOption, selectOption] = useState<Option>(dependencyOptions[0]);
@@ -21,6 +24,7 @@ export const PlanStartDateControl = ({
           value={startDate}
           setValue={setStartDate}
           className={CSS_CONTROL}
+          {...(label ? { label: metricHeaders.plan_startDate } : {})}
         />
       </div>
       <div class="pick-dependency-control">
