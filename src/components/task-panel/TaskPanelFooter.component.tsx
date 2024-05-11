@@ -28,10 +28,6 @@ export const TaskPanelFooter = () => {
         {/* Gantt */}
         <td className="task-panel-gantt bottom-left"></td>
         <td className="task-panel-gantt"></td>
-        <td className="task-panel-gantt"></td>
-        <td className="task-panel-gantt"></td>
-        <td className="task-panel-gantt"></td>
-        <td className="task-panel-gantt"></td>
         <td className="task-panel-gantt bottom-right"></td>
       </tr>
     </tfoot>

@@ -28,6 +28,7 @@ body {
   --color-font: #111;
   --color-top-panel: linear-gradient(to bottom, #f6d365 0%, #fda085 100%);
   --color-controls: #ffffff;
+  --color-controls-disabled: #efedf0;
   --color-controls-hover: #eeeeee;
   --color-controls-hover-2: #ffd95b 50%, #ffb45f 100%;
   --color-dropdown-shadow: rgba(100, 100, 100, 0.2);
@@ -53,8 +54,10 @@ body {
     #bdbbbe 100%
   );
   --color-scrollbar: #9f9da0;
-  --color-scrollbar-hover: #ffffff;
+  --color-scrollbar-hover: #686769;
   --color-scrollbar-back: transparent;
+  --color-bar-plan: rgba(255, 196, 2, 0.5);
+  --color-bar-reality: #fda085;
   --border-width: 0.1rem;
   --transition-len: 0.2s;
 }
@@ -280,13 +283,28 @@ body {
   background: transparent;
   border: 0;
 }
+.task-panel-header h3 {
+  position: absolute;
+  top: 0.5rem;
+  color: #636465;
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+.task-panel-header h4 {
+  position: absolute;
+  top: 0.8rem;
+  margin-left: 1rem;
+  text-align: center;
+  font-weight: 400;
+}
 .task-panel-header th {
   padding: var(--padding-control-v) var(--padding-control-h);
-  padding-top: 0.6rem;
+  padding-top: 1.6rem;
   background-image: var(--color-task-panel-header);
+  vertical-align: bottom;
   font-weight: 500;
 }
-.task-panel-header .task-panel-info {
+.task-panel-header .header-to-left {
   text-align: left;
 }
 .task-panel-category td {
@@ -304,16 +322,13 @@ body {
   height: 2.2rem;
   line-height: 1.7rem;
 }
-.task-panel-task .task-panel-gantt {
-  position: relative;
-}
 .input-group {
   display: flex;
   overflow: hidden;
   height: 100%;
 }
 .input-group .pj-control__input:disabled {
-  background: #efedf0;
+  background: var(--color-controls-disabled);
 }
 
 /* Controls individually */
@@ -422,4 +437,26 @@ body {
 .reality-done-control::after {
   content: '%';
   padding-top: calc(var(--padding-control-v) + 0.24rem);
+}
+.gantt-bar-control {
+  --bar-max-height: 1.5rem;
+  position: relative;
+  height: var(--bar-max-height);
+}
+.gantt-bar-plan-control,
+.gantt-bar-reality-control {
+  position: absolute;
+  height: 1rem;
+}
+.gantt-bar-plan-control {
+  height: var(--bar-max-height);
+  background: var(--color-bar-plan);
+}
+.gantt-bar-reality-control {
+  height: calc(var(--bar-max-height) / 2);
+  margin-top: calc(var(--bar-max-height) / 4);
+  background: var(--color-bar-reality);
+}
+.gantt-bar-control td {
+  border: 0;
 }

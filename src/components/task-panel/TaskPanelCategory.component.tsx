@@ -41,10 +41,6 @@ export const TaskPanelCategory = () => {
             <td className="task-panel-gantt"></td>
             <td className="task-panel-gantt"></td>
             <td className="task-panel-gantt"></td>
-            <td className="task-panel-gantt"></td>
-            <td className="task-panel-gantt"></td>
-            <td className="task-panel-gantt"></td>
-            <td className="task-panel-gantt"></td>
           </tr>
           {category.tasks.map((task: Task) => (
             <TaskPanelTask task={task} />

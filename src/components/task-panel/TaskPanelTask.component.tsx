@@ -1,4 +1,5 @@
 import { Task } from '../../lib/data.lib';
+import { GanttBarControl } from './GanttBarControl.component';
 import { PickColorControl } from './PickColorControl.component';
 import { PlanDurationBadControl } from './PlanDurationBadControl.component';
 import { PlanDurationCalculatedControl } from './PlanDurationCalculatedControl.component';
@@ -70,11 +71,9 @@ export const TaskPanelTask = ({ task }: { task: Task }) => {
       <td className="task-panel-space"></td>
       {/* Gantt */}
       <td className="task-panel-gantt"></td>
-      <td className="task-panel-gantt"></td>
-      <td className="task-panel-gantt"></td>
-      <td className="task-panel-gantt"></td>
-      <td className="task-panel-gantt"></td>
-      <td className="task-panel-gantt"></td>
+      <td className="task-panel-gantt">
+        <GanttBarControl />
+      </td>
       <td className="task-panel-gantt"></td>
     </tr>
   );
