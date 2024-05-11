@@ -1,6 +1,5 @@
 import { Task } from '../../lib/data.lib';
 import { PickColorControl } from './PickColorControl.component';
-import { PickDependencyControl } from './PickDependencyControl.component';
 import { PlanDurationBadControl } from './PlanDurationBadControl.component';
 import { PlanDurationCalculatedControl } from './PlanDurationCalculatedControl.component';
 import { PlanDurationIdealControl } from './PlanDurationIdealControl.component';
@@ -17,15 +16,15 @@ import { TaskOwnerControl } from './TaskOwnerControl.component';
 
 export const TaskPanelTask = ({ task }: { task: Task }) => {
   return (
-    <tr key={task.id} className="task-item">
+    <tr key={task.id} className="task-panel-task">
       {/* Task info */}
-      <td className="task-panel-info">
+      <td className="task-panel-info sticky-col-0">
         <PickColorControl color={task.info.color} />
       </td>
-      <td className="task-panel-info">
+      <td className="task-panel-info sticky-col-1">
         <TaskNameControl name={task.info.name} />
       </td>
-      <td className="task-panel-info">
+      <td className="task-panel-info sticky-col-2">
         <TaskOwnerControl owner={task.info.owner} />
       </td>
       {/* Space */}
@@ -33,7 +32,6 @@ export const TaskPanelTask = ({ task }: { task: Task }) => {
       {/* Plan */}
       <td className="task-panel-plan">
         <PlanStartDateControl startDateInput={task.plan.startDate} />
-        <PickDependencyControl />
       </td>
       <td className="task-panel-plan">
         <PlanDurationIdealControl durationInput={task.plan.durationIdeal} />

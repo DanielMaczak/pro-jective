@@ -10,7 +10,7 @@ export const RealityStartDateControl = ({
 }) => {
   const [startDate, setStartDate] = useState<number>(startDateInput);
   return (
-    <div class="control-group reality-start-date-control">
+    <div class="input-group reality-start-date-control">
       <DateInput
         value={startDate}
         setValue={setStartDate}

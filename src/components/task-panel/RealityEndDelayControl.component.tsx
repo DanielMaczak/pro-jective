@@ -6,7 +6,7 @@ import { CSS_CONTROL } from '../../services/constants.service';
 export const RealityEndDelayControl = () => {
   const [delay, setDelay] = useState<number>(0);
   return (
-    <div class="control-group reality-end-delay-control">
+    <div class="input-group reality-end-delay-control">
       <NumInput
         value={delay}
         setValue={setDelay}

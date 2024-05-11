@@ -6,7 +6,7 @@ import { CSS_CONTROL } from '../../services/constants.service';
 export const TaskNameControl = ({ name }: { name: string }) => {
   const [taskName, setTaskName] = useState<string>(name);
   return (
-    <div class="control-group task-name-control">
+    <div class="input-group task-name-control">
       <TextInput
         value={taskName}
         setValue={setTaskName}

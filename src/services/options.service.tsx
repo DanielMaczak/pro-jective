@@ -13,9 +13,9 @@ export const colorByOptions: Option[] = [
 ];
 
 export const colorPickOptions: Option[] = [
-  { id: 'color-pick-0', value: 'Red', color: '#ff0000' },
-  { id: 'color-pick-1', value: 'Green', color: '#00ff00' },
-  { id: 'color-pick-2', value: 'Blue', color: '#0000ff' },
+  { id: 'color-pick-0', value: 'None', color: 'transparent' },
+  { id: 'color-pick-1', value: 'Green', color: '#aaa' },
+  { id: 'color-pick-2', value: 'Blue', color: '#ccc' },
 ];
 
 export const sortByOptions: Option[] = [

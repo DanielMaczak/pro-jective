@@ -1,11 +1,11 @@
 export const TaskPanelFooter = () => {
   return (
-    <thead className="task-panel-header">
-      <tr className="task-panel-row">
+    <tfoot className="task-panel-footer">
+      <tr className="task-panel-footer-row">
         {/* Task info */}
-        <td className="task-panel-info bottom-left"></td>
-        <td className="task-panel-info"></td>
-        <td className="task-panel-info bottom-right"></td>
+        <td className="task-panel-info sticky-col-0 bottom-left"></td>
+        <td className="task-panel-info sticky-col-1"></td>
+        <td className="task-panel-info sticky-col-2 bottom-right"></td>
         {/* Space */}
         <td className="task-panel-space"></td>
         {/* Plan */}
@@ -34,6 +34,6 @@ export const TaskPanelFooter = () => {
         <td className="task-panel-gantt"></td>
         <td className="task-panel-gantt bottom-right"></td>
       </tr>
-    </thead>
+    </tfoot>
   );
 };

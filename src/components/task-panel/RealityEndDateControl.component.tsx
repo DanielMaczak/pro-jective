@@ -6,7 +6,7 @@ import { CSS_CONTROL } from '../../services/constants.service';
 export const RealityEndDateControl = () => {
   const [endDate, setEndDate] = useState<number>(0);
   return (
-    <div class="control-group reality-end-date-control">
+    <div class="input-group reality-end-date-control">
       <DateInput
         value={endDate}
         setValue={setEndDate}

@@ -16,6 +16,7 @@ export const PickColorControl = ({ color }: { color: string }) => {
         setValue={o => selectOption(o)}
         options={colorPickOptions}
         className={CSS_CONTROL}
+        showValue={false}
       />
     </div>
   );

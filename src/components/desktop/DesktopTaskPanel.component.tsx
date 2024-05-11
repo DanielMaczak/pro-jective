@@ -5,11 +5,13 @@ import { TaskPanelHeader } from '../task-panel/TaskPanelHeader.component';
 export const DesktopTaskPanel = () => {
   return (
     <div className="task-panel">
-      <table className="task-panel-table">
-        <TaskPanelHeader />
-        <TaskPanelCategory />
-        <TaskPanelFooter />
-      </table>
+      <div className="task-panel-scroll-area">
+        <table className="task-panel-table">
+          <TaskPanelHeader />
+          <TaskPanelCategory />
+          <TaskPanelFooter />
+        </table>
+      </div>
     </div>
   );
 };

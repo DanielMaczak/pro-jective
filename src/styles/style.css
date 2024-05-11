@@ -1,3 +1,8 @@
+/* TODO: fix space between Calc. and End date */
+/* TODO: fix space after End date in Reality */
+/* TODO: accessiblity - figure out nice way to highlight focused fields for TAB */
+/* TODO: add nice masking for scrolling main area over headers and make round corners around */
+
 /* Font imports */
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
@@ -15,21 +20,47 @@
 body {
   --padding-body: 0.5rem;
   --padding-panel: 1rem;
-  --color-bg: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-  --color-bg-avg: #ebedee;
+  --padding-control: 0.3rem 0.8rem;
+  --padding-control-v: 0.3rem;
+  --padding-control-h: 0.8rem;
+  --color-bg: linear-gradient(to bottom right, #fdfbfb 0%, #ebedee 100%);
+  --color-border: #ebedee;
   --color-font: #111;
-  --color-top-panel: linear-gradient(180deg, #f6d365 0%, #fda085 100%);
+  --color-top-panel: linear-gradient(to bottom, #f6d365 0%, #fda085 100%);
   --color-controls: #ffffff;
   --color-controls-hover: #eeeeee;
   --color-controls-hover-2: #ffd95b 50%, #ffb45f 100%;
-  --color-task-panel: linear-gradient(135deg, #e4e1e1 0%, #d0d6d8 100%);
-  --color-task-panel-section: #cacaca;
+  --color-dropdown-shadow: rgba(100, 100, 100, 0.2);
+  --color-task-panel: linear-gradient(
+    to bottom right,
+    #e4e1e1 0%,
+    #d0d6d8 100%
+  );
+  --color-task-panel-header: linear-gradient(
+    to bottom,
+    #fdfbfb 0%,
+    #ebedee 100%
+  );
+  --color-task-panel-category: linear-gradient(
+    to bottom,
+    #9d9ea3 0%,
+    #bdbbbe 100%
+  );
+  --color-task-panel-row: #ffffff;
+  --color-task-panel-footer: linear-gradient(
+    to bottom,
+    #9d9ea3 0%,
+    #bdbbbe 100%
+  );
+  --color-scrollbar: #9f9da0;
+  --color-scrollbar-hover: #ffffff;
+  --color-scrollbar-back: transparent;
   --border-width: 0.1rem;
   --transition-len: 0.2s;
 }
 body.nightmode {
   --color-bg: linear-gradient(135deg, #1c2627 0%, #1b2d38 100%);
-  --color-bg-avg: #1f2d38;
+  --color-border: #1f2d38;
   --color-font: #eeeeee;
   --color-top-panel: linear-gradient(180deg, #80d0c7 0%, #13547a 100%);
   --color-controls: #2b3442;
@@ -40,7 +71,9 @@ body.nightmode {
 /* Global styling */
 
 body {
+  overflow: hidden;
   background: var(--color-bg);
+  background-attachment: fixed;
   color: var(--color-font);
   font-family: Roboto;
   font-size: 0.9rem;
@@ -49,24 +82,37 @@ body {
 #app {
   display: flex;
   flex-direction: column;
+  width: 100vw;
+  height: 100vh;
   gap: var(--padding-body);
+  margin: auto;
   padding: var(--padding-body);
 }
 .pj-control__label,
 .pj-control__input,
 .pj-control__option,
 .pj-control__button {
-  padding: 0.3rem 0.8rem;
+  padding: var(--padding-control-v) var(--padding-control-h);
 }
 .pj-control__input {
   display: flex;
   justify-content: space-between;
+  vertical-align: middle;
 }
 .pj-control__list {
   --dropdown-list-radius: 0.8rem;
-  margin-top: calc(-1 * (var(--dropdown-list-radius)) + var(--border-width));
+  margin-top: calc(var(--border-width) / 2.2 - (var(--dropdown-list-radius)));
   padding-top: var(--dropdown-list-radius);
+  z-index: 10;
+  clip-path: rect(var(--dropdown-list-radius) 120% 120% -100%);
+  border: calc(var(--border-width) / 2) solid var(--color-border);
   border-radius: var(--dropdown-list-radius);
+  box-shadow: 0.1rem 0.1rem 0.2rem var(--color-dropdown-shadow);
+}
+.pj-control__list .pj-control__option {
+  background: var(--color-controls);
+  border-top: calc(var(--border-width) / 2) solid var(--color-border);
+  transition: background-color var(--transition-len);
 }
 .pj-control__arrow {
   margin: 0.2rem 0 0 0.4rem;
@@ -78,8 +124,9 @@ body {
 /* Control panel */
 
 .desktop-controls {
-  --text-input-max-width: 15rem;
+  --text-input-max-width: 15.5rem;
   display: flex;
+  flex: 0 1 auto;
   padding: var(--padding-panel);
   border-radius: calc(var(--padding-panel) * 2);
   justify-content: space-between;
@@ -101,6 +148,7 @@ body {
   background: var(--color-controls);
   border: var(--border-width) solid var(--color-controls);
   border-radius: var(--padding-panel);
+  vertical-align: bottom;
 }
 .control-group .pj-control__label {
   background: var(--color-bg);
@@ -113,7 +161,7 @@ body {
     var(--color-controls) 50%,
     var(--color-controls-hover-2)
   );
-  border-right: var(--border-width) solid var(--color-bg-avg);
+  border-right: var(--border-width) solid var(--color-border);
   transition: background-position var(--transition-len);
 }
 .control-group .pj-control__option:last-child,
@@ -126,12 +174,7 @@ body {
 }
 .control-group .pj-control__button:active {
   background-image: none;
-  background-color: var(--color-bg-avg);
-}
-.control-group .pj-control__list .pj-control__option {
-  background: var(--color-controls);
-  border-top: calc(var(--border-width) / 2) solid var(--color-bg-avg);
-  transition: background-color var(--transition-len);
+  background-color: var(--color-border);
 }
 .control-group .pj-control__list .pj-control__option:hover {
   background: var(--color-controls-hover);
@@ -140,19 +183,84 @@ body {
 /* Task panel */
 
 .task-panel {
-  --text-input-max-width: 10rem;
+  --text-input-max-width: 12rem;
+  --sticky-col-0-width: 3.5rem;
+  --sticky-col-1-width: var(--text-input-max-width);
+  --sticky-col-2-width: var(--text-input-max-width);
   display: flex;
+  align-items: flex-start;
+  flex: 1 1 auto;
+  overflow: hidden;
   padding: var(--padding-panel);
+  padding-bottom: calc(var(--padding-panel) / 3);
   border-radius: calc(var(--padding-panel) * 2);
   background: var(--color-task-panel);
 }
+.task-panel-scroll-area {
+  display: flex;
+  align-items: flex-start;
+  max-height: 100%;
+  overflow: auto;
+  white-space: nowrap;
+  padding-right: calc(var(--padding-panel) / 2);
+  padding-bottom: calc(var(--padding-panel) / 2);
+  border-radius: var(--padding-panel);
+}
+.task-panel-scroll-area::-webkit-scrollbar {
+  width: 0.6rem;
+  height: 0.6rem;
+  offset: 10px;
+}
+.task-panel-scroll-area::-webkit-scrollbar-button,
+.task-panel-scroll-area::-webkit-scrollbar-track,
+.task-panel-scroll-area::-webkit-scrollbar-corner {
+  background: var(--color-scrollbar-back);
+}
+.task-panel-scroll-area::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar);
+  border-radius: 0.4rem;
+}
+.task-panel-scroll-area::-webkit-scrollbar-thumb:hover {
+  background: var(--color-scrollbar-hover);
+}
+@-moz-document url-prefix() {
+  .task-panel {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-back);
+  }
+}
 .task-panel-table {
+  position: relative;
   border-spacing: 0;
 }
-.task-panel-table td {
+.task-panel-header {
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+  z-index: 9;
+}
+.task-panel-table .sticky-col-0,
+.task-panel-table .sticky-col-1,
+.task-panel-table .sticky-col-2 {
+  position: sticky;
+  z-index: 8;
+}
+.task-panel-table .sticky-col-0 {
+  max-width: var(--sticky-col-0-width);
+  left: 0;
+}
+.task-panel-table .sticky-col-1 {
+  max-width: var(--sticky-col-1-width);
+  left: var(--sticky-col-0-width);
+}
+.task-panel-table .sticky-col-2 {
+  max-width: var(--sticky-col-2-width);
+  left: calc(var(--sticky-col-0-width) + var(--sticky-col-1-width));
+}
+.task-panel-table td,
+.task-panel-table th {
   min-width: var(--padding-panel);
-  padding: 0.2rem 0.6rem;
-  background: var(--color-task-panel-section);
+  min-height: var(--padding-panel);
 }
 .task-panel-table .top-left {
   border-radius: var(--padding-panel) 0 0 0;
@@ -170,6 +278,42 @@ body {
   min-width: calc(var(--padding-panel) / 2);
   padding: 0;
   background: transparent;
+  border: 0;
+}
+.task-panel-header th {
+  padding: var(--padding-control-v) var(--padding-control-h);
+  padding-top: 0.6rem;
+  background-image: var(--color-task-panel-header);
+  font-weight: 500;
+}
+.task-panel-header .task-panel-info {
+  text-align: left;
+}
+.task-panel-category td {
+  background-image: var(--color-task-panel-category);
+}
+.task-panel-task td {
+  background: var(--color-task-panel-row);
+  border-bottom: calc(var(--border-width) / 2) solid var(--color-border);
+}
+.task-panel-footer td {
+  height: var(--padding-panel);
+  background: var(--color-task-panel-footer);
+}
+.task-panel-task .pj-control__input {
+  height: 2.2rem;
+  line-height: 1.7rem;
+}
+.task-panel-task .task-panel-gantt {
+  position: relative;
+}
+.input-group {
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+}
+.input-group .pj-control__input:disabled {
+  background: #efedf0;
 }
 
 /* Controls individually */
@@ -210,4 +354,72 @@ body {
 .new-category,
 .new-task {
   font-size: 1.1rem;
+}
+.new-task {
+  margin: var(--padding-control-v) var(--padding-control-h);
+}
+.pick-color-control .pj-control__input,
+.pick-color-control .pj-control__option span {
+  width: calc(var(--padding-panel) * 1.8);
+  height: calc(var(--padding-panel) * 1.8);
+  overflow: hidden;
+  margin: 0 var(--padding-control-h);
+  padding: 0;
+  border-radius: calc(var(--padding-panel));
+}
+.pick-color-control .pj-control__option span {
+  display: inline-block;
+}
+.pick-color-control .pj-control__input span {
+  width: 10rem;
+  height: 10rem;
+}
+.pick-color-control .pj-control__arrow {
+  position: absolute;
+  margin: 0.6rem 0.6rem;
+  z-index: 1;
+}
+.pick-color-control .pj-control__option {
+  /* Disable normal styling and remove text */
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 0;
+}
+.category-name-control,
+.category-name-control .pj-control__input,
+.task-name-control,
+.task-name-control .pj-control__input,
+.task-owner-control,
+.task-owner-control .pj-control__input {
+  width: var(--text-input-max-width);
+}
+.plan-start-date-control .pj-control__input {
+  padding-right: 0;
+}
+.pick-dependency-control .pj-control__arrow {
+  margin: 0.5rem 0;
+}
+.plan-duration-ideal-control .pj-control__input,
+.plan-duration-normal-control .pj-control__input,
+.plan-duration-bad-control .pj-control__input,
+.plan-duration-calculated-control .pj-control__input,
+.reality-start-delay-control .pj-control__input,
+.reality-end-delay-control .pj-control__input,
+.reality-done-control {
+  width: 3.5rem;
+  text-align: center;
+}
+.plan-end-date-control .pj-control__input,
+.reality-end-date-control .pj-control__input {
+  width: 7rem;
+}
+.reality-done-control .pj-control__input {
+  width: 2.5rem;
+  padding-left: 0;
+  padding-right: 0;
+  text-align: right;
+}
+.reality-done-control::after {
+  content: '%';
+  padding-top: calc(var(--padding-control-v) + 0.24rem);
 }

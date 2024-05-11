@@ -6,7 +6,7 @@ import { CSS_CONTROL } from '../../services/constants.service';
 export const PlanDurationCalculatedControl = () => {
   const [duration, setDuration] = useState<number>(0);
   return (
-    <div class="control-group plan-duration-calculated-control">
+    <div class="input-group plan-duration-calculated-control">
       <NumInput
         value={duration}
         setValue={setDuration}

@@ -10,11 +10,12 @@ export const PlanDurationIdealControl = ({
 }) => {
   const [duration, setDuration] = useState<number>(durationInput);
   return (
-    <div class="control-group plan-duration-ideal-control">
+    <div class="input-group plan-duration-ideal-control">
       <NumInput
         value={duration}
         setValue={setDuration}
         className={CSS_CONTROL}
+        min={1}
       />
     </div>
   );

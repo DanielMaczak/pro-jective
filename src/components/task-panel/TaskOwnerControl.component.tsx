@@ -6,7 +6,7 @@ import { CSS_CONTROL } from '../../services/constants.service';
 export const TaskOwnerControl = ({ owner }: { owner: string }) => {
   const [taskOwner, setTaskOwner] = useState<string>(owner);
   return (
-    <div class="control-group task-owner-control">
+    <div class="input-group task-owner-control">
       <TextInput
         value={taskOwner}
         setValue={setTaskOwner}

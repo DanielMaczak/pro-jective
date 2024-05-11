@@ -9,15 +9,15 @@ export const TaskPanelCategory = () => {
     <tbody className="task-panel-body">
       {fakeData.categories.map((category: Category) => (
         <>
-          <tr key={category.id} className="task-category">
+          <tr key={category.id} className="task-panel-category">
             {/* Task info */}
-            <td className="task-panel-info">
+            <td className="task-panel-info sticky-col-0">
               <NewTaskControl />
             </td>
-            <td className="task-panel-info">
+            <td className="task-panel-info sticky-col-1">
               <CategoryNameControl name={category.name} />
             </td>
-            <td className="task-panel-info"></td>
+            <td className="task-panel-info sticky-col-2"></td>
             {/* Space */}
             <td className="task-panel-space"></td>
             {/* Plan */}
