@@ -20,7 +20,6 @@
 /* Global variables */
 
 body {
-  --scrollbar-size: 0.6rem;
   --padding-body: 0.5rem;
   --padding-panel: 1rem;
   --padding-control: 0.3rem 0.8rem;
@@ -129,8 +128,8 @@ body {
   cursor: pointer;
 }
 ::-webkit-scrollbar {
-  width: var(--scrollbar-size);
-  height: var(--scrollbar-size);
+  width: 0.6rem;
+  height: 0.6rem;
   offset: 10px;
 }
 ::-webkit-scrollbar-button,
@@ -364,54 +363,30 @@ body {
   background: var(--color-controls-disabled);
 }
 
-/* Task panel - Mobile */
-
-@media only screen and (max-width: 640px) {
-  div.task-panel-scroll-area {
-    padding-right: 0;
-  }
-  div.task-panel-header,
-  div.task-panel-category,
-  .gantt-bar-info {
-    /* Prevent headers from moving when scrolling horizontally */
-    width: calc(
-      100vw - 2 * var(--padding-body) - 2 * var(--padding-panel) -
-        var(--scrollbar-size)
-    );
-    position: sticky;
-    left: 0;
-  }
-  div.task-panel-header {
-    padding: var(--padding-control-v) var(--padding-control-h);
-    padding-top: 1.6rem;
-    background-image: var(--color-task-panel-header);
-    font-weight: 500;
-    border-radius: var(--padding-panel) var(--padding-panel) 0 0;
-  }
-  div.task-panel-header-row {
-    display: flex;
-    justify-content: space-between;
-  }
-  div.task-panel-category {
-    /* Shows category while scrolling to bottom */
-    display: flex;
-    align-items: flex-start;
-    position: sticky;
-    top: var(--header-height);
-    z-index: 15;
-    vertical-align: middle;
-    background-image: var(--color-task-panel-category);
-  }
-  div.task-panel-task .task-panel-gantt {
-    padding: 0 var(--padding-panel);
-    background: var(--color-task-panel-row);
-    border-bottom: calc(var(--border-width) / 2) solid var(--color-border);
-  }
-  div.task-panel-footer {
-    height: var(--padding-panel);
-    background: var(--color-task-panel-footer);
-    border-radius: 0 0 var(--padding-panel) var(--padding-panel);
-  }
+.task-panel-header div {
+  height: var(--header-height);
+  padding: var(--padding-control-v) var(--padding-control-h);
+  padding-top: 1.6rem;
+  background-image: var(--color-task-panel-header);
+  vertical-align: bottom;
+  font-weight: 500;
+  border-radius: var(--padding-panel) var(--padding-panel) 0 0;
+}
+.task-panel-category div {
+  /* Shows category while scrolling to bottom */
+  position: sticky;
+  top: var(--header-height);
+  z-index: 15;
+  background-image: var(--color-task-panel-category);
+}
+.task-panel-task div {
+  background: var(--color-task-panel-row);
+  border-bottom: calc(var(--border-width) / 2) solid var(--color-border);
+}
+.task-panel-footer div {
+  height: var(--padding-panel);
+  background: var(--color-task-panel-footer);
+  border-radius: 0 0 var(--padding-panel) var(--padding-panel);
 }
 
 /* Popup */
@@ -548,9 +523,6 @@ body {
   padding-right: 0;
   font-size: 0;
 }
-.category-name-control {
-  margin: var(--padding-control-v) 0;
-}
 .task-panel .category-name-control,
 .task-panel .category-name-control .pj-control__input,
 .task-panel .task-name-control,
@@ -637,10 +609,14 @@ body {
   border: 0;
 }
 .gantt-bar-info {
+  position: absolute;
+  top: 0;
   padding: var(--padding-control-v) var(--padding-control-h);
   z-index: 3;
   font-size: 0.8rem;
+  opacity: 0.8;
   background-color: var(--color-controls);
+  border-radius: var(--padding-control-v);
 }
 .save-popup-control {
   min-height: 1.8rem;
