@@ -1,4 +1,3 @@
-import { Task } from '../../lib/data.lib';
 import { GanttBarControl } from './GanttBarControl.component';
 import { PickColorControl } from './PickColorControl.component';
 import { PlanDurationBadControl } from './PlanDurationBadControl.component';
@@ -16,66 +15,64 @@ import { TaskNameControl } from './TaskNameControl.component';
 import { TaskOwnerControl } from './TaskOwnerControl.component';
 
 export const TaskPanelTask = ({
-  task,
+  taskId,
   tablet,
 }: {
-  task: Task;
+  taskId: string;
   tablet: boolean;
 }) => {
   return (
-    <tr key={task.id} className="task-panel-task">
+    <tr key={taskId} className="task-panel-task">
       {/* Task info */}
       <td className="task-panel-info sticky-col-0">
-        <PickColorControl color={task.info.color} />
+        <PickColorControl taskId={taskId} />
       </td>
       <td className="task-panel-info sticky-col-1 hover-effect">
-        <TaskNameControl name={task.info.name} />
+        <TaskNameControl taskId={taskId} />
       </td>
       <td className="task-panel-info sticky-col-2 hover-effect">
-        <TaskOwnerControl owner={task.info.owner} />
+        <TaskOwnerControl taskId={taskId} />
       </td>
       {/* Space */}
       <td className="task-panel-space"></td>
       {!tablet && (
         <>
           {/* Plan */}
-          <td className="task-panel-plan hover-effect">
-            <PlanStartDateControl startDateInput={task.plan.startDate} />
+          <td className="task-panel-plan plan-start-control hover-effect">
+            <PlanStartDateControl taskId={taskId} />
           </td>
           <td className="task-panel-plan hover-effect">
-            <PlanDurationIdealControl durationInput={task.plan.durationIdeal} />
+            <PlanDurationIdealControl taskId={taskId} />
           </td>
           <td className="task-panel-plan hover-effect">
-            <PlanDurationNormalControl
-              durationInput={task.plan.durationNormal}
-            />
+            <PlanDurationNormalControl taskId={taskId} />
           </td>
           <td className="task-panel-plan hover-effect">
-            <PlanDurationBadControl durationInput={task.plan.durationBad} />
+            <PlanDurationBadControl taskId={taskId} />
           </td>
           <td className="task-panel-plan">
-            <PlanDurationCalculatedControl />
+            <PlanDurationCalculatedControl taskId={taskId} />
           </td>
           <td className="task-panel-plan">
-            <PlanEndDateControl />
+            <PlanEndDateControl taskId={taskId} />
           </td>
           {/* Space */}
           <td className="task-panel-space"></td>
           {/* Reality */}
           <td className="task-panel-reality hover-effect">
-            <RealityStartDateControl startDateInput={task.reality.startDate} />
+            <RealityStartDateControl taskId={taskId} />
           </td>
           <td className="task-panel-reality">
-            <RealityStartDelayControl />
+            <RealityStartDelayControl taskId={taskId} />
           </td>
           <td className="task-panel-reality hover-effect">
-            <RealityDoneControl doneInput={task.reality.done} />
+            <RealityDoneControl taskId={taskId} />
           </td>
           <td className="task-panel-reality">
-            <RealityEndDateControl />
+            <RealityEndDateControl taskId={taskId} />
           </td>
           <td className="task-panel-reality">
-            <RealityEndDelayControl />
+            <RealityEndDelayControl taskId={taskId} />
           </td>
           {/* Space */}
           <td className="task-panel-space"></td>
@@ -84,7 +81,7 @@ export const TaskPanelTask = ({
       {/* Gantt */}
       <td className="task-panel-gantt"></td>
       <td className="task-panel-gantt hover-effect">
-        <GanttBarControl />
+        <GanttBarControl taskId={taskId} />
       </td>
       <td className="task-panel-gantt"></td>
     </tr>

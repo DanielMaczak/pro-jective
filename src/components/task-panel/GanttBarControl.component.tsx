@@ -1,17 +1,11 @@
-import { useState } from 'preact/hooks';
-
 import { CSS_BAR_WIDTH } from '../../services/constants.service';
 
 export const GanttBarControl = () => {
-  const [planOffset, _] = useState<number>(Math.floor(Math.random() * 5));
-  const [planWidth, __] = useState<number>(Math.floor(Math.random() * 15));
-  const [realityOffset, ___] = useState<number>(
-    planOffset + Math.floor(Math.random() * 3)
-  );
-  const [realityWidth, ____] = useState<number>(Math.floor(Math.random() * 25));
-  const [totalWidth, _____] = useState<number[]>([
-    ...Array(realityOffset + realityWidth).keys(),
-  ]);
+  const planOffset = Math.floor(Math.random() * 5);
+  const planWidth = Math.floor(Math.random() * 15);
+  const realityOffset = planOffset + Math.floor(Math.random() * 3);
+  const realityWidth = Math.floor(Math.random() * 25);
+  const totalWidth = [...Array(realityOffset + realityWidth).keys()];
   return (
     <div class="input-group gantt-bar-control">
       {/* Lighter bar showing plan */}

@@ -1,12 +1,19 @@
-import { Category, Task } from '../../lib/data.lib';
-import { fakeData } from '../../services/fake-data.service';
+import { useSelector } from 'react-redux';
+
+import { Category } from '../../lib/tasks.lib';
 import { ZoomInOutControl } from '../control-panel/ZoomInOutControl.component';
 import { CategoryNameControl } from '../task-panel/CategoryNameControl.component';
 import { GanttBarControl } from '../task-panel/GanttBarControl.component';
 import { NewCategoryControl } from '../task-panel/NewCategoryControl.component';
 import { NewTaskControl } from '../task-panel/NewTaskControl.component';
+import {
+  selectCategories,
+  selectTasks,
+} from '../../app/reducers/tasks.reducer';
 
 export const MobileTaskPanel = () => {
+  const categories = useSelector(selectCategories);
+  const tasks = useSelector(selectTasks);
   return (
     <>
       <div className="task-panel">
@@ -21,18 +28,20 @@ export const MobileTaskPanel = () => {
             </div>
             {/* Body */}
             <div className="task-panel-body">
-              {fakeData.categories.map((category: Category) => (
+              {Object.values(categories).map((category: Category) => (
                 <>
                   <div key={category.id} className="task-panel-category">
                     <div className="task-panel-gantt">
-                      <NewTaskControl />
-                      <CategoryNameControl name={category.name} />
+                      <NewTaskControl parentCategoryId={category.id} />
+                      <CategoryNameControl categoryId={category.id} />
                     </div>
                   </div>
-                  {category.tasks.map((task: Task) => (
-                    <div key={task.id} className="task-panel-task">
+                  {category.taskIds.map((taskId: string) => (
+                    <div key={taskId} className="task-panel-task">
                       <div className="gantt-bar-info">
-                        {task.info.name + ' / ' + task.info.owner}
+                        {tasks[taskId].info.name +
+                          ' / ' +
+                          tasks[taskId].info.owner}
                       </div>
                       <div className="task-panel-gantt hover-effect">
                         <GanttBarControl />

@@ -2,11 +2,22 @@ import { FaPlus } from 'react-icons/fa';
 import { Button } from 'irmas-preact-form-components';
 
 import { CSS_CONTROL } from '../../services/constants.service';
+import { useDispatch } from 'react-redux';
+import { addTask } from '../../app/reducers/tasks.reducer';
 
-export const NewTaskControl = () => {
+export const NewTaskControl = ({
+  parentCategoryId,
+}: {
+  parentCategoryId: string;
+}) => {
+  const dispatch = useDispatch();
   return (
     <div class="control-group new-task">
-      <Button value="" action={() => {}} className={CSS_CONTROL}>
+      <Button
+        value=""
+        action={() => dispatch(addTask({ parentCategoryId }))}
+        className={CSS_CONTROL}
+      >
         <FaPlus />
       </Button>
     </div>

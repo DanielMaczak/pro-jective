@@ -1,21 +1,25 @@
-import { Category, Task } from '../../lib/data.lib';
-import { fakeData } from '../../services/fake-data.service';
+import { useSelector } from 'react-redux';
+
 import { CategoryNameControl } from './CategoryNameControl.component';
 import { NewTaskControl } from './NewTaskControl.component';
 import { TaskPanelTask } from './TaskPanelTask.component';
+import {
+  selectCategoryIds,
+  selectTaskIds,
+} from '../../app/reducers/tasks.reducer';
 
 export const TaskPanelCategory = ({ tablet }: { tablet: boolean }) => {
   return (
     <tbody className="task-panel-body">
-      {fakeData.categories.map((category: Category) => (
+      {useSelector(selectCategoryIds).map((categoryId: string) => (
         <>
-          <tr key={category.id} className="task-panel-category">
+          <tr key={categoryId} className="task-panel-category">
             {/* Task info */}
             <td className="task-panel-info sticky-col-0">
-              <NewTaskControl />
+              <NewTaskControl parentCategoryId={categoryId} />
             </td>
             <td className="task-panel-info sticky-col-1">
-              <CategoryNameControl name={category.name} />
+              <CategoryNameControl categoryId={categoryId} />
             </td>
             <td className="task-panel-info sticky-col-2"></td>
             {/* Space */}
@@ -46,8 +50,9 @@ export const TaskPanelCategory = ({ tablet }: { tablet: boolean }) => {
             <td className="task-panel-gantt"></td>
             <td className="task-panel-gantt"></td>
           </tr>
-          {category.tasks.map((task: Task) => (
-            <TaskPanelTask task={task} tablet={tablet} />
+          {/* Tasks of category */}
+          {useSelector(selectTaskIds(categoryId))?.map((taskId: string) => (
+            <TaskPanelTask taskId={taskId} tablet={tablet} />
           ))}
         </>
       ))}

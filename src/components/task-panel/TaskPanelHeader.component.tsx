@@ -1,4 +1,5 @@
 import { FaRegStar, FaStarHalfAlt, FaStar } from 'react-icons/fa';
+
 import { NewCategoryControl } from './NewCategoryControl.component';
 import { metricHeaders } from '../../services/options.service';
 import { ZoomInOutControl } from '../control-panel/ZoomInOutControl.component';
@@ -11,11 +12,11 @@ export const TaskPanelHeader = ({ tablet }: { tablet: boolean }) => {
         <th className="task-panel-info sticky-col-0 top-left">
           <NewCategoryControl />
         </th>
-        <th className="task-panel-info sticky-col-1 header-to-left">
+        <th className="task-panel-info task-name-control sticky-col-1 header-to-left">
           <h3>Info</h3>
           {metricHeaders.info_name}
         </th>
-        <th className="task-panel-info sticky-col-2 top-right header-to-left">
+        <th className="task-panel-info task-owner-control sticky-col-2 top-right header-to-left">
           {metricHeaders.info_owner}
         </th>
         {/* Space */}
@@ -23,39 +24,43 @@ export const TaskPanelHeader = ({ tablet }: { tablet: boolean }) => {
         {!tablet && (
           <>
             {/* Plan */}
-            <th className="task-panel-plan top-left header-to-left">
+            <th className="task-panel-plan plan-start-control top-left header-to-left">
               <h3>Plan</h3>
               {metricHeaders.plan_startDate}
             </th>
-            <th className="task-panel-plan">
+            <th className="task-panel-plan plan-duration-ideal-control">
               <FaStar />
             </th>
-            <th className="task-panel-plan">
+            <th className="task-panel-plan plan-duration-normal-control">
               <h4>Duration</h4>
               <FaStarHalfAlt />
             </th>
-            <th className="task-panel-plan">
+            <th className="task-panel-plan plan-duration-bad-control">
               <FaRegStar />
             </th>
-            <th className="task-panel-plan">Calc.</th>
-            <th className="task-panel-plan top-right">
+            <th className="task-panel-plan plan-duration-calculated-control">
+              Calc.
+            </th>
+            <th className="task-panel-plan plan-end-date-control top-right">
               {metricHeaders.plan_endDate}
             </th>
             {/* Space */}
             <th className="task-panel-space"></th>
             {/* Reality */}
-            <th className="task-panel-reality top-left header-to-left">
+            <th className="task-panel-reality reality-start-control top-left header-to-left">
               <h3>Reality</h3>
               {metricHeaders.reality_startDate}
             </th>
-            <th className="task-panel-reality">
+            <th className="task-panel-reality reality-start-delay-control">
               {metricHeaders.reality_startDelay}
             </th>
-            <th className="task-panel-reality">{metricHeaders.reality_done}</th>
-            <th className="task-panel-reality">
+            <th className="task-panel-reality reality-done-control">
+              {metricHeaders.reality_done}
+            </th>
+            <th className="task-panel-reality reality-end-date-control">
               {metricHeaders.reality_endDate}
             </th>
-            <th className="task-panel-reality top-right">
+            <th className="task-panel-reality reality-end-delay-control top-right">
               {metricHeaders.reality_endDelay}
             </th>
             {/* Space */}

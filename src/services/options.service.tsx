@@ -47,3 +47,10 @@ export const workdaysOptions: Option[] = [
   { id: 'workdays-1', value: 'Mon-Sat' },
   { id: 'workdays-2', value: 'All days' },
 ];
+
+Object.freeze(displayOptions);
+Object.freeze(colorByOptions);
+Object.freeze(colorPickOptions);
+Object.freeze(metricHeaders);
+Object.freeze(sortByOptions);
+Object.freeze(workdaysOptions);

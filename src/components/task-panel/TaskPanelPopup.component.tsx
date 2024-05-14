@@ -1,5 +1,4 @@
-import { Task } from '../../lib/data.lib';
-import { fakeData } from '../../services/fake-data.service';
+import { Task } from '../../lib/tasks.lib';
 import { PlanDurationBadControl } from './PlanDurationBadControl.component';
 import { PlanDurationCalculatedControl } from './PlanDurationCalculatedControl.component';
 import { PlanDurationIdealControl } from './PlanDurationIdealControl.component';

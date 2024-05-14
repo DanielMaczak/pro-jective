@@ -4,6 +4,7 @@
 /* TODO: add nice masking for scrolling main area over headers and make round corners around */
 /* TODO: make categories properly sticky on scrolling, review z-index and make overview of priority */
 /* TODO: make nicer popup headers */
+/* TODO: fix dropdown arrow in popup */
 
 /* Font imports */
 
@@ -568,17 +569,28 @@ body {
 .pick-dependency-control .pj-control__arrow {
   margin: 0.5rem 0;
 }
+.plan-duration-ideal-control,
 .plan-duration-ideal-control .pj-control__input,
+.plan-duration-normal-control,
 .plan-duration-normal-control .pj-control__input,
+.plan-duration-bad-control,
 .plan-duration-bad-control .pj-control__input,
+.plan-duration-calculated-control,
 .plan-duration-calculated-control .pj-control__input,
+.reality-start-delay-control,
 .reality-start-delay-control .pj-control__input,
+.reality-end-delay-control,
 .reality-end-delay-control .pj-control__input,
 .task-panel .reality-done-control {
   width: 3.5rem;
   text-align: center;
 }
+.plan-start-control {
+  width: 11.5rem;
+}
+.plan-end-date-control,
 .plan-end-date-control .pj-control__input,
+.reality-end-date-control,
 .reality-end-date-control .pj-control__input {
   width: 7rem;
 }
@@ -588,7 +600,7 @@ body {
   padding-right: 0;
   text-align: right;
 }
-.reality-done-control::after {
+.task-panel-task .reality-done-control::after {
   content: '%';
   padding-top: calc(var(--padding-control-v) + 0.24rem);
   padding-right: 0.35rem;

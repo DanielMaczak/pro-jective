@@ -1,27 +1,38 @@
-import { useState } from 'preact/hooks';
+import { useDispatch, useSelector } from 'react-redux';
 import { NumInput } from 'irmas-preact-form-components';
 
 import { CSS_CONTROL } from '../../services/constants.service';
 import { metricHeaders } from '../../services/options.service';
+import { changeTask, selectTask } from '../../app/reducers/tasks.reducer';
 
 export const RealityDoneControl = ({
-  doneInput,
+  taskId,
   label,
 }: {
-  doneInput: number;
+  taskId: string;
   label?: boolean;
 }) => {
-  const [done, setDone] = useState<number>(doneInput * 100);
-  return (
+  const dispatch = useDispatch();
+  const task = useSelector(selectTask(taskId));
+  return task ? (
     <div class="input-group reality-done-control">
       <NumInput
-        value={done}
-        setValue={setDone}
+        value={task.reality.done}
+        setValue={value =>
+          dispatch(
+            changeTask({
+              taskId,
+              propertyGroup: 'reality',
+              property: 'done',
+              value,
+            })
+          )
+        }
         className={CSS_CONTROL}
         min={0}
         max={100}
         {...(label ? { label: metricHeaders.reality_done } : {})}
       />
     </div>
-  );
+  ) : null;
 };
