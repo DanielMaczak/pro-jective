@@ -21,6 +21,10 @@ export interface TasksSliceState {
     sortedTasks: string[];
     filteredTasks: string[];
   };
+  properties: {
+    minDate: number | null;
+    popupVisible: boolean;
+  };
   error: string | null;
 }
 
@@ -39,6 +43,10 @@ const initialState: TasksSliceState = {
     sortedCategories: [],
     sortedTasks: [],
     filteredTasks: [],
+  },
+  properties: {
+    minDate: null,
+    popupVisible: false,
   },
   // TODO: https://stackoverflow.com/a/58299220
   error: null,
@@ -158,7 +166,8 @@ export const tasksSlice = createSlice({
         );
         //  Recalculate plan
         if (plan.startDate) {
-          plan.endDate = plan.startDate + plan.durationCalculated * DAY_SEC;
+          plan.endDate =
+            plan.startDate + Math.max(0, plan.durationCalculated * DAY_SEC);
         } else plan.endDate = null;
         //  Recalculate reality
         if (plan.startDate && real.startDate) {
@@ -175,8 +184,17 @@ export const tasksSlice = createSlice({
             Math.max(0, Date.now() - real.startDate) / (real.done / 100);
         } else real.endDate = null;
         if (plan.endDate && real.endDate) {
-          real.endDelay = Math.max(0, (real.endDate - plan.endDate) / DAY_SEC);
+          real.endDelay = Math.round(
+            Math.max(0, (real.endDate - plan.endDate) / DAY_SEC)
+          );
         } else real.endDelay = 0;
+        //  Update plan start date
+        const dates: number[] = [];
+        typeof state.properties.minDate === 'number' &&
+          dates.push(state.properties.minDate);
+        typeof plan.startDate === 'number' && dates.push(plan.startDate);
+        typeof real.startDate === 'number' && dates.push(real.startDate);
+        if (dates.length) state.properties.minDate = Math.min(...dates);
       }
     },
 
@@ -199,6 +217,9 @@ export const tasksSlice = createSlice({
   },
 });
 
+export const selectMinDate = (state: RootState) => {
+  return state.tasks.present.properties.minDate;
+};
 export const selectCategoryIds = (state: RootState) => {
   return Object.keys(state.tasks.present.categories);
 };

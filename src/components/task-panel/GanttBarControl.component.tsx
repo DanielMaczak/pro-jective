@@ -1,12 +1,31 @@
-import { CSS_BAR_WIDTH } from '../../services/constants.service';
+import { useSelector } from 'react-redux';
 
-export const GanttBarControl = () => {
-  const planOffset = Math.floor(Math.random() * 5);
-  const planWidth = Math.floor(Math.random() * 15);
-  const realityOffset = planOffset + Math.floor(Math.random() * 3);
-  const realityWidth = Math.floor(Math.random() * 25);
-  const totalWidth = [...Array(realityOffset + realityWidth).keys()];
-  return (
+import { CSS_BAR_WIDTH, DAY_SEC } from '../../services/constants.service';
+import { selectMinDate, selectTask } from '../../app/reducers/tasks.reducer';
+
+export const GanttBarControl = ({ taskId }: { taskId: string }) => {
+  const task = useSelector(selectTask(taskId));
+  const minDate = useSelector(selectMinDate);
+  let planOffset = 0;
+  let planWidth = 0;
+  let realityOffset = 0;
+  let realityWidth = 0;
+  if (task && minDate) {
+    if (task.plan.startDate && task.plan.endDate) {
+      planOffset = Math.floor((task.plan.startDate - minDate) / DAY_SEC);
+      planWidth = Math.floor(
+        (task.plan.endDate - task.plan.startDate) / DAY_SEC
+      );
+    }
+    if (task.reality.startDate && task.reality.endDate) {
+      realityOffset = Math.floor((task.reality.startDate - minDate) / DAY_SEC);
+      realityWidth = Math.floor(
+        (task.reality.endDate - task.reality.startDate) / DAY_SEC
+      );
+    }
+  }
+  let totalWidth = [...Array(realityOffset + realityWidth).keys()];
+  return task && minDate ? (
     <div class="input-group gantt-bar-control">
       {/* Lighter bar showing plan */}
       <div
@@ -33,5 +52,5 @@ export const GanttBarControl = () => {
         </tr>
       </table>
     </div>
-  );
+  ) : null;
 };
