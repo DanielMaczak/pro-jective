@@ -11,6 +11,7 @@ import { RealityEndDateControl } from './RealityEndDateControl.component';
 import { RealityEndDelayControl } from './RealityEndDelayControl.component';
 import { RealityStartDateControl } from './RealityStartDateControl.component';
 import { RealityStartDelayControl } from './RealityStartDelayControl.component';
+import { RemoveTaskControl } from './RemoveTaskControl.component';
 import { TaskNameControl } from './TaskNameControl.component';
 import { TaskOwnerControl } from './TaskOwnerControl.component';
 
@@ -27,10 +28,13 @@ export const TaskPanelTask = ({
       <td className="task-panel-info sticky-col-0">
         <PickColorControl taskId={taskId} />
       </td>
-      <td className="task-panel-info sticky-col-1 hover-effect">
-        <TaskNameControl taskId={taskId} />
+      <td className="task-panel-info sticky-col-1">
+        <RemoveTaskControl taskId={taskId} />
       </td>
       <td className="task-panel-info sticky-col-2 hover-effect">
+        <TaskNameControl taskId={taskId} />
+      </td>
+      <td className="task-panel-info sticky-col-3 hover-effect">
         <TaskOwnerControl taskId={taskId} />
       </td>
       {/* Space */}

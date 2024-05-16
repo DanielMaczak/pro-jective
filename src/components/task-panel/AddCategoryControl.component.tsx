@@ -5,10 +5,10 @@ import { CSS_CONTROL } from '../../services/constants.service';
 import { useDispatch } from 'react-redux';
 import { addCategory } from '../../app/reducers/tasks.reducer';
 
-export const NewCategoryControl = () => {
+export const AddCategoryControl = () => {
   const dispatch = useDispatch();
   return (
-    <div class="control-group new-category">
+    <div class="control-group add-category">
       <Button
         value=""
         action={() => dispatch(addCategory())}

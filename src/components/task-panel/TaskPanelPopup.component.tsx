@@ -1,4 +1,5 @@
-import { Task } from '../../lib/tasks.lib';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { PlanDurationBadControl } from './PlanDurationBadControl.component';
 import { PlanDurationCalculatedControl } from './PlanDurationCalculatedControl.component';
 import { PlanDurationIdealControl } from './PlanDurationIdealControl.component';
@@ -13,54 +14,56 @@ import { RealityStartDelayControl } from './RealityStartDelayControl.component';
 import { TaskNameControl } from './TaskNameControl.component';
 import { TaskOwnerControl } from './TaskOwnerControl.component';
 import { TaskCommentaryControl } from './TaskCommentaryControl.component';
+import {
+  selectTaskIdForPopup,
+  showTask,
+} from '../../app/reducers/tasks.reducer';
 
 export const TaskPanelPopup = () => {
-  const task: Task = fakeData.categories[0].tasks[0];
-  return (
-    <div className="task-panel-popup-container">
-      <div className="task-panel-popup">
-        {/* Task info */}
-        <div className="task-panel-popup-info">
-          <div className="task-panel-popup-header">Info</div>
-          <TaskNameControl name={task.info.name} label />
-          <TaskOwnerControl owner={task.info.owner} label />
+  const dispatch = useDispatch();
+  const taskId = useSelector(selectTaskIdForPopup);
+  return taskId ? (
+    <>
+      <div
+        className="task-panel-popup-cover"
+        onClick={() => dispatch(showTask({ taskId: null }))}
+      ></div>
+      <div className="task-panel-popup-container">
+        <div className="task-panel-popup">
+          {/* Task info */}
+          <div className="task-panel-popup-info">
+            <div className="task-panel-popup-header">Info</div>
+            <TaskNameControl taskId={taskId} label />
+            <TaskOwnerControl taskId={taskId} label />
+          </div>
+          {/* Plan */}
+          <div className="task-panel-popup-plan">
+            <div className="task-panel-popup-header">Plan</div>
+            <PlanStartDateControl taskId={taskId} label />
+            <PlanDurationIdealControl taskId={taskId} label />
+            <PlanDurationNormalControl taskId={taskId} label />
+            <PlanDurationBadControl taskId={taskId} label />
+            <PlanDurationCalculatedControl taskId={taskId} label />
+            <PlanEndDateControl taskId={taskId} label />
+          </div>
+          {/* Reality */}
+          <div className="task-panel-popup-reality">
+            <div className="task-panel-popup-header">Reality</div>
+            <RealityStartDateControl taskId={taskId} label />
+            <RealityStartDelayControl taskId={taskId} label />
+            <RealityDoneControl taskId={taskId} label />
+            <RealityEndDateControl taskId={taskId} label />
+            <RealityEndDelayControl taskId={taskId} label />
+          </div>
+          {/* Task commentary */}
+          <div className="task-panel-popup-commentary">
+            <div className="task-panel-popup-header">Commentary</div>
+            <TaskCommentaryControl taskId={taskId} label />
+          </div>
         </div>
-        {/* Plan */}
-        <div className="task-panel-popup-plan">
-          <div className="task-panel-popup-header">Plan</div>
-          <PlanStartDateControl startDateInput={task.plan.startDate} label />
-          <PlanDurationIdealControl
-            durationInput={task.plan.durationIdeal}
-            label
-          />
-          <PlanDurationNormalControl
-            durationInput={task.plan.durationNormal}
-            label
-          />
-          <PlanDurationBadControl durationInput={task.plan.durationBad} label />
-          <PlanDurationCalculatedControl label />
-          <PlanEndDateControl label />
-        </div>
-        {/* Reality */}
-        <div className="task-panel-popup-reality">
-          <div className="task-panel-popup-header">Reality</div>
-          <RealityStartDateControl
-            startDateInput={task.reality.startDate}
-            label
-          />
-          <RealityStartDelayControl label />
-          <RealityDoneControl doneInput={task.reality.done} label />
-          <RealityEndDateControl label />
-          <RealityEndDelayControl label />
-        </div>
-        {/* Task commentary */}
-        <div className="task-panel-popup-commentary">
-          <div className="task-panel-popup-header">Commentary</div>
-          <TaskCommentaryControl commentaryInput={task.info.commentary} label />
-        </div>
+        {/* Controls */}
+        {/* <SavePopupControl /> */}
       </div>
-      {/* Controls */}
-      {/* <SavePopupControl /> */}
-    </div>
-  );
+    </>
+  ) : null;
 };

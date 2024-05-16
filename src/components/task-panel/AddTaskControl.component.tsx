@@ -5,14 +5,14 @@ import { CSS_CONTROL } from '../../services/constants.service';
 import { useDispatch } from 'react-redux';
 import { addTask } from '../../app/reducers/tasks.reducer';
 
-export const NewTaskControl = ({
+export const AddTaskControl = ({
   parentCategoryId,
 }: {
   parentCategoryId: string;
 }) => {
   const dispatch = useDispatch();
   return (
-    <div class="control-group new-task">
+    <div class="control-group add-task">
       <Button
         value=""
         action={() => dispatch(addTask({ parentCategoryId }))}

@@ -5,7 +5,8 @@ export const TaskPanelFooter = ({ tablet }: { tablet: boolean }) => {
         {/* Task info */}
         <td className="task-panel-info sticky-col-0 bottom-left"></td>
         <td className="task-panel-info sticky-col-1"></td>
-        <td className="task-panel-info sticky-col-2 bottom-right"></td>
+        <td className="task-panel-info sticky-col-2"></td>
+        <td className="task-panel-info sticky-col-3 bottom-right"></td>
         {/* Space */}
         <td className="task-panel-space"></td>
         {!tablet && (

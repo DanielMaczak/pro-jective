@@ -1,12 +1,13 @@
 import { useSelector } from 'react-redux';
 
 import { CategoryNameControl } from './CategoryNameControl.component';
-import { NewTaskControl } from './NewTaskControl.component';
+import { AddTaskControl } from './AddTaskControl.component';
 import { TaskPanelTask } from './TaskPanelTask.component';
 import {
   selectCategoryIds,
   selectTaskIds,
 } from '../../app/reducers/tasks.reducer';
+import { RemoveCategoryControl } from './RemoveCategoryControl.component';
 
 export const TaskPanelCategory = ({ tablet }: { tablet: boolean }) => {
   return (
@@ -16,12 +17,15 @@ export const TaskPanelCategory = ({ tablet }: { tablet: boolean }) => {
           <tr key={categoryId} className="task-panel-category">
             {/* Task info */}
             <td className="task-panel-info sticky-col-0">
-              <NewTaskControl parentCategoryId={categoryId} />
+              <AddTaskControl parentCategoryId={categoryId} />
             </td>
             <td className="task-panel-info sticky-col-1">
+              <RemoveCategoryControl categoryId={categoryId} />
+            </td>
+            <td className="task-panel-info sticky-col-2">
               <CategoryNameControl categoryId={categoryId} />
             </td>
-            <td className="task-panel-info sticky-col-2"></td>
+            <td className="task-panel-info sticky-col-3"></td>
             {/* Space */}
             <td className="task-panel-space"></td>
             {!tablet && (

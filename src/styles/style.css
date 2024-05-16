@@ -30,6 +30,7 @@ body {
   --table-input-height: 2.2rem;
   --table-line-height: 1.7rem;
   --color-bg: linear-gradient(to bottom right, #fdfbfb 0%, #ebedee 100%);
+  --color-bg-overlay: rgba(0, 0, 0, 0.2);
   --color-border: #ebedee;
   --color-font: #111;
   --color-top-panel: linear-gradient(to bottom, #f6d365 0%, #fda085 100%);
@@ -217,8 +218,9 @@ body {
 .task-panel {
   --text-input-max-width: 12rem;
   --sticky-col-0-width: 3.5rem;
-  --sticky-col-1-width: var(--text-input-max-width);
+  --sticky-col-1-width: 2.5rem;
   --sticky-col-2-width: var(--text-input-max-width);
+  --sticky-col-3-width: var(--text-input-max-width);
   --header-height: 3.8rem;
   display: flex;
   align-items: flex-start;
@@ -251,22 +253,34 @@ body {
 }
 .task-panel-table .sticky-col-0,
 .task-panel-table .sticky-col-1,
-.task-panel-table .sticky-col-2 {
+.task-panel-table .sticky-col-2,
+.task-panel-table .sticky-col-3 {
   /* Shows info panel while scrolling right */
   position: sticky;
   z-index: 16;
 }
 .task-panel-table .sticky-col-0 {
+  min-width: var(--sticky-col-0-width);
   max-width: var(--sticky-col-0-width);
   left: 0;
 }
 .task-panel-table .sticky-col-1 {
+  min-width: var(--sticky-col-1-width);
   max-width: var(--sticky-col-1-width);
   left: var(--sticky-col-0-width);
 }
 .task-panel-table .sticky-col-2 {
+  min-width: var(--sticky-col-2-width);
   max-width: var(--sticky-col-2-width);
   left: calc(var(--sticky-col-0-width) + var(--sticky-col-1-width));
+}
+.task-panel-table .sticky-col-3 {
+  min-width: var(--sticky-col-3-width);
+  max-width: var(--sticky-col-3-width);
+  left: calc(
+    var(--sticky-col-0-width) + var(--sticky-col-1-width) +
+      var(--sticky-col-2-width)
+  );
 }
 .task-panel-table td,
 .task-panel-table th {
@@ -334,7 +348,8 @@ body {
 }
 .task-panel-category .sticky-col-0,
 .task-panel-category .sticky-col-1,
-.task-panel-category .sticky-col-2 {
+.task-panel-category .sticky-col-2,
+.task-panel-category .sticky-col-3 {
   /* Shows info category while scrolling right OR to bottom */
   position: sticky;
   z-index: 22;
@@ -355,6 +370,9 @@ body {
   z-index: 30;
   border-radius: 0.1rem;
   outline: solid var(--color-scrollbar-hover);
+}
+.task-panel .control-group {
+  border: none;
 }
 .input-group {
   display: flex;
@@ -417,6 +435,13 @@ body {
 
 /* Popup */
 
+.task-panel-popup-cover {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background: var(--color-bg-overlay);
+}
 .task-panel-popup-container {
   --label-max-width: 10.5rem;
   display: flex;
@@ -431,7 +456,7 @@ body {
   max-width: calc(100% - 2 * var(--padding-panel));
   max-height: calc(100% - 2 * var(--padding-panel));
   min-width: 33vw;
-  z-index: 100;
+  z-index: 101;
   overflow: hidden;
   padding: var(--padding-panel);
   background: var(--color-top-panel);
@@ -507,22 +532,30 @@ body {
   font-size: 1.4rem;
 }
 .light-switch-control .pj-control__button,
-.new-category .pj-control__button,
-.new-task .pj-control__button {
+.add-category .pj-control__button,
+.add-task .pj-control__button,
+.remove-category .pj-control__button,
+.remove-task .pj-control__button {
   width: calc(var(--padding-panel) * 1.8);
   padding-left: 0;
   padding-right: 0;
   padding-bottom: 0;
 }
 .light-switch-control,
-.new-category,
-.new-task {
+.add-category,
+.add-task,
+.remove-category,
+.remove-task {
   font-size: 1.1rem;
 }
-.new-task {
+.add-task {
   margin: var(--padding-control-v) var(--padding-control-h);
 }
-.pick-color-control .pj-control__input,
+.remove-category,
+.remove-task {
+  margin: 0 var(--padding-control-h) 0 0;
+}
+.remove .pick-color-control .pj-control__input,
 .pick-color-control .pj-control__option span {
   width: calc(var(--padding-panel) * 1.8);
   height: calc(var(--padding-panel) * 1.8);
@@ -569,17 +602,19 @@ body {
 .pick-dependency-control .pj-control__arrow {
   margin: 0.5rem 0;
 }
-.plan-duration-ideal-control,
+/* Limit table column width */
+.task-panel-table .plan-duration-ideal-control,
+.task-panel-table .plan-duration-normal-control,
+.task-panel-table .plan-duration-bad-control,
+.task-panel-table .plan-duration-calculated-control,
+.task-panel-table .reality-start-delay-control,
+.task-panel-table .reality-end-delay-control,
+/* Limit input width also for popup */
 .plan-duration-ideal-control .pj-control__input,
-.plan-duration-normal-control,
 .plan-duration-normal-control .pj-control__input,
-.plan-duration-bad-control,
 .plan-duration-bad-control .pj-control__input,
-.plan-duration-calculated-control,
 .plan-duration-calculated-control .pj-control__input,
-.reality-start-delay-control,
 .reality-start-delay-control .pj-control__input,
-.reality-end-delay-control,
 .reality-end-delay-control .pj-control__input,
 .task-panel .reality-done-control {
   width: 3.5rem;
@@ -588,9 +623,11 @@ body {
 .plan-start-control {
   width: 11.5rem;
 }
-.plan-end-date-control,
+/* Limit table column width */
+.task-panel-table .plan-end-date-control,
+.task-panel-table .reality-end-date-control,
+/* Limit input width also for popup */
 .plan-end-date-control .pj-control__input,
-.reality-end-date-control,
 .reality-end-date-control .pj-control__input {
   width: 7rem;
 }
@@ -600,7 +637,8 @@ body {
   padding-right: 0;
   text-align: right;
 }
-.task-panel-task .reality-done-control::after {
+.task-panel-task .reality-done-control::after,
+.task-panel-popup .reality-done-control::after {
   content: '%';
   padding-top: calc(var(--padding-control-v) + 0.24rem);
   padding-right: 0.35rem;
@@ -611,7 +649,7 @@ body {
   padding-bottom: 0.2rem;
   font-size: 0.8rem;
 }
-.new-category,
+.add-category,
 .zoom-in-out-control {
   box-shadow: 0 0 0 var(--border-width) var(--color-scrollbar);
 }

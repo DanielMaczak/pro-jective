@@ -4,8 +4,8 @@ import { Category } from '../../lib/tasks.lib';
 import { ZoomInOutControl } from '../control-panel/ZoomInOutControl.component';
 import { CategoryNameControl } from '../task-panel/CategoryNameControl.component';
 import { GanttBarControl } from '../task-panel/GanttBarControl.component';
-import { NewCategoryControl } from '../task-panel/NewCategoryControl.component';
-import { NewTaskControl } from '../task-panel/NewTaskControl.component';
+import { AddCategoryControl } from '../task-panel/AddCategoryControl.component';
+import { AddTaskControl } from '../task-panel/AddTaskControl.component';
 import {
   selectCategories,
   selectTasks,
@@ -22,7 +22,7 @@ export const MobileTaskPanel = () => {
             {/* Header */}
             <div className="task-panel-header">
               <div className="task-panel-header-row">
-                <NewCategoryControl />
+                <AddCategoryControl />
                 <ZoomInOutControl />
               </div>
             </div>
@@ -32,7 +32,7 @@ export const MobileTaskPanel = () => {
                 <>
                   <div key={category.id} className="task-panel-category">
                     <div className="task-panel-gantt">
-                      <NewTaskControl parentCategoryId={category.id} />
+                      <AddTaskControl parentCategoryId={category.id} />
                       <CategoryNameControl categoryId={category.id} />
                     </div>
                   </div>

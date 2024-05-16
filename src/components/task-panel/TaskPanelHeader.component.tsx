@@ -1,6 +1,6 @@
 import { FaRegStar, FaStarHalfAlt, FaStar } from 'react-icons/fa';
 
-import { NewCategoryControl } from './NewCategoryControl.component';
+import { AddCategoryControl } from './AddCategoryControl.component';
 import { metricHeaders } from '../../services/options.service';
 import { ZoomInOutControl } from '../control-panel/ZoomInOutControl.component';
 
@@ -10,13 +10,14 @@ export const TaskPanelHeader = ({ tablet }: { tablet: boolean }) => {
       <tr className="task-panel-header-row">
         {/* Task info */}
         <th className="task-panel-info sticky-col-0 top-left">
-          <NewCategoryControl />
+          <AddCategoryControl />
         </th>
-        <th className="task-panel-info task-name-control sticky-col-1 header-to-left">
+        <th className="task-panel-info sticky-col-1"></th>
+        <th className="task-panel-info task-name-control sticky-col-2 header-to-left">
           <h3>Info</h3>
           {metricHeaders.info.name}
         </th>
-        <th className="task-panel-info task-owner-control sticky-col-2 top-right header-to-left">
+        <th className="task-panel-info task-owner-control sticky-col-3 top-right header-to-left">
           {metricHeaders.info.owner}
         </th>
         {/* Space */}

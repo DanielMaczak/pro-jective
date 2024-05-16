@@ -14,7 +14,7 @@ export interface Task {
     colorOptionId: string;
     name: string;
     owner: string;
-    commentary?: string;
+    commentary: string;
   };
   plan: {
     startDate: number | null;

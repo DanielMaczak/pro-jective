@@ -1,9 +1,14 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { CSS_BAR_WIDTH, DAY_SEC } from '../../services/constants.service';
-import { selectMinDate, selectTask } from '../../app/reducers/tasks.reducer';
+import {
+  selectMinDate,
+  selectTask,
+  showTask,
+} from '../../app/reducers/tasks.reducer';
 
 export const GanttBarControl = ({ taskId }: { taskId: string }) => {
+  const dispatch = useDispatch();
   const task = useSelector(selectTask(taskId));
   const minDate = useSelector(selectMinDate);
   let planOffset = 0;
@@ -24,9 +29,16 @@ export const GanttBarControl = ({ taskId }: { taskId: string }) => {
       );
     }
   }
-  let totalWidth = [...Array(realityOffset + realityWidth).keys()];
-  return task && minDate ? (
-    <div class="input-group gantt-bar-control">
+  const totalWidth = [
+    ...Array(
+      Math.max(1, planOffset + planWidth, realityOffset + realityWidth)
+    ).keys(),
+  ];
+  return task ? (
+    <div
+      class="input-group gantt-bar-control"
+      onClick={() => dispatch(showTask({ taskId }))}
+    >
       {/* Lighter bar showing plan */}
       <div
         class="gantt-bar-plan-control"

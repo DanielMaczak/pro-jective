@@ -23,7 +23,7 @@ export interface TasksSliceState {
   };
   properties: {
     minDate: number | null;
-    popupVisible: boolean;
+    popupTaskId: string | null;
   };
   error: string | null;
 }
@@ -46,7 +46,7 @@ const initialState: TasksSliceState = {
   },
   properties: {
     minDate: null,
-    popupVisible: false,
+    popupTaskId: null,
   },
   // TODO: https://stackoverflow.com/a/58299220
   error: null,
@@ -56,6 +56,21 @@ export const tasksSlice = createSlice({
   name: 'tasks',
   initialState: initialState,
   reducers: {
+    showTask: (state, { payload: { taskId } }) => {
+      //  Check to toggle popup off
+      if (!taskId) {
+        state.properties.popupTaskId = null;
+        return;
+      }
+      //  Verify valid state
+      if (!Object.hasOwn(state.tasks, taskId))
+        state.error = `Non-existent task ID: ${taskId}.`;
+      //  Change state
+      if (!state.error) {
+        state.properties.popupTaskId = taskId;
+      }
+    },
+
     addCategory: state => {
       //  Verify valid state
       const newCategoryId = uuidv4();
@@ -238,8 +253,12 @@ export const selectTask = (taskId: string) => (state: RootState) => {
     ? state.tasks.present.tasks[taskId]
     : undefined;
 };
+export const selectTaskIdForPopup = (state: RootState) => {
+  return state.tasks.present.properties.popupTaskId;
+};
 
 export const {
+  showTask,
   addCategory,
   changeCategory,
   removeCategory,
