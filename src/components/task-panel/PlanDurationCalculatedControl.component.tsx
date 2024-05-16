@@ -20,7 +20,7 @@ export const PlanDurationCalculatedControl = ({
         setValue={() => {}}
         className={CSS_CONTROL}
         enabled={false}
-        {...(label ? { label: metricHeaders.plan_durationCalculated } : {})}
+        {...(label ? { label: metricHeaders.plan.durationCalculated } : {})}
       />
     </div>
   ) : null;

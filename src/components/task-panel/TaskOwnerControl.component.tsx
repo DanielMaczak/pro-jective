@@ -30,7 +30,7 @@ export const TaskOwnerControl = ({
         }
         placeholder="New task owner..."
         className={CSS_CONTROL}
-        {...(label ? { label: metricHeaders.info_owner } : {})}
+        {...(label ? { label: metricHeaders.info.owner } : {})}
       />
     </div>
   ) : null;

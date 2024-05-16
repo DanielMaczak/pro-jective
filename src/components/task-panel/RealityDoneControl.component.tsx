@@ -31,7 +31,7 @@ export const RealityDoneControl = ({
         className={CSS_CONTROL}
         min={0}
         max={100}
-        {...(label ? { label: metricHeaders.reality_done } : {})}
+        {...(label ? { label: metricHeaders.reality.done } : {})}
       />
     </div>
   ) : null;

@@ -30,7 +30,7 @@ export const TaskNameControl = ({
         }
         placeholder="New task name..."
         className={CSS_CONTROL}
-        {...(label ? { label: metricHeaders.info_name } : {})}
+        {...(label ? { label: metricHeaders.info.name } : {})}
       />
     </div>
   ) : null;

@@ -29,7 +29,7 @@ export const RealityStartDateControl = ({
           )
         }
         className={CSS_CONTROL}
-        {...(label ? { label: metricHeaders.reality_startDate } : {})}
+        {...(label ? { label: metricHeaders.reality.startDate } : {})}
       />
     </div>
   ) : null;

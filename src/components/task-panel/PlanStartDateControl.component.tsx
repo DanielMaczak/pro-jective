@@ -34,7 +34,7 @@ export const PlanStartDateControl = ({
             )
           }
           className={CSS_CONTROL}
-          {...(label ? { label: metricHeaders.plan_startDate } : {})}
+          {...(label ? { label: metricHeaders.plan.startDate } : {})}
         />
       </div>
       <div class="pick-dependency-control">

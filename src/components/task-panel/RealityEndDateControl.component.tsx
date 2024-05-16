@@ -20,7 +20,7 @@ export const RealityEndDateControl = ({
         setValue={() => {}}
         className={CSS_CONTROL}
         enabled={false}
-        {...(label ? { label: metricHeaders.reality_endDate } : {})}
+        {...(label ? { label: metricHeaders.reality.endDate } : {})}
       />
     </div>
   ) : null;

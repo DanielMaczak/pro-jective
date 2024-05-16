@@ -17,7 +17,7 @@ export const TaskCommentaryControl = ({
         setValue={() => {}}
         placeholder="Enter task commentary..."
         className={CSS_CONTROL}
-        {...(label ? { label: metricHeaders.info_commentary } : {})}
+        {...(label ? { label: metricHeaders.info.commentary } : {})}
         multiline
       />
     </div>

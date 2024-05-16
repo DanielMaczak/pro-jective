@@ -20,7 +20,7 @@ export const PlanEndDateControl = ({
         setValue={() => {}}
         className={CSS_CONTROL}
         enabled={false}
-        {...(label ? { label: metricHeaders.plan_endDate } : {})}
+        {...(label ? { label: metricHeaders.plan.endDate } : {})}
       />
     </div>
   ) : null;

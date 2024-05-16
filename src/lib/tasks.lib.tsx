@@ -17,19 +17,19 @@ export interface Task {
     commentary?: string;
   };
   plan: {
-    startDate: number;
+    startDate: number | null;
     dependency?: string | Option;
     durationIdeal: number;
     durationNormal: number;
     durationBad: number;
     durationCalculated: number;
-    endDate: number;
+    endDate: number | null;
   };
   reality: {
-    startDate: number;
+    startDate: number | null;
     startDelay: number;
     done: number;
-    endDate: number;
+    endDate: number | null;
     endDelay: number;
   };
 }

@@ -14,10 +14,10 @@ export const TaskPanelHeader = ({ tablet }: { tablet: boolean }) => {
         </th>
         <th className="task-panel-info task-name-control sticky-col-1 header-to-left">
           <h3>Info</h3>
-          {metricHeaders.info_name}
+          {metricHeaders.info.name}
         </th>
         <th className="task-panel-info task-owner-control sticky-col-2 top-right header-to-left">
-          {metricHeaders.info_owner}
+          {metricHeaders.info.owner}
         </th>
         {/* Space */}
         <th className="task-panel-space"></th>
@@ -26,7 +26,7 @@ export const TaskPanelHeader = ({ tablet }: { tablet: boolean }) => {
             {/* Plan */}
             <th className="task-panel-plan plan-start-control top-left header-to-left">
               <h3>Plan</h3>
-              {metricHeaders.plan_startDate}
+              {metricHeaders.plan.startDate}
             </th>
             <th className="task-panel-plan plan-duration-ideal-control">
               <FaStar />
@@ -39,29 +39,29 @@ export const TaskPanelHeader = ({ tablet }: { tablet: boolean }) => {
               <FaRegStar />
             </th>
             <th className="task-panel-plan plan-duration-calculated-control">
-              Calc.
+              Calc
             </th>
             <th className="task-panel-plan plan-end-date-control top-right">
-              {metricHeaders.plan_endDate}
+              {metricHeaders.plan.endDate}
             </th>
             {/* Space */}
             <th className="task-panel-space"></th>
             {/* Reality */}
             <th className="task-panel-reality reality-start-control top-left header-to-left">
               <h3>Reality</h3>
-              {metricHeaders.reality_startDate}
+              {metricHeaders.reality.startDate}
             </th>
             <th className="task-panel-reality reality-start-delay-control">
-              {metricHeaders.reality_startDelay}
+              {metricHeaders.reality.startDelay}
             </th>
             <th className="task-panel-reality reality-done-control">
-              {metricHeaders.reality_done}
+              {metricHeaders.reality.done}
             </th>
             <th className="task-panel-reality reality-end-date-control">
-              {metricHeaders.reality_endDate}
+              {metricHeaders.reality.endDate}
             </th>
             <th className="task-panel-reality reality-end-delay-control top-right">
-              {metricHeaders.reality_endDelay}
+              {metricHeaders.reality.endDelay}
             </th>
             {/* Space */}
             <th className="task-panel-space"></th>

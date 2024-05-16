@@ -20,7 +20,7 @@ export const RealityStartDelayControl = ({
         setValue={() => {}}
         className={CSS_CONTROL}
         enabled={false}
-        {...(label ? { label: metricHeaders.reality_startDelay } : {})}
+        {...(label ? { label: metricHeaders.reality.startDelay } : {})}
       />
     </div>
   ) : null;

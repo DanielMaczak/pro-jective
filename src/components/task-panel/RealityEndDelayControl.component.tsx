@@ -20,7 +20,7 @@ export const RealityEndDelayControl = ({
         setValue={() => {}}
         className={CSS_CONTROL}
         enabled={false}
-        {...(label ? { label: metricHeaders.reality_endDelay } : {})}
+        {...(label ? { label: metricHeaders.reality.endDelay } : {})}
       />
     </div>
   ) : null;

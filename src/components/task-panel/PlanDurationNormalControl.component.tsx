@@ -30,7 +30,7 @@ export const PlanDurationNormalControl = ({
         }
         className={CSS_CONTROL}
         min={1}
-        {...(label ? { label: metricHeaders.plan_durationNormal } : {})}
+        {...(label ? { label: metricHeaders.plan.durationNormal } : {})}
       />
     </div>
   ) : null;

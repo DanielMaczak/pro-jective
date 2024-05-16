@@ -30,7 +30,7 @@ export const PlanDurationIdealControl = ({
         }
         className={CSS_CONTROL}
         min={1}
-        {...(label ? { label: metricHeaders.plan_durationIdeal } : {})}
+        {...(label ? { label: metricHeaders.plan.durationIdeal } : {})}
       />
     </div>
   ) : null;
