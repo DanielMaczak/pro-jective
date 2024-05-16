@@ -201,6 +201,11 @@ body {
 .control-group .pj-control__button:last-child {
   border-right: none;
 }
+.control-group .pj-control__button:disabled {
+  cursor: default;
+  background-image: none;
+  background-color: var(--color-controls-hover);
+}
 .control-group .pj-control__option:has(input[type='checkbox']:checked),
 .control-group .pj-control__button:hover {
   background-position: 0 -100%;
@@ -499,10 +504,12 @@ body {
   content: ':';
 }
 .task-panel-popup .pj-control__input {
-  width: calc(100% - var(--label-max-width));
   height: var(--table-input-height);
   line-height: var(--table-line-height);
   background: var(--color-controls);
+}
+.task-panel-popup textarea {
+  width: calc(100% - var(--label-max-width));
 }
 
 /* Controls individually */
@@ -660,9 +667,9 @@ body {
   justify-content: center;
   cursor: pointer;
   position: relative;
+  width: max-content;
   height: var(--table-input-height);
   line-height: var(--table-line-height);
-  margin: auto;
 }
 .gantt-bar-plan-control,
 .gantt-bar-reality-control {
@@ -684,6 +691,7 @@ body {
   z-index: -1;
 }
 .gantt-bar-control td {
+  min-width: 0;
   border: 0;
 }
 .gantt-bar-info {

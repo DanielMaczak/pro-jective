@@ -5,11 +5,13 @@ export interface Category {
   id: string;
   name: string;
   taskIds: string[];
+  inSearchResults: boolean;
 }
 export interface Task {
   [index: string]: any;
   id: string;
   categoryId: string;
+  inSearchResults: boolean;
   info: {
     colorOptionId: string;
     name: string;
@@ -36,8 +38,7 @@ export interface Task {
 export interface Settings {
   sortByOptionId: string;
   workdaysOptionId: string;
-  displayOptionId: string;
+  displayOptionIds: string[];
   colorByOptionId: string;
   nightSwitchOn: boolean;
-  zoomState: number;
 }

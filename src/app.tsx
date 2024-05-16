@@ -1,10 +1,13 @@
 import { Provider } from 'react-redux';
+import { enableMapSet } from 'immer';
 
 import { store } from './app/store';
 import { DesktopControlPanel } from './components/panels/DesktopControlPanel.component';
 import { DesktopTaskPanel } from './components/panels/DesktopTaskPanel.component';
 // import { MobileTaskPanel } from './components/panels/MobileTaskPanel.component';
 import { TaskPanelPopup } from './components/task-panel/TaskPanelPopup.component';
+
+enableMapSet();
 
 export const App = () => {
   const mobile = false;

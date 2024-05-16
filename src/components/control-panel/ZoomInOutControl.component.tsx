@@ -1,15 +1,35 @@
 import { FaMinus, FaPlus } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'irmas-preact-form-components';
 
 import { CSS_CONTROL } from '../../services/constants.service';
+import {
+  selectZoomInPossible,
+  selectZoomOutPossible,
+  zoomIn,
+  zoomOut,
+} from '../../app/reducers/tasks.reducer';
 
 export const ZoomInOutControl = () => {
+  const dispatch = useDispatch();
+  const canZoomIn = useSelector(selectZoomInPossible);
+  const canZoomOut = useSelector(selectZoomOutPossible);
   return (
     <div class="control-group zoom-in-out-control">
-      <Button value="" action={() => {}} className={CSS_CONTROL}>
+      <Button
+        value=""
+        action={() => dispatch(zoomOut())}
+        className={CSS_CONTROL}
+        enabled={canZoomOut}
+      >
         <FaMinus />
       </Button>
-      <Button value="" action={() => {}} className={CSS_CONTROL}>
+      <Button
+        value=""
+        action={() => dispatch(zoomIn())}
+        className={CSS_CONTROL}
+        enabled={canZoomIn}
+      >
         <FaPlus />
       </Button>
     </div>
