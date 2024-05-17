@@ -8,7 +8,6 @@ import { TaskPanelPopup } from './components/task-panel/TaskPanelPopup.component
 
 export const App = () => {
   const mobile = false;
-  const tablet = false;
 
   // useEffect(() => {
   //   window.addEventListener('resize', handleWindowSizeChange);
@@ -30,7 +29,7 @@ export const App = () => {
       ) : (
         <>
           <DesktopControlPanel />
-          <DesktopTaskPanel tablet={tablet} />
+          <DesktopTaskPanel />
         </>
       )}
     </Provider>

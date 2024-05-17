@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux';
+
 import { GanttBarControl } from './GanttBarControl.component';
 import { PickColorControl } from './PickColorControl.component';
 import { PlanDurationBadControl } from './PlanDurationBadControl.component';
@@ -14,14 +16,16 @@ import { RealityStartDelayControl } from './RealityStartDelayControl.component';
 import { RemoveTaskControl } from './RemoveTaskControl.component';
 import { TaskNameControl } from './TaskNameControl.component';
 import { TaskOwnerControl } from './TaskOwnerControl.component';
+import {
+  selectDisplayGantt,
+  selectDisplayPlan,
+  selectDisplayReality,
+} from '../../app/reducers/tasks.reducer';
 
-export const TaskPanelTask = ({
-  taskId,
-  tablet,
-}: {
-  taskId: string;
-  tablet: boolean;
-}) => {
+export const TaskPanelTask = ({ taskId }: { taskId: string }) => {
+  const displayPlan = useSelector(selectDisplayPlan);
+  const displayReality = useSelector(selectDisplayReality);
+  const displayGantt = useSelector(selectDisplayGantt);
   return (
     <tr key={taskId} className="task-panel-task">
       {/* Task info */}
@@ -39,9 +43,9 @@ export const TaskPanelTask = ({
       </td>
       {/* Space */}
       <td className="task-panel-space"></td>
-      {!tablet && (
+      {/* Plan */}
+      {displayPlan && (
         <>
-          {/* Plan */}
           <td className="task-panel-plan plan-start-control hover-effect">
             <PlanStartDateControl taskId={taskId} />
           </td>
@@ -62,7 +66,11 @@ export const TaskPanelTask = ({
           </td>
           {/* Space */}
           <td className="task-panel-space"></td>
-          {/* Reality */}
+        </>
+      )}
+      {/* Reality */}
+      {displayReality && (
+        <>
           <td className="task-panel-reality hover-effect">
             <RealityStartDateControl taskId={taskId} />
           </td>
@@ -83,11 +91,15 @@ export const TaskPanelTask = ({
         </>
       )}
       {/* Gantt */}
-      <td className="task-panel-gantt"></td>
-      <td className="task-panel-gantt hover-effect">
-        <GanttBarControl taskId={taskId} />
-      </td>
-      <td className="task-panel-gantt"></td>
+      {displayGantt && (
+        <>
+          <td className="task-panel-gantt"></td>
+          <td className="task-panel-gantt hover-effect">
+            <GanttBarControl taskId={taskId} />
+          </td>
+          <td className="task-panel-gantt"></td>
+        </>
+      )}
     </tr>
   );
 };

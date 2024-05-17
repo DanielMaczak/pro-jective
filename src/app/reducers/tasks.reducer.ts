@@ -35,6 +35,19 @@ export interface TasksSliceState {
   error: string | null;
 }
 
+const isTasksSliceState = (
+  stateCandidate: unknown
+): stateCandidate is TasksSliceState => {
+  return (
+    typeof stateCandidate === 'object' &&
+    stateCandidate !== null &&
+    'categories' in stateCandidate &&
+    'tasks' in stateCandidate &&
+    'settings' in stateCandidate &&
+    'lists' in stateCandidate
+  );
+};
+
 const setInitialState = (
   state: TasksSliceState = <TasksSliceState>{}
 ): TasksSliceState => {
@@ -65,7 +78,6 @@ const setInitialState = (
   state.error = null;
   return state;
 };
-
 const setInitialCategory = (
   state: TasksSliceState,
   newCategoryId: string
@@ -77,7 +89,6 @@ const setInitialCategory = (
     inSearchResults: state.properties.searchedValue === '',
   };
 };
-
 const setInitialTask = (
   state: TasksSliceState,
   newTaskId: string,
@@ -112,8 +123,8 @@ const setInitialTask = (
 };
 
 const copyProperties = (
-  copyFrom: object[keyof object],
-  copyTo: object[keyof object]
+  copyFrom: { [key: string]: any },
+  copyTo: { [key: string]: any }
 ) => {
   Object.keys(copyFrom).forEach(key => {
     if (Object.hasOwn(copyTo, key)) {
@@ -203,6 +214,19 @@ export const tasksSlice = createSlice({
       }
     },
 
+    changeDisplaySetting: (state, { payload: { setting } }) => {
+      //  Verify valid state
+      if (!Array.isArray(setting))
+        state.error = `Incompatible setting type: ${JSON.stringify(setting)}.`;
+      const optionIds = displayOptions.map(option => option.id);
+      if (!setting.every((value: string) => optionIds.includes(value)))
+        state.error = `Non-existent option ID(s): ${JSON.stringify(setting)}.`;
+      //  Change state
+      if (!state.error) {
+        state.settings.displayOptionIds = [...setting];
+      }
+    },
+
     changeTask: (
       state,
       { payload: { taskId, propertyGroup, property, value } }
@@ -257,28 +281,32 @@ export const tasksSlice = createSlice({
     },
 
     loadFromFile: (state, { payload: { fileContents } }) => {
-      if (!fileContents) return;
-      const loadedState = JSON.parse(fileContents);
-      setInitialState(state);
-      if (loadedState?.categories) {
+      if (!fileContents || typeof fileContents !== 'string')
+        state.error = `Unusable file contents: ${JSON.stringify(
+          fileContents
+        )}.`;
+      const loadedState: unknown = JSON.parse(fileContents);
+      if (!state.error && isTasksSliceState(loadedState)) {
+        setInitialState(state);
         Object.values(loadedState.categories).forEach(category => {
           copyProperties(
             category,
             (state.categories[category.id] = setInitialCategory(state, ''))
           );
         });
-      }
-      if (loadedState?.tasks) {
         Object.values(loadedState.tasks).forEach(task => {
           copyProperties(
             task,
             (state.tasks[task.id] = setInitialTask(state, '', ''))
           );
         });
-      }
-      loadedState?.settings &&
         copyProperties(loadedState.settings, state.settings);
-      loadedState?.lists && copyProperties(loadedState.lists, state.lists);
+        copyProperties(loadedState.lists, state.lists);
+      } else {
+        state.error = `Cannot parse file as tasks: ${JSON.stringify(
+          fileContents
+        )}.`;
+      }
     },
 
     removeCategory: (state, { payload: { removeCategoryId } }) => {
@@ -390,6 +418,12 @@ export const selectCanRedo = (state: RootState) => {
 export const selectCanUndo = (state: RootState) => {
   return Boolean(state.tasks.past.length);
 };
+export const selectCanZoomIn = (state: RootState) => {
+  return state.tasks.present.properties.zoomState > ZOOM_MIN;
+};
+export const selectCanZoomOut = (state: RootState) => {
+  return state.tasks.present.properties.zoomState < ZOOM_MAX;
+};
 export const selectCategory = (categoryId: string) => (state: RootState) => {
   return Object.hasOwn(state.tasks.present.categories, categoryId)
     ? state.tasks.present.categories[categoryId]
@@ -397,8 +431,26 @@ export const selectCategory = (categoryId: string) => (state: RootState) => {
 };
 export const selectCategoryIds = (state: RootState) => {
   return Object.values(state.tasks.present.categories)
-    .map(category => (category.inSearchResults ? category.id : undefined))
+    .map(category => (category.inSearchResults ? category.id : ''))
     .filter(categoryId => categoryId);
+};
+export const selectDisplaySetting = (state: RootState) => {
+  return state.tasks.present.settings.displayOptionIds;
+};
+export const selectDisplayPlan = (state: RootState) => {
+  return state.tasks.present.settings.displayOptionIds.includes(
+    displayOptions[0].id
+  );
+};
+export const selectDisplayReality = (state: RootState) => {
+  return state.tasks.present.settings.displayOptionIds.includes(
+    displayOptions[1].id
+  );
+};
+export const selectDisplayGantt = (state: RootState) => {
+  return state.tasks.present.settings.displayOptionIds.includes(
+    displayOptions[2].id
+  );
 };
 export const selectNightSwitchOn = (state: RootState) => {
   return state.tasks.present.settings.nightSwitchOn;
@@ -445,17 +497,12 @@ export const selectZoomCoef = (state: RootState) => {
   }
   return zoomCoef;
 };
-export const selectZoomInPossible = (state: RootState) => {
-  return state.tasks.present.properties.zoomState > ZOOM_MIN;
-};
-export const selectZoomOutPossible = (state: RootState) => {
-  return state.tasks.present.properties.zoomState < ZOOM_MAX;
-};
 
 export const {
   addCategory,
   addTask,
   changeCategory,
+  changeDisplaySetting,
   changeTask,
   loadFromFile,
   removeCategory,

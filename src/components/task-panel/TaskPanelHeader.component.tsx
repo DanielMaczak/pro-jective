@@ -1,10 +1,19 @@
+import { useSelector } from 'react-redux';
 import { FaRegStar, FaStarHalfAlt, FaStar } from 'react-icons/fa';
 
 import { AddCategoryControl } from './AddCategoryControl.component';
 import { metricHeaders } from '../../services/options.service';
 import { ZoomInOutControl } from '../control-panel/ZoomInOutControl.component';
+import {
+  selectDisplayGantt,
+  selectDisplayPlan,
+  selectDisplayReality,
+} from '../../app/reducers/tasks.reducer';
 
-export const TaskPanelHeader = ({ tablet }: { tablet: boolean }) => {
+export const TaskPanelHeader = () => {
+  const displayPlan = useSelector(selectDisplayPlan);
+  const displayReality = useSelector(selectDisplayReality);
+  const displayGantt = useSelector(selectDisplayGantt);
   return (
     <thead className="task-panel-header">
       <tr className="task-panel-header-row">
@@ -22,9 +31,9 @@ export const TaskPanelHeader = ({ tablet }: { tablet: boolean }) => {
         </th>
         {/* Space */}
         <th className="task-panel-space"></th>
-        {!tablet && (
+        {/* Plan */}
+        {displayPlan && (
           <>
-            {/* Plan */}
             <th className="task-panel-plan plan-start-control top-left header-to-left">
               <h3>Plan</h3>
               {metricHeaders.plan.startDate}
@@ -47,7 +56,11 @@ export const TaskPanelHeader = ({ tablet }: { tablet: boolean }) => {
             </th>
             {/* Space */}
             <th className="task-panel-space"></th>
-            {/* Reality */}
+          </>
+        )}
+        {/* Reality */}
+        {displayReality && (
+          <>
             <th className="task-panel-reality reality-start-control top-left header-to-left">
               <h3>Reality</h3>
               {metricHeaders.reality.startDate}
@@ -69,13 +82,17 @@ export const TaskPanelHeader = ({ tablet }: { tablet: boolean }) => {
           </>
         )}
         {/* Gantt */}
-        <th className="task-panel-gantt top-left header-to-left">
-          <h3>Gantt chart</h3>
-        </th>
-        <th className="task-panel-gantt header-to-right">
-          <ZoomInOutControl />
-        </th>
-        <th className="task-panel-gantt top-right"></th>
+        {displayGantt && (
+          <>
+            <th className="task-panel-gantt top-left header-to-left">
+              <h3>Gantt chart</h3>
+            </th>
+            <th className="task-panel-gantt header-to-right">
+              <ZoomInOutControl />
+            </th>
+            <th className="task-panel-gantt top-right"></th>
+          </>
+        )}
       </tr>
     </thead>
   );

@@ -4,16 +4,16 @@ import { Button } from 'irmas-preact-form-components';
 
 import { CSS_CONTROL } from '../../services/constants.service';
 import {
-  selectZoomInPossible,
-  selectZoomOutPossible,
+  selectCanZoomIn,
+  selectCanZoomOut,
   zoomIn,
   zoomOut,
 } from '../../app/reducers/tasks.reducer';
 
 export const ZoomInOutControl = () => {
   const dispatch = useDispatch();
-  const canZoomIn = useSelector(selectZoomInPossible);
-  const canZoomOut = useSelector(selectZoomOutPossible);
+  const canZoomIn = useSelector(selectCanZoomIn);
+  const canZoomOut = useSelector(selectCanZoomOut);
   return (
     <div class="control-group zoom-in-out-control">
       <Button
