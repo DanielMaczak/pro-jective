@@ -30,6 +30,7 @@ export interface TasksSliceState {
   properties: {
     popupTaskId: string | null;
     searchedValue: string;
+    workdays: 5 | 6 | 7;
     zoomState: number;
   };
   error: string | null;
@@ -72,9 +73,9 @@ const setInitialState = (
   state.properties = {
     popupTaskId: null,
     searchedValue: '',
+    workdays: 5,
     zoomState: 0,
   };
-  // TODO: https://stackoverflow.com/a/58299220
   state.error = null;
   return state;
 };
@@ -162,6 +163,43 @@ const downloadFile = (file: File) => {
   }, 0);
 };
 
+const getWeekday = (date: number): number => {
+  return new Date(date).getUTCDay() || 7;
+};
+
+const getDate = (datetime: number): number => {
+  return new Date(
+    new Date(datetime).getUTCFullYear(),
+    new Date(datetime).getUTCMonth(),
+    new Date(datetime).getUTCDate()
+  ).valueOf();
+};
+
+const addWorkdays = (
+  startDate: number,
+  addWorkdays: number,
+  workdays: number
+): number => {
+  let endDate = Math.floor(startDate / DAY_SEC);
+  endDate += Math.floor(addWorkdays / workdays) * 7;
+  let startDayWeekday = getWeekday(startDate);
+  let remainingDays = addWorkdays % workdays;
+  endDate += remainingDays;
+  if (startDayWeekday + remainingDays > 7) {
+    endDate += workdays === 6 ? 1 : 2;
+  } else if (startDayWeekday + remainingDays === 7 && workdays < 7) {
+    endDate += workdays === 6 ? 1 : 2;
+  } else if (startDayWeekday + remainingDays === 6 && workdays < 6) {
+    endDate += 2;
+  }
+  return endDate * DAY_SEC;
+};
+
+const getNextWorkday = (date: number, workdays: number): number => {
+  const weekday = getWeekday(date);
+  return weekday > workdays ? (date += (8 - weekday) * DAY_SEC) : date;
+};
+
 export const tasksSlice = createSlice({
   name: 'tasks',
   initialState: setInitialState(),
@@ -227,6 +265,30 @@ export const tasksSlice = createSlice({
       }
     },
 
+    changeWorkdaysSetting: (state, { payload: { setting } }) => {
+      //  Verify valid state
+      if (typeof setting !== 'string')
+        state.error = `Incompatible setting type: ${JSON.stringify(setting)}.`;
+      const optionIds = workdaysOptions.map(option => option.id);
+      if (!optionIds.includes(setting))
+        state.error = `Non-existent option ID: ${JSON.stringify(setting)}.`;
+      //  Change state
+      if (!state.error) {
+        state.settings.workdaysOptionId = setting;
+        switch (setting) {
+          case workdaysOptions[0].id:
+            state.properties.workdays = 5;
+            break;
+          case workdaysOptions[1].id:
+            state.properties.workdays = 6;
+            break;
+          case workdaysOptions[2].id:
+            state.properties.workdays = 7;
+            break;
+        }
+      }
+    },
+
     changeTask: (
       state,
       { payload: { taskId, propertyGroup, property, value } }
@@ -255,10 +317,23 @@ export const tasksSlice = createSlice({
         );
         //  Recalculate plan
         if (plan.startDate) {
-          plan.endDate =
-            plan.startDate + Math.max(0, plan.durationCalculated * DAY_SEC);
+          plan.startDate = getNextWorkday(
+            getDate(plan.startDate),
+            state.properties.workdays
+          );
+          plan.endDate = addWorkdays(
+            plan.startDate,
+            plan.durationCalculated,
+            state.properties.workdays
+          );
         } else plan.endDate = null;
         //  Recalculate reality
+        if (real.startDate) {
+          real.startDate = getNextWorkday(
+            getDate(real.startDate),
+            state.properties.workdays
+          );
+        }
         if (plan.startDate && real.startDate) {
           real.startDelay = Math.max(
             (real.startDate - plan.startDate) / DAY_SEC,
@@ -266,11 +341,20 @@ export const tasksSlice = createSlice({
           );
         } else real.startDelay = 0;
         if (plan.startDate && plan.endDate && real.startDate && !real.done) {
-          real.endDate = real.startDate + plan.endDate - plan.startDate;
+          real.endDate = addWorkdays(
+            real.startDate,
+            plan.durationCalculated,
+            state.properties.workdays
+          );
+          // real.endDate = real.startDate + plan.endDate - plan.startDate;
         } else if (real.startDate && real.done) {
-          real.endDate =
-            real.startDate +
-            Math.max(0, Date.now() - real.startDate) / (real.done / 100);
+          real.endDate = addWorkdays(
+            real.startDate,
+            Math.max(0, getDate(Date.now()) - real.startDate) /
+              (real.done / 100) /
+              DAY_SEC,
+            state.properties.workdays
+          );
         } else real.endDate = null;
         if (plan.endDate && real.endDate) {
           real.endDelay = Math.round(
@@ -481,6 +565,14 @@ export const selectTaskIds = (categoryId: string) => (state: RootState) => {
       )
     : undefined;
 };
+export const selectWorkdays = (state: RootState) => {
+  return state.tasks.present.properties.workdays;
+};
+export const selectWorkdaysSetting = (state: RootState) => {
+  return workdaysOptions.find(
+    option => option.id === state.tasks.present.settings.workdaysOptionId
+  );
+};
 export const selectZoomCoef = (state: RootState) => {
   let zoomState = state.tasks.present.properties.zoomState;
   let zoomCoef = 1;
@@ -503,6 +595,7 @@ export const {
   addTask,
   changeCategory,
   changeDisplaySetting,
+  changeWorkdaysSetting,
   changeTask,
   loadFromFile,
   removeCategory,
