@@ -3,12 +3,13 @@ import { FaRegStar, FaStarHalfAlt, FaStar } from 'react-icons/fa';
 
 import { AddCategoryControl } from './AddCategoryControl.component';
 import { metricHeaders } from '../../services/options.service';
-import { ZoomInOutControl } from '../control-panel/ZoomInOutControl.component';
+// import { ZoomInOutControl } from '../control-panel/ZoomInOutControl.component';
 import {
   selectDisplayGantt,
   selectDisplayPlan,
   selectDisplayReality,
 } from '../../app/reducers/tasks.reducer';
+import { GanttTimelineControl } from './GanttBarControl.component';
 
 export const TaskPanelHeader = () => {
   const displayPlan = useSelector(selectDisplayPlan);
@@ -88,7 +89,8 @@ export const TaskPanelHeader = () => {
               <h3>Gantt chart</h3>
             </th>
             <th className="task-panel-gantt header-to-right">
-              <ZoomInOutControl />
+              {/* <ZoomInOutControl /> */}
+              <GanttTimelineControl />
             </th>
             <th className="task-panel-gantt top-right"></th>
           </>

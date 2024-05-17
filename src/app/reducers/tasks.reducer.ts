@@ -13,6 +13,7 @@ import { RootState } from '../store';
 import {
   CSS_NIGHTMODE,
   DAY_SEC,
+  FIRST_DATE,
   LAST_DATE,
   ZOOM_MAX,
   ZOOM_MIN,
@@ -539,15 +540,26 @@ export const selectDisplayGantt = (state: RootState) => {
 export const selectNightSwitchOn = (state: RootState) => {
   return state.tasks.present.settings.nightSwitchOn;
 };
+export const selectMaxDate = (state: RootState) => {
+  return Object.values(state.tasks.present.tasks).reduce(
+    (max, task) =>
+      Math.max(
+        max,
+        task.plan.endDate || LAST_DATE,
+        task.reality.endDate || LAST_DATE
+      ),
+    LAST_DATE
+  );
+};
 export const selectMinDate = (state: RootState) => {
   return Object.values(state.tasks.present.tasks).reduce(
     (min, task) =>
       Math.min(
         min,
-        task.plan.startDate || LAST_DATE,
-        task.reality.startDate || LAST_DATE
+        task.plan.startDate || FIRST_DATE,
+        task.reality.startDate || FIRST_DATE
       ),
-    LAST_DATE
+    FIRST_DATE
   );
 };
 export const selectTask = (taskId: string) => (state: RootState) => {

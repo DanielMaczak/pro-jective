@@ -652,7 +652,12 @@ body {
 .zoom-in-out-control {
   box-shadow: 0 0 0 var(--border-width) var(--color-scrollbar);
 }
-.gantt-bar-control {
+.gantt-timeline-control {
+  margin-left: calc(-1 * var(--padding-control-h));
+  max-height: 1rem;
+}
+.gantt-bar-control,
+.gantt-timeline-control {
   --bar-max-height: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -682,9 +687,12 @@ body {
   position: relative;
   /* z-index: -1; */
 }
-.gantt-bar-control td {
+.gantt-bar-control td,
+.gantt-timeline-control td {
   min-width: 0;
   height: 1rem;
+  font-size: 0.5rem;
+  text-align: center;
   border: 0;
   margin-right: -1px;
   border-right: 1px solid #888;
