@@ -35,10 +35,12 @@ export interface TasksSliceState {
   error: string | null;
 }
 
-const initialState: TasksSliceState = {
-  categories: {},
-  tasks: {},
-  settings: {
+const setInitialState = (
+  state: TasksSliceState = <TasksSliceState>{}
+): TasksSliceState => {
+  state.categories = {};
+  state.tasks = {};
+  state.settings = {
     sortByOptionId: sortByOptions[0].id,
     workdaysOptionId: workdaysOptions[0].id,
     displayOptionIds: [
@@ -48,19 +50,84 @@ const initialState: TasksSliceState = {
     ],
     colorByOptionId: colorByOptions[0].id,
     nightSwitchOn: false,
-  },
-  lists: {
+  };
+  state.lists = {
     sortedCategories: [],
     sortedTasks: [],
     filteredTasks: [],
-  },
-  properties: {
+  };
+  state.properties = {
     popupTaskId: null,
     searchedValue: '',
     zoomState: 0,
-  },
+  };
   // TODO: https://stackoverflow.com/a/58299220
-  error: null,
+  state.error = null;
+  return state;
+};
+
+const setInitialCategory = (
+  state: TasksSliceState,
+  newCategoryId: string
+): Category => {
+  return {
+    id: newCategoryId,
+    name: '',
+    taskIds: [],
+    inSearchResults: state.properties.searchedValue === '',
+  };
+};
+
+const setInitialTask = (
+  state: TasksSliceState,
+  newTaskId: string,
+  parentCategoryId: string
+): Task => {
+  return {
+    id: newTaskId,
+    categoryId: parentCategoryId,
+    inSearchResults: state.properties.searchedValue === '',
+    info: {
+      colorOptionId: colorPickOptions[0].id,
+      name: '',
+      owner: '',
+      commentary: '',
+    },
+    plan: {
+      startDate: null,
+      durationIdeal: 1,
+      durationNormal: 1,
+      durationBad: 1,
+      durationCalculated: 1,
+      endDate: null,
+    },
+    reality: {
+      startDate: null,
+      startDelay: 0,
+      done: 0,
+      endDate: null,
+      endDelay: 0,
+    },
+  };
+};
+
+const copyProperties = (
+  copyFrom: object[keyof object],
+  copyTo: object[keyof object]
+) => {
+  Object.keys(copyFrom).forEach(key => {
+    if (Object.hasOwn(copyTo, key)) {
+      if (Array.isArray(copyFrom[key])) {
+        (copyFrom[key] as []).forEach(value => {
+          (copyTo[key] as []).push(value);
+        });
+      } else if (typeof copyFrom[key] === 'object' && copyFrom[key]) {
+        copyProperties(copyFrom[key], copyTo[key]);
+      } else {
+        copyTo[key] = copyFrom[key];
+      }
+    }
+  });
 };
 
 /**
@@ -86,7 +153,7 @@ const downloadFile = (file: File) => {
 
 export const tasksSlice = createSlice({
   name: 'tasks',
-  initialState: initialState,
+  initialState: setInitialState(),
   reducers: {
     addCategory: state => {
       //  Verify valid state
@@ -95,12 +162,10 @@ export const tasksSlice = createSlice({
         state.error = `Duplicate category ID: ${newCategoryId}.`;
       //  Change state
       if (!state.error) {
-        state.categories[newCategoryId] = {
-          id: newCategoryId,
-          name: '',
-          taskIds: [],
-          inSearchResults: state.properties.searchedValue === '',
-        };
+        state.categories[newCategoryId] = setInitialCategory(
+          state,
+          newCategoryId
+        );
       }
     },
 
@@ -114,32 +179,11 @@ export const tasksSlice = createSlice({
         state.error = `Duplicate task ID: ${newTaskId}.`;
       //  Change state
       if (!state.error) {
-        state.tasks[newTaskId] = {
-          id: newTaskId,
-          categoryId: parentCategoryId,
-          inSearchResults: state.properties.searchedValue === '',
-          info: {
-            colorOptionId: colorPickOptions[0].id,
-            name: '',
-            owner: '',
-            commentary: '',
-          },
-          plan: {
-            startDate: null,
-            durationIdeal: 1,
-            durationNormal: 1,
-            durationBad: 1,
-            durationCalculated: 1,
-            endDate: null,
-          },
-          reality: {
-            startDate: null,
-            startDelay: 0,
-            done: 0,
-            endDate: null,
-            endDelay: 0,
-          },
-        };
+        state.tasks[newTaskId] = setInitialTask(
+          state,
+          newTaskId,
+          parentCategoryId
+        );
         parentCategory.taskIds.push(newTaskId);
       }
     },
@@ -215,21 +259,26 @@ export const tasksSlice = createSlice({
     loadFromFile: (state, { payload: { fileContents } }) => {
       if (!fileContents) return;
       const loadedState = JSON.parse(fileContents);
-
-      // TODO: finish safe state update
-
-      state.categories = {};
-
+      setInitialState(state);
       if (loadedState?.categories) {
-        Object.values(loadedState.categories).forEach((category: Category) => {
-          state.categories[category.id] = {
-            id: category.id,
-            name: category.name,
-            taskIds: [],
-            inSearchResults: category.inSearchResults,
-          };
+        Object.values(loadedState.categories).forEach(category => {
+          copyProperties(
+            category,
+            (state.categories[category.id] = setInitialCategory(state, ''))
+          );
         });
       }
+      if (loadedState?.tasks) {
+        Object.values(loadedState.tasks).forEach(task => {
+          copyProperties(
+            task,
+            (state.tasks[task.id] = setInitialTask(state, '', ''))
+          );
+        });
+      }
+      loadedState?.settings &&
+        copyProperties(loadedState.settings, state.settings);
+      loadedState?.lists && copyProperties(loadedState.lists, state.lists);
     },
 
     removeCategory: (state, { payload: { removeCategoryId } }) => {
