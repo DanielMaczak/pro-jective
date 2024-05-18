@@ -1,9 +1,9 @@
-import { Button } from 'irmas-preact-form-components';
+import { useDispatch } from 'react-redux';
+import { Dispatch } from '@reduxjs/toolkit';
+import { Button, File } from 'irmas-preact-form-components';
 
 import { CSS_CONTROL } from '../../services/constants.service';
-import { useDispatch } from 'react-redux';
 import { loadFromFile, saveToFile } from '../../app/reducers/tasks.reducer';
-import { Dispatch } from '@reduxjs/toolkit';
 
 const readFile = async (event: Event, dispatch: Dispatch) => {
   event.preventDefault();
@@ -25,8 +25,11 @@ export const SaveLoadControl = () => {
         action={() => dispatch(saveToFile())}
         className={CSS_CONTROL}
       />
-      <input type="file" onChange={e => readFile(e, dispatch)} />
-      <Button value="Load" action={() => {}} className={CSS_CONTROL} />
+      <File
+        value="Load"
+        action={e => readFile(e, dispatch)}
+        className={CSS_CONTROL}
+      />
     </div>
   );
 };

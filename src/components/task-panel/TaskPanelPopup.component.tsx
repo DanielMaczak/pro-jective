@@ -19,6 +19,7 @@ import {
   showTask,
 } from '../../app/reducers/tasks.reducer';
 import { PickColorControl } from './PickColorControl.component';
+import { RemoveTaskControl } from './RemoveTaskControl.component';
 
 export const TaskPanelPopup = () => {
   const dispatch = useDispatch();
@@ -33,7 +34,10 @@ export const TaskPanelPopup = () => {
         <div class="task-panel-popup">
           {/* Task info */}
           <div class="task-panel-popup-info">
-            <div class="task-panel-popup-header">Info</div>
+            <div class="task-panel-popup-header">
+              <RemoveTaskControl taskId={taskId} />
+              Info
+            </div>
             <PickColorControl taskId={taskId} label />
             <TaskNameControl taskId={taskId} label />
             <TaskOwnerControl taskId={taskId} label />

@@ -15,6 +15,7 @@ import { GanttBarInfoControl } from '../task-panel/GanttBarInfoControl.component
 import { ZoomInOutControl } from '../control-panel/ZoomInOutControl.component';
 import { UndoRedoControl } from '../control-panel/UndoRedoControl.component';
 import { MobileControlsButtonControl } from '../control-panel/MobileControlsButtonControl.component';
+import { RemoveCategoryControl } from '../task-panel/RemoveCategoryControl.component';
 
 export const MobileTaskPanel = () => {
   return (
@@ -39,10 +40,9 @@ export const MobileTaskPanel = () => {
               {useSelector(selectCategoryIds).map((categoryId: string) => (
                 <>
                   <div key={categoryId} class="task-panel-category">
-                    <div class="task-panel-gantt">
-                      <AddTaskControl parentCategoryId={categoryId} />
-                      <CategoryNameControl categoryId={categoryId} />
-                    </div>
+                    <AddTaskControl parentCategoryId={categoryId} />
+                    <CategoryNameControl categoryId={categoryId} />
+                    <RemoveCategoryControl categoryId={categoryId} />
                   </div>
                   {useSelector(selectTaskIds(categoryId))?.map(
                     (taskId: string) => (

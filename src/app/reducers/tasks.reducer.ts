@@ -401,7 +401,7 @@ export const tasksSlice = createSlice({
       const changePropertyGroup = changeTask[propertyGroup];
       if (!Object.hasOwn(changePropertyGroup, property))
         state.error = `Non-existent task property: ${property}.`;
-      if (typeof value === 'object')
+      if (typeof value === 'object' && value !== null)
         state.error = `Attempted to assign object: ${JSON.stringify(value)}.`;
       //  Change state
       if (!state.error) {
@@ -603,6 +603,7 @@ export const tasksSlice = createSlice({
           taskId => taskId !== removeTaskId
         );
         delete state.tasks[removeTaskId];
+        state.properties.popupTaskId = null; // if triggered from popup
         sortData(state);
       }
     },

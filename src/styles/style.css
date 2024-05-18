@@ -337,7 +337,7 @@ body {
   position: sticky;
   top: 0;
   overflow: hidden;
-  z-index: 18;
+  z-index: 10018;
 }
 .task-panel-header h3 {
   position: absolute;
@@ -371,7 +371,7 @@ body {
   /* Shows category while scrolling to bottom */
   position: sticky;
   top: var(--header-height);
-  z-index: 15;
+  z-index: 10015;
   background-image: var(--color-task-panel-category);
 }
 .task-panel-category .sticky-col-0,
@@ -380,7 +380,7 @@ body {
 .task-panel-category .sticky-col-3 {
   /* Shows info category while scrolling right OR to bottom */
   position: sticky;
-  z-index: 22;
+  z-index: 10022;
 }
 .task-panel-task td {
   background: var(--color-task-panel-row);
@@ -483,6 +483,11 @@ body {
     background: var(--color-task-panel-footer);
     border-radius: 0 0 var(--padding-panel) var(--padding-panel);
   }
+  div.task-panel-category .remove-category {
+    position: absolute;
+    right: 0;
+    align-self: center;
+  }
 }
 
 /* Popup */
@@ -560,6 +565,11 @@ body {
 .task-panel-popup textarea {
   width: calc(100% - var(--label-max-width));
 }
+.task-panel-popup .remove-task {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 
 /* Controls individually */
 
@@ -635,8 +645,8 @@ div.task-panel .undo-redo-control,
   height: calc(var(--padding-panel) * 1.8);
 }
 .pick-color-control .pj-control__arrow {
-  position: absolute;
-  margin: 0.6rem 0.6rem;
+  position: relative;
+  margin: 0.6rem 0.6rem 0 -2.6rem;
   z-index: 1;
 }
 .pick-color-control .pj-control__option {
