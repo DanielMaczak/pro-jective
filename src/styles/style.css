@@ -623,12 +623,20 @@ body {
   width: 11.5rem;
 }
 /* Limit table column width */
+.task-panel-category .category-plan-start-date-control,
+.task-panel-category .category-plan-end-date-control,
+.task-panel-category .category-reality-start-date-control,
+.task-panel-category .category-reality-end-date-control,
 .task-panel-table .plan-end-date-control,
 .task-panel-table .reality-end-date-control,
 /* Limit input width also for popup */
 .plan-end-date-control .pj-control__input,
 .reality-end-date-control .pj-control__input {
   width: 7rem;
+}
+.task-panel-category .pj-control__input:disabled {
+  color: var(--color-controls);
+  background: transparent;
 }
 .reality-done-control .pj-control__input {
   width: 2.5rem;

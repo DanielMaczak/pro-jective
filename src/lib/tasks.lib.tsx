@@ -1,9 +1,19 @@
 export interface Category {
   [index: string]: any;
   id: string;
-  name: string;
   taskIds: string[];
   inSearchResults: boolean;
+  info: {
+    name: string;
+  };
+  plan: {
+    startDate: number | null;
+    endDate: number | null;
+  };
+  reality: {
+    startDate: number | null;
+    endDate: number | null;
+  };
 }
 export interface Task {
   [index: string]: any;

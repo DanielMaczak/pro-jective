@@ -11,6 +11,10 @@ import {
   selectTaskIds,
 } from '../../app/reducers/tasks.reducer';
 import { RemoveCategoryControl } from './RemoveCategoryControl.component';
+import { CategoryPlanStartDateControl } from './CategoryPlanStartDateControl.component';
+import { CategoryPlanEndDateControl } from './CategoryPlanEndDateControl.component';
+import { CategoryRealityStartDateControl } from './CategoryRealityStartDateControl.component';
+import { CategoryRealityEndDateControl } from './CategoryRealityEndDateControl.component';
 
 export const TaskPanelCategory = () => {
   const displayPlan = useSelector(selectDisplayPlan);
@@ -37,12 +41,16 @@ export const TaskPanelCategory = () => {
             {/* Plan */}
             {displayPlan && (
               <>
+                <td className="task-panel-plan">
+                  <CategoryPlanStartDateControl categoryId={categoryId} />
+                </td>
                 <td className="task-panel-plan"></td>
                 <td className="task-panel-plan"></td>
                 <td className="task-panel-plan"></td>
                 <td className="task-panel-plan"></td>
-                <td className="task-panel-plan"></td>
-                <td className="task-panel-plan"></td>
+                <td className="task-panel-plan">
+                  <CategoryPlanEndDateControl categoryId={categoryId} />
+                </td>
                 {/* Space */}
                 <td className="task-panel-space"></td>
               </>
@@ -50,10 +58,14 @@ export const TaskPanelCategory = () => {
             {/* Reality */}
             {displayReality && (
               <>
+                <td className="task-panel-reality">
+                  <CategoryRealityStartDateControl categoryId={categoryId} />
+                </td>
                 <td className="task-panel-reality"></td>
                 <td className="task-panel-reality"></td>
-                <td className="task-panel-reality"></td>
-                <td className="task-panel-reality"></td>
+                <td className="task-panel-reality">
+                  <CategoryRealityEndDateControl categoryId={categoryId} />
+                </td>
                 <td className="task-panel-reality"></td>
                 {/* Space */}
                 <td className="task-panel-space"></td>

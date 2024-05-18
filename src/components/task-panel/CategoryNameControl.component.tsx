@@ -13,7 +13,7 @@ export const CategoryNameControl = ({ categoryId }: { categoryId: string }) => {
   return category ? (
     <div class="control-group category-name-control">
       <TextInput
-        value={category.name}
+        value={category.info.name}
         setValue={value =>
           dispatch(changeCategory({ categoryId, property: 'name', value }))
         }

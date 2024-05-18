@@ -1,3 +1,4 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { DateInput, DropdownInput, Option } from 'irmas-preact-form-components';
 
 import { CSS_CONTROL } from '../../services/constants.service';
@@ -5,7 +6,6 @@ import {
   independentOptionId,
   metricHeaders,
 } from '../../services/options.service';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   changeDependency,
   changeTask,
@@ -23,8 +23,6 @@ export const PlanStartDateControl = ({
   const dispatch = useDispatch();
   const task = useSelector(selectTask(taskId));
   const dependenceOptions = useSelector(selectDepedentOptions(taskId));
-  console.log(dependenceOptions);
-
   return task ? (
     <div class="input-group">
       <div class="plan-start-date-control">

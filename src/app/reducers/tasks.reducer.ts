@@ -28,7 +28,6 @@ export interface TasksSliceState {
   lists: {
     sortedCategories: string[];
     sortedTasks: string[];
-    filteredTasks: string[];
   };
   properties: {
     popupTaskId: string | null;
@@ -71,7 +70,6 @@ const setInitialState = (
   state.lists = {
     sortedCategories: [],
     sortedTasks: [],
-    filteredTasks: [],
   };
   state.properties = {
     popupTaskId: null,
@@ -91,6 +89,17 @@ const setInitialCategory = (
     name: '',
     taskIds: [],
     inSearchResults: state.properties.searchedValue === '',
+    info: {
+      name: '',
+    },
+    plan: {
+      startDate: null,
+      endDate: null,
+    },
+    reality: {
+      startDate: null,
+      endDate: null,
+    },
   };
 };
 const setInitialTask = (
@@ -311,6 +320,9 @@ export const tasksSlice = createSlice({
       if (!Object.hasOwn(state.tasks, taskId))
         state.error = `Non-existent task ID: ${taskId}.`;
       const changeTask: Task = state.tasks[taskId];
+      if (!Object.hasOwn(state.categories, changeTask.categoryId))
+        state.error = `Non-existent category ID: ${changeTask.categoryId}.`;
+      const category = state.categories[changeTask.categoryId];
       if (!Object.hasOwn(changeTask, propertyGroup))
         state.error = `Non-existent task property group: ${propertyGroup}.`;
       const changePropertyGroup = changeTask[propertyGroup];
@@ -382,6 +394,55 @@ export const tasksSlice = createSlice({
             dependentTask.reality.startDate = changeTask.reality.endDate;
           });
         }
+        //  Update category
+        category.plan.startDate = category.taskIds.reduce(
+          (startDate: number | null, taskId: string) => {
+            const childTask = state.tasks[taskId];
+            if (!startDate && childTask.plan.startDate) {
+              return childTask.plan.startDate;
+            } else if (startDate && childTask.plan.startDate) {
+              return Math.min(startDate, childTask.plan.startDate);
+            }
+            return startDate;
+          },
+          null
+        );
+        category.plan.endDate = category.taskIds.reduce(
+          (endDate: number | null, taskId: string) => {
+            const childTask = state.tasks[taskId];
+            if (!endDate && childTask.plan.endDate) {
+              return childTask.plan.endDate;
+            } else if (endDate && childTask.plan.endDate) {
+              return Math.max(endDate, childTask.plan.endDate);
+            }
+            return endDate;
+          },
+          null
+        );
+        category.reality.startDate = category.taskIds.reduce(
+          (startDate: number | null, taskId: string) => {
+            const childTask = state.tasks[taskId];
+            if (!startDate && childTask.reality.startDate) {
+              return childTask.reality.startDate;
+            } else if (startDate && childTask.reality.startDate) {
+              return Math.min(startDate, childTask.reality.startDate);
+            }
+            return startDate;
+          },
+          null
+        );
+        category.reality.endDate = category.taskIds.reduce(
+          (endDate: number | null, taskId: string) => {
+            const childTask = state.tasks[taskId];
+            if (!endDate && childTask.reality.endDate) {
+              return childTask.reality.endDate;
+            } else if (endDate && childTask.reality.endDate) {
+              return Math.max(endDate, childTask.reality.endDate);
+            }
+            return endDate;
+          },
+          null
+        );
       }
     },
 
@@ -484,7 +545,7 @@ export const tasksSlice = createSlice({
       if (!state.error) {
         const searchedValueLowCase = searchedValue.toLowerCase();
         Object.values(state.categories).forEach(category => {
-          category.inSearchResults = category.name
+          category.inSearchResults = category.info.name
             .toLowerCase()
             .includes(searchedValueLowCase);
         });

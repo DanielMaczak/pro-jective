@@ -30,6 +30,7 @@ export const RealityStartDateControl = ({
         }
         className={CSS_CONTROL}
         {...(label ? { label: metricHeaders.reality.startDate } : {})}
+        enabled={!Boolean(task.dependentOnId)}
       />
     </div>
   ) : null;
