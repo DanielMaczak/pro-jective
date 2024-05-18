@@ -6,6 +6,7 @@ import {
   colorByOptions,
   colorPickOptions,
   displayOptions,
+  independentOptionId,
   sortByOptions,
   workdaysOptions,
 } from '../../services/options.service';
@@ -18,6 +19,7 @@ import {
   ZOOM_MAX,
   ZOOM_MIN,
 } from '../../services/constants.service';
+import { Option } from 'irmas-preact-form-components';
 
 export interface TasksSliceState {
   categories: { [key: string]: Category };
@@ -100,6 +102,8 @@ const setInitialTask = (
     id: newTaskId,
     categoryId: parentCategoryId,
     inSearchResults: state.properties.searchedValue === '',
+    dependencyIds: [],
+    dependentOnId: null,
     info: {
       colorOptionId: colorPickOptions[0].id,
       name: '',
@@ -253,6 +257,39 @@ export const tasksSlice = createSlice({
       }
     },
 
+    changeDependency: (
+      state,
+      { payload: { dependentTaskId, anchorTaskId } }
+    ) => {
+      //  Verify valid state
+      if (!Object.hasOwn(state.tasks, dependentTaskId))
+        state.error = `Non-existent task ID: ${dependentTaskId}.`;
+      const dependentTask = state.tasks[dependentTaskId];
+      if (dependentTask.dependentOnId === anchorTaskId) return;
+      //  Change state
+      if (!state.error) {
+        //  Remove old dependency
+        if (dependentTask.dependentOnId !== null) {
+          const oldAnchorTask = state.tasks[dependentTask.dependentOnId];
+          oldAnchorTask.dependencyIds = oldAnchorTask.dependencyIds.filter(
+            dependencyId => dependencyId !== dependentTaskId
+          );
+        }
+        //  Add new dependency
+        if (anchorTaskId !== null) {
+          const newAnchorTask = state.tasks[anchorTaskId];
+          newAnchorTask.dependencyIds.push(dependentTaskId);
+          dependentTask.dependentOnId = anchorTaskId;
+          dependentTask.plan.startDate = newAnchorTask.plan.endDate;
+          dependentTask.reality.startDate = newAnchorTask.reality.endDate;
+        }
+        //  Or remove alltogether
+        else {
+          dependentTask.dependentOnId = null;
+        }
+      }
+    },
+
     changeDisplaySetting: (state, { payload: { setting } }) => {
       //  Verify valid state
       if (!Array.isArray(setting))
@@ -263,30 +300,6 @@ export const tasksSlice = createSlice({
       //  Change state
       if (!state.error) {
         state.settings.displayOptionIds = [...setting];
-      }
-    },
-
-    changeWorkdaysSetting: (state, { payload: { setting } }) => {
-      //  Verify valid state
-      if (typeof setting !== 'string')
-        state.error = `Incompatible setting type: ${JSON.stringify(setting)}.`;
-      const optionIds = workdaysOptions.map(option => option.id);
-      if (!optionIds.includes(setting))
-        state.error = `Non-existent option ID: ${JSON.stringify(setting)}.`;
-      //  Change state
-      if (!state.error) {
-        state.settings.workdaysOptionId = setting;
-        switch (setting) {
-          case workdaysOptions[0].id:
-            state.properties.workdays = 5;
-            break;
-          case workdaysOptions[1].id:
-            state.properties.workdays = 6;
-            break;
-          case workdaysOptions[2].id:
-            state.properties.workdays = 7;
-            break;
-        }
       }
     },
 
@@ -347,7 +360,6 @@ export const tasksSlice = createSlice({
             plan.durationCalculated,
             state.properties.workdays
           );
-          // real.endDate = real.startDate + plan.endDate - plan.startDate;
         } else if (real.startDate && real.done) {
           real.endDate = addWorkdays(
             real.startDate,
@@ -362,6 +374,38 @@ export const tasksSlice = createSlice({
             Math.max(0, (real.endDate - plan.endDate) / DAY_SEC)
           );
         } else real.endDelay = 0;
+        //  Recalculate dependencies
+        if (changeTask.dependencyIds.length) {
+          changeTask.dependencyIds.forEach(dependentTaskId => {
+            const dependentTask = state.tasks[dependentTaskId];
+            dependentTask.plan.startDate = changeTask.plan.endDate;
+            dependentTask.reality.startDate = changeTask.reality.endDate;
+          });
+        }
+      }
+    },
+
+    changeWorkdaysSetting: (state, { payload: { setting } }) => {
+      //  Verify valid state
+      if (typeof setting !== 'string')
+        state.error = `Incompatible setting type: ${JSON.stringify(setting)}.`;
+      const optionIds = workdaysOptions.map(option => option.id);
+      if (!optionIds.includes(setting))
+        state.error = `Non-existent option ID: ${JSON.stringify(setting)}.`;
+      //  Change state
+      if (!state.error) {
+        state.settings.workdaysOptionId = setting;
+        switch (setting) {
+          case workdaysOptions[0].id:
+            state.properties.workdays = 5;
+            break;
+          case workdaysOptions[1].id:
+            state.properties.workdays = 6;
+            break;
+          case workdaysOptions[2].id:
+            state.properties.workdays = 7;
+            break;
+        }
       }
     },
 
@@ -519,6 +563,16 @@ export const selectCategoryIds = (state: RootState) => {
     .map(category => (category.inSearchResults ? category.id : ''))
     .filter(categoryId => categoryId);
 };
+export const selectDepedentOptions = (taskId: string) => (state: RootState) => {
+  const options: Option[] = [{ id: independentOptionId, value: 'Independent' }];
+  Object.values(state.tasks.present.tasks).forEach(task => {
+    task.id !== taskId &&
+      task.info.name &&
+      options.push({ id: task.id, value: task.info.name });
+  });
+  return options;
+};
+
 export const selectDisplaySetting = (state: RootState) => {
   return state.tasks.present.settings.displayOptionIds;
 };
@@ -606,6 +660,7 @@ export const {
   addCategory,
   addTask,
   changeCategory,
+  changeDependency,
   changeDisplaySetting,
   changeWorkdaysSetting,
   changeTask,

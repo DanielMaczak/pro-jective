@@ -1,5 +1,3 @@
-import { Option } from 'irmas-preact-form-components';
-
 export interface Category {
   [index: string]: any;
   id: string;
@@ -11,6 +9,8 @@ export interface Task {
   [index: string]: any;
   id: string;
   categoryId: string;
+  dependencyIds: string[];
+  dependentOnId: string | null;
   inSearchResults: boolean;
   info: {
     colorOptionId: string;
@@ -20,7 +20,6 @@ export interface Task {
   };
   plan: {
     startDate: number | null;
-    dependency?: string | Option;
     durationIdeal: number;
     durationNormal: number;
     durationBad: number;

@@ -1,13 +1,17 @@
 import { DateInput, DropdownInput, Option } from 'irmas-preact-form-components';
 
 import { CSS_CONTROL } from '../../services/constants.service';
-import { metricHeaders } from '../../services/options.service';
+import {
+  independentOptionId,
+  metricHeaders,
+} from '../../services/options.service';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeTask, selectTask } from '../../app/reducers/tasks.reducer';
-
-const dependencyOptions: Option[] = [
-  { id: 'dependency-option-0', value: 'Independent' },
-];
+import {
+  changeDependency,
+  changeTask,
+  selectDepedentOptions,
+  selectTask,
+} from '../../app/reducers/tasks.reducer';
 
 export const PlanStartDateControl = ({
   taskId,
@@ -18,6 +22,9 @@ export const PlanStartDateControl = ({
 }) => {
   const dispatch = useDispatch();
   const task = useSelector(selectTask(taskId));
+  const dependenceOptions = useSelector(selectDepedentOptions(taskId));
+  console.log(dependenceOptions);
+
   return task ? (
     <div class="input-group">
       <div class="plan-start-date-control">
@@ -35,22 +42,34 @@ export const PlanStartDateControl = ({
           }
           className={CSS_CONTROL}
           {...(label ? { label: metricHeaders.plan.startDate } : {})}
+          enabled={!Boolean(task.dependentOnId)}
         />
       </div>
       <div class="pick-dependency-control">
         <DropdownInput
-          value={task.plan.dependency ?? dependencyOptions[0]}
-          setValue={value =>
-            dispatch(
-              changeTask({
-                taskId,
-                propertyGroup: 'plan',
-                property: 'dependency',
-                value,
-              })
-            )
+          value={
+            (task.dependentOnId &&
+              dependenceOptions.find(
+                (option: Option) => option.id === task.dependentOnId
+              )) ||
+            dependenceOptions[0]
           }
-          options={dependencyOptions}
+          setValue={option =>
+            option.id === independentOptionId
+              ? dispatch(
+                  changeDependency({
+                    dependentTaskId: task.id,
+                    anchorTaskId: null,
+                  })
+                )
+              : dispatch(
+                  changeDependency({
+                    dependentTaskId: task.id,
+                    anchorTaskId: option.id,
+                  })
+                )
+          }
+          options={dependenceOptions}
           className={CSS_CONTROL}
           showValue={false}
         />

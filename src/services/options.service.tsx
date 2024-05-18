@@ -1,5 +1,6 @@
 import { Option } from 'irmas-preact-form-components';
 
+export const independentOptionId: string = 'independent';
 export const displayOptions: Option[] = [
   { id: 'display-0', value: 'Plan' },
   { id: 'display-1', value: 'Reality' },
@@ -18,8 +19,6 @@ export const colorPickOptions: Option[] = [
 export const sortByOptions: Option[] = [
   { id: 'sort-by-0', value: 'Planned start date' },
   { id: 'sort-by-1', value: 'Real start date' },
-  { id: 'sort-by-2', value: 'Owner' },
-  { id: 'sort-by-3', value: 'Task name' },
 ];
 export const workdaysOptions: Option[] = [
   { id: 'workdays-0', value: 'Mon-Fri' },
