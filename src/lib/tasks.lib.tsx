@@ -22,6 +22,7 @@ export interface Task {
   dependencyIds: string[];
   dependentOnId: string | null;
   inSearchResults: boolean;
+  orderNumber: number;
   info: {
     colorOptionId: string;
     name: string;

@@ -21,62 +21,62 @@ export const TaskPanelCategory = () => {
   const displayReality = useSelector(selectDisplayReality);
   const displayGantt = useSelector(selectDisplayGantt);
   return (
-    <tbody className="task-panel-body">
+    <tbody class="task-panel-body">
       {useSelector(selectCategoryIds).map((categoryId: string) => (
         <>
-          <tr key={categoryId} className="task-panel-category">
+          <tr key={categoryId} class="task-panel-category">
             {/* Task info */}
-            <td className="task-panel-info sticky-col-0">
+            <td class="task-panel-info sticky-col-0">
               <AddTaskControl parentCategoryId={categoryId} />
             </td>
-            <td className="task-panel-info sticky-col-1">
+            <td class="task-panel-info sticky-col-1">
               <RemoveCategoryControl categoryId={categoryId} />
             </td>
-            <td className="task-panel-info sticky-col-2">
+            <td class="task-panel-info sticky-col-2">
               <CategoryNameControl categoryId={categoryId} />
             </td>
-            <td className="task-panel-info sticky-col-3"></td>
+            <td class="task-panel-info sticky-col-3"></td>
             {/* Space */}
-            <td className="task-panel-space"></td>
+            <td class="task-panel-space"></td>
             {/* Plan */}
             {displayPlan && (
               <>
-                <td className="task-panel-plan">
+                <td class="task-panel-plan">
                   <CategoryPlanStartDateControl categoryId={categoryId} />
                 </td>
-                <td className="task-panel-plan"></td>
-                <td className="task-panel-plan"></td>
-                <td className="task-panel-plan"></td>
-                <td className="task-panel-plan"></td>
-                <td className="task-panel-plan">
+                <td class="task-panel-plan"></td>
+                <td class="task-panel-plan"></td>
+                <td class="task-panel-plan"></td>
+                <td class="task-panel-plan"></td>
+                <td class="task-panel-plan">
                   <CategoryPlanEndDateControl categoryId={categoryId} />
                 </td>
                 {/* Space */}
-                <td className="task-panel-space"></td>
+                <td class="task-panel-space"></td>
               </>
             )}
             {/* Reality */}
             {displayReality && (
               <>
-                <td className="task-panel-reality">
+                <td class="task-panel-reality">
                   <CategoryRealityStartDateControl categoryId={categoryId} />
                 </td>
-                <td className="task-panel-reality"></td>
-                <td className="task-panel-reality"></td>
-                <td className="task-panel-reality">
+                <td class="task-panel-reality"></td>
+                <td class="task-panel-reality"></td>
+                <td class="task-panel-reality">
                   <CategoryRealityEndDateControl categoryId={categoryId} />
                 </td>
-                <td className="task-panel-reality"></td>
+                <td class="task-panel-reality"></td>
                 {/* Space */}
-                <td className="task-panel-space"></td>
+                <td class="task-panel-space"></td>
               </>
             )}
             {/* Gantt */}
             {displayGantt && (
               <>
-                <td className="task-panel-gantt"></td>
-                <td className="task-panel-gantt"></td>
-                <td className="task-panel-gantt"></td>
+                <td class="task-panel-gantt"></td>
+                <td class="task-panel-gantt"></td>
+                <td class="task-panel-gantt"></td>
               </>
             )}
           </tr>

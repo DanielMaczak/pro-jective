@@ -116,6 +116,9 @@ body {
   border-top: calc(var(--border-width) / 2) solid var(--color-border);
   transition: background-color var(--transition-len);
 }
+.pj-control__list .pj-control__option:hover {
+  background: var(--color-controls-hover);
+}
 .pj-control__arrow {
   margin: 0.2rem 0 0 0.4rem;
 }
@@ -205,9 +208,6 @@ body {
 .control-group .pj-control__button:active {
   background-image: none;
   background-color: var(--color-border);
-}
-.control-group .pj-control__list .pj-control__option:hover {
-  background: var(--color-controls-hover);
 }
 
 /* Task panel */
@@ -378,6 +378,11 @@ body {
 }
 .input-group .pj-control__input:disabled {
   background: var(--color-controls-disabled);
+}
+.task-panel-table .pj-control__list {
+  margin-top: calc(
+    -1 * var(--border-width) / 2 - (var(--dropdown-list-radius))
+  );
 }
 
 /* Task panel - Mobile */

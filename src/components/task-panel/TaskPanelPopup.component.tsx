@@ -25,20 +25,20 @@ export const TaskPanelPopup = () => {
   return taskId ? (
     <>
       <div
-        className="task-panel-popup-cover"
+        class="task-panel-popup-cover"
         onClick={() => dispatch(showTask({ taskId: null }))}
       ></div>
-      <div className="task-panel-popup-container">
-        <div className="task-panel-popup">
+      <div class="task-panel-popup-container">
+        <div class="task-panel-popup">
           {/* Task info */}
-          <div className="task-panel-popup-info">
-            <div className="task-panel-popup-header">Info</div>
+          <div class="task-panel-popup-info">
+            <div class="task-panel-popup-header">Info</div>
             <TaskNameControl taskId={taskId} label />
             <TaskOwnerControl taskId={taskId} label />
           </div>
           {/* Plan */}
-          <div className="task-panel-popup-plan">
-            <div className="task-panel-popup-header">Plan</div>
+          <div class="task-panel-popup-plan">
+            <div class="task-panel-popup-header">Plan</div>
             <PlanStartDateControl taskId={taskId} label />
             <PlanDurationIdealControl taskId={taskId} label />
             <PlanDurationNormalControl taskId={taskId} label />
@@ -47,8 +47,8 @@ export const TaskPanelPopup = () => {
             <PlanEndDateControl taskId={taskId} label />
           </div>
           {/* Reality */}
-          <div className="task-panel-popup-reality">
-            <div className="task-panel-popup-header">Reality</div>
+          <div class="task-panel-popup-reality">
+            <div class="task-panel-popup-header">Reality</div>
             <RealityStartDateControl taskId={taskId} label />
             <RealityStartDelayControl taskId={taskId} label />
             <RealityDoneControl taskId={taskId} label />
@@ -56,8 +56,8 @@ export const TaskPanelPopup = () => {
             <RealityEndDelayControl taskId={taskId} label />
           </div>
           {/* Task commentary */}
-          <div className="task-panel-popup-commentary">
-            <div className="task-panel-popup-header">Commentary</div>
+          <div class="task-panel-popup-commentary">
+            <div class="task-panel-popup-header">Commentary</div>
             <TaskCommentaryControl taskId={taskId} label />
           </div>
         </div>

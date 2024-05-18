@@ -111,6 +111,7 @@ const setInitialTask = (
     inSearchResults: state.properties.searchedValue === '',
     dependencyIds: [],
     dependentOnId: null,
+    orderNumber: 0,
     info: {
       colorOptionId: colorPickOptions[0].id,
       name: '',
@@ -248,6 +249,14 @@ const sortData = (state: TasksSliceState) => {
         );
       }
     );
+  });
+  //  Store order number
+  let order = 0;
+  categories.forEach(category => {
+    category.taskIds.forEach((taskId: string) => {
+      const task = state.tasks[taskId];
+      task.orderNumber = ++order;
+    });
   });
 };
 
