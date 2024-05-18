@@ -6,6 +6,7 @@ import {
   selectMaxDate,
   selectMinDate,
   selectTask,
+  selectTaskColor,
   selectWorkdays,
   selectZoomCoef,
   showTask,
@@ -81,6 +82,7 @@ export const GanttBarControl = ({ taskId }: { taskId: string }) => {
   const maxDate = useSelector(selectMaxDate);
   const zoomCoef = useSelector(selectZoomCoef);
   const workdays = useSelector(selectWorkdays);
+  const colorSetting = useSelector(selectTaskColor(taskId));
   const totalWidth = getTotalWidth(minDate, maxDate);
   let planOffset = 0;
   let planWidth = 0;
@@ -115,7 +117,10 @@ export const GanttBarControl = ({ taskId }: { taskId: string }) => {
   return task ? (
     <div
       class="input-group gantt-bar-control"
-      style={`width: ${convertToRem(totalWidth.length, zoomCoef)}rem;`}
+      style={
+        `width: ${convertToRem(totalWidth.length, zoomCoef)}rem;` +
+        `--control-highlight: ${colorSetting?.color ?? 'transparent'};`
+      }
       onClick={() => dispatch(showTask({ taskId }))}
     >
       {/* Lighter bar showing plan */}

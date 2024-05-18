@@ -29,6 +29,8 @@ export interface TasksSliceState {
     sortedCategories: string[];
   };
   properties: {
+    mobileDevice: boolean;
+    mobileMenuVisible: boolean;
     popupTaskId: string | null;
     searchedValue: string;
     workdays: 5 | 6 | 7;
@@ -70,6 +72,8 @@ const setInitialState = (
     sortedCategories: [],
   };
   state.properties = {
+    mobileDevice: false,
+    mobileMenuVisible: false,
     popupTaskId: null,
     searchedValue: '',
     workdays: 5,
@@ -232,8 +236,7 @@ const sortData = (state: TasksSliceState) => {
   state.lists.sortedCategories = categories
     .sort(
       (categoryA: Category, categoryB: Category) =>
-        getSortField(categoryA, state) - getSortField(categoryB, state) ||
-        categoryA.info.name.localeCompare(categoryB.info.name)
+        getSortField(categoryA, state) - getSortField(categoryB, state)
     )
     .map(category => category.id);
   //  Sort tasks within each category
@@ -242,11 +245,7 @@ const sortData = (state: TasksSliceState) => {
       (taskIdA: string, taskIdB: string) => {
         const taskA = state.tasks[taskIdA];
         const taskB = state.tasks[taskIdB];
-        return (
-          getSortField(taskA, state) - getSortField(taskB, state) ||
-          taskA.info.name.localeCompare(taskB.info.name) ||
-          taskA.info.owner.localeCompare(taskB.info.owner)
-        );
+        return getSortField(taskA, state) - getSortField(taskB, state);
       }
     );
   });
@@ -346,6 +345,16 @@ export const tasksSlice = createSlice({
           dependentTask.dependentOnId = null;
         }
         sortData(state);
+      }
+    },
+
+    changeDeviceSetting: (state, { payload: { isMobile } }) => {
+      //  Verify valid state
+      if (typeof isMobile !== 'boolean')
+        state.error = `Incompatible setting type: ${JSON.stringify(isMobile)}.`;
+      //  Change state
+      if (!state.error) {
+        state.properties.mobileDevice = isMobile;
       }
     },
 
@@ -633,10 +642,23 @@ export const tasksSlice = createSlice({
       }
     },
 
+    showMobileMenu: (state, { payload: { menuVisible } }) => {
+      //  Verify valid state
+      if (typeof menuVisible !== 'boolean')
+        state.error = `Incompatible setting type: ${JSON.stringify(
+          menuVisible
+        )}.`;
+      //  Change state
+      if (!state.error) {
+        state.properties.mobileMenuVisible = menuVisible;
+      }
+    },
+
     showTask: (state, { payload: { taskId } }) => {
       //  Check to toggle popup off
       if (!taskId) {
         state.properties.popupTaskId = null;
+        state.properties.mobileMenuVisible = false;
         return;
       }
       //  Verify valid state
@@ -708,6 +730,9 @@ export const selectDepedentOptions = (taskId: string) => (state: RootState) => {
   });
   return options;
 };
+export const selectDeviceSetting = (state: RootState) => {
+  return state.tasks.present.properties.mobileDevice;
+};
 export const selectDisplaySetting = (state: RootState) => {
   return state.tasks.present.settings.displayOptionIds;
 };
@@ -750,6 +775,9 @@ export const selectMinDate = (state: RootState) => {
       ),
     FIRST_DATE
   );
+};
+export const selectMobileMenuVisible = (state: RootState) => {
+  return state.tasks.present.properties.mobileMenuVisible;
 };
 export const selectSortBySetting = (state: RootState) => {
   return sortByOptions.find(
@@ -801,6 +829,7 @@ export const {
   addTask,
   changeCategory,
   changeDependency,
+  changeDeviceSetting,
   changeDisplaySetting,
   changeSortBySetting,
   changeTask,
@@ -810,6 +839,7 @@ export const {
   removeTask,
   saveToFile,
   search,
+  showMobileMenu,
   showTask,
   switchLight,
   zoomIn,

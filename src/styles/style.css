@@ -60,8 +60,7 @@ body {
   --color-scrollbar: #9f9da0;
   --color-scrollbar-hover: #686769;
   --color-scrollbar-back: transparent;
-  --color-bar-plan: rgba(255, 196, 2, 0.5);
-  --color-bar-reality: #fda085;
+  --color-bar: #8b8a88;
   --border-width: 0.1rem;
   --transition-len: 0.2s;
 }
@@ -174,6 +173,33 @@ body {
 }
 .desktop-controls-right {
   flex-shrink: 0;
+}
+.mobile-controls-cover {
+  display: none;
+}
+.mobile-controls-cover-visible {
+  display: block;
+}
+.mobile-controls {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: -80%;
+  max-width: 80%;
+  width: fit-content;
+  height: 100vh;
+  z-index: 99999;
+  align-items: flex-start;
+  padding: var(--padding-panel);
+  gap: var(--padding-panel);
+  background: var(--color-top-panel);
+  box-shadow: var(--padding-panel) var(--padding-panel) var(--padding-panel)
+    var(--color-dropdown-shadow);
+  transition: left var(--transition-len);
+}
+.mobile-controls-visible {
+  left: 0;
 }
 .control-group {
   display: inline-block;
@@ -394,12 +420,19 @@ body {
 /* Task panel - Mobile */
 
 @media only screen and (max-width: 640px) {
+  div.task-panel-table {
+    --header-height: 3rem;
+    --sub-header-height: 1.6rem;
+    position: relative;
+  }
   div.task-panel-scroll-area {
     padding-right: 0;
+    overflow-y: scroll;
   }
   div.task-panel-header,
   div.task-panel-category,
-  .gantt-bar-info {
+  div.task-panel-footer,
+  .gantt-bar-info-control {
     /* Prevent headers from moving when scrolling horizontally */
     width: calc(
       100vw - 2 * var(--padding-body) - 2 * var(--padding-panel) -
@@ -409,22 +442,33 @@ body {
     left: 0;
   }
   div.task-panel-header {
-    padding: var(--padding-control-v) var(--padding-control-h);
-    padding-top: 1.6rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: var(--header-height);
+    gap: var(--padding-panel);
+    padding: 0.6rem 0.9rem;
     background-image: var(--color-task-panel-header);
     font-weight: 500;
     border-radius: var(--padding-panel) var(--padding-panel) 0 0;
   }
-  div.task-panel-header-row {
-    display: flex;
-    justify-content: space-between;
+  div.task-panel-sub-header {
+    position: sticky;
+    top: var(--header-height);
+    height: var(--sub-header-height);
+    z-index: 600;
+    padding: 0.4rem var(--padding-panel);
+    background: var(--color-controls);
+  }
+  div.task-panel-sub-header .task-panel-gantt {
+    padding: 0 var(--padding-control-h);
   }
   div.task-panel-category {
     /* Shows category while scrolling to bottom */
     display: flex;
     align-items: flex-start;
     position: sticky;
-    top: var(--header-height);
+    top: calc(var(--header-height) + var(--sub-header-height));
     z-index: 15;
     vertical-align: middle;
     background-image: var(--color-task-panel-category);
@@ -443,11 +487,13 @@ body {
 
 /* Popup */
 
+.mobile-controls-cover,
 .task-panel-popup-cover {
   position: absolute;
   width: 100%;
   height: 100%;
   z-index: 99998;
+  margin: calc(-1 * var(--padding-body));
   background: var(--color-bg-overlay);
 }
 .task-panel-popup-container {
@@ -462,7 +508,7 @@ body {
   width: fit-content;
   height: fit-content;
   max-width: calc(100% - 2 * var(--padding-panel));
-  max-height: calc(100% - 2 * var(--padding-panel));
+  max-height: calc(100% - 6 * var(--padding-panel));
   min-width: 33vw;
   z-index: 99999;
   overflow: hidden;
@@ -558,7 +604,10 @@ body {
 .remove-task {
   font-size: 1.1rem;
 }
-.add-category {
+.add-category,
+div.task-panel .zoom-in-out-control,
+div.task-panel .undo-redo-control,
+.mobile-controls-button {
   margin-left: calc(-1 * var(--border-width));
   box-shadow: 0 0 0 var(--border-width) var(--color-scrollbar);
 }
@@ -696,11 +745,13 @@ body {
 .gantt-bar-plan-control {
   height: var(--bar-max-height);
   opacity: 0.45;
-  background: var(--control-highlight);
+  background-color: var(--color-bar);
+  background-image: var(--control-highlight);
 }
 .gantt-bar-reality-control {
   height: calc(var(--bar-max-height) / 2);
-  background: var(--control-highlight);
+  background-color: var(--color-bar);
+  background-image: var(--control-highlight);
   border: calc(var(--border-width) / 2) solid var(--color-controls);
 }
 .gantt-bar-back-control {
@@ -717,7 +768,7 @@ body {
   margin-right: -1px;
   border-right: 1px solid #888;
 }
-.gantt-bar-info {
+.gantt-bar-info-control {
   padding: var(--padding-control-v) var(--padding-control-h);
   z-index: 3;
   font-size: 0.8rem;
@@ -725,4 +776,16 @@ body {
 }
 .save-popup-control {
   min-height: 1.8rem;
+}
+.mobile-controls-button {
+  position: absolute;
+  right: var(--padding-control-h);
+  width: 2rem;
+  height: 1.8rem;
+  align-self: flex-end;
+  font-size: 1.2rem;
+  border-radius: var(--padding-panel);
+}
+.mobile-controls-button .pj-control__button {
+  padding-left: 0.5rem;
 }

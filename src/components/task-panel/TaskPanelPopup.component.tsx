@@ -63,8 +63,6 @@ export const TaskPanelPopup = () => {
             <TaskCommentaryControl taskId={taskId} label />
           </div>
         </div>
-        {/* Controls */}
-        {/* <SavePopupControl /> */}
       </div>
     </>
   ) : null;

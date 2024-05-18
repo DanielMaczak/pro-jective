@@ -1,59 +1,65 @@
 import { useSelector } from 'react-redux';
 
-import { Category } from '../../lib/tasks.lib';
-import { ZoomInOutControl } from '../control-panel/ZoomInOutControl.component';
 import { CategoryNameControl } from '../task-panel/CategoryNameControl.component';
-import { GanttBarControl } from '../task-panel/GanttBarControl.component';
+import {
+  GanttBarControl,
+  GanttTimelineControl,
+} from '../task-panel/GanttBarControl.component';
 import { AddCategoryControl } from '../task-panel/AddCategoryControl.component';
 import { AddTaskControl } from '../task-panel/AddTaskControl.component';
 import {
-  selectCategories,
-  selectTasks,
+  selectCategoryIds,
+  selectTaskIds,
 } from '../../app/reducers/tasks.reducer';
+import { GanttBarInfoControl } from '../task-panel/GanttBarInfoControl.component';
+import { ZoomInOutControl } from '../control-panel/ZoomInOutControl.component';
+import { UndoRedoControl } from '../control-panel/UndoRedoControl.component';
+import { MobileControlsButtonControl } from '../control-panel/MobileControlsButtonControl.component';
 
 export const MobileTaskPanel = () => {
-  const categories = useSelector(selectCategories);
-  const tasks = useSelector(selectTasks);
   return (
     <>
-      <div className="task-panel">
-        <div className="task-panel-scroll-area">
-          <div className="task-panel-table">
+      <div class="task-panel">
+        <div class="task-panel-scroll-area">
+          <div class="task-panel-table">
             {/* Header */}
-            <div className="task-panel-header">
-              <div className="task-panel-header-row">
-                <AddCategoryControl />
-                <ZoomInOutControl />
+            <div class="task-panel-header">
+              <AddCategoryControl />
+              <ZoomInOutControl />
+              <UndoRedoControl />
+              <MobileControlsButtonControl />
+            </div>
+            <div class="task-panel-sub-header">
+              <div class="task-panel-gantt">
+                <GanttTimelineControl />
               </div>
             </div>
             {/* Body */}
-            <div className="task-panel-body">
-              {Object.values(categories).map((category: Category) => (
+            <div class="task-panel-body">
+              {useSelector(selectCategoryIds).map((categoryId: string) => (
                 <>
-                  <div key={category.id} className="task-panel-category">
-                    <div className="task-panel-gantt">
-                      <AddTaskControl parentCategoryId={category.id} />
-                      <CategoryNameControl categoryId={category.id} />
+                  <div key={categoryId} class="task-panel-category">
+                    <div class="task-panel-gantt">
+                      <AddTaskControl parentCategoryId={categoryId} />
+                      <CategoryNameControl categoryId={categoryId} />
                     </div>
                   </div>
-                  {category.taskIds.map((taskId: string) => (
-                    <div key={taskId} className="task-panel-task">
-                      <div className="gantt-bar-info">
-                        {tasks[taskId].info.name +
-                          ' / ' +
-                          tasks[taskId].info.owner}
+                  {useSelector(selectTaskIds(categoryId))?.map(
+                    (taskId: string) => (
+                      <div key={taskId} class="task-panel-task">
+                        <GanttBarInfoControl taskId={taskId} />
+                        <div class="task-panel-gantt hover-effect">
+                          <GanttBarControl taskId={taskId} />
+                        </div>
                       </div>
-                      <div className="task-panel-gantt hover-effect">
-                        <GanttBarControl />
-                      </div>
-                    </div>
-                  ))}
+                    )
+                  )}
                 </>
               ))}
             </div>
             {/* Footer */}
-            <div className="task-panel-footer">
-              <div className="task-panel-footer-row"></div>
+            <div class="task-panel-footer">
+              <div class="task-panel-footer-row"></div>
             </div>
           </div>
         </div>
