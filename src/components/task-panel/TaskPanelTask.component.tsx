@@ -41,7 +41,7 @@ export const TaskPanelTask = ({ taskId }: { taskId: string }) => {
       }
     >
       {/* Task info */}
-      <td class="task-panel-info sticky-col-0">
+      <td class="task-panel-info sticky-col-0 hover-effect">
         <PickColorControl taskId={taskId} />
       </td>
       <td class="task-panel-info sticky-col-1">

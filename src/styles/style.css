@@ -109,7 +109,7 @@ body {
   --dropdown-list-radius: 0.8rem;
   margin-top: calc(var(--border-width) / 2.2 - (var(--dropdown-list-radius)));
   padding-top: var(--dropdown-list-radius);
-  z-index: 33;
+  z-index: 10033;
   clip-path: rect(var(--dropdown-list-radius) 120% 120% -100%);
   border: calc(var(--border-width) / 2) solid var(--color-border);
   border-radius: var(--dropdown-list-radius);
@@ -355,16 +355,17 @@ body {
 }
 .task-panel-header th {
   height: var(--header-height);
-  padding: var(--padding-control-v) var(--padding-control-h);
-  padding-top: 1.6rem;
+  padding: 1.6rem 0 var(--padding-control-v);
   background-image: var(--color-task-panel-header);
   vertical-align: bottom;
   font-weight: 500;
 }
 .task-panel-header .header-to-left {
+  padding: var(--padding-control-v) var(--padding-control-h);
   text-align: left;
 }
 .task-panel-header .header-to-right {
+  padding: var(--padding-control-v) var(--padding-control-h);
   text-align: right;
 }
 .task-panel-category td {
@@ -395,9 +396,11 @@ body {
   line-height: var(--table-line-height);
 }
 .task-panel-task .hover-effect:hover {
-  z-index: 30;
+  box-shadow: inset var(--border-width) var(--border-width) 0
+      var(--color-scrollbar-hover),
+    inset calc(-1 * var(--border-width)) calc(-1 * var(--border-width)) 0
+      var(--color-scrollbar-hover);
   border-radius: 0.1rem;
-  outline: solid var(--color-scrollbar-hover);
 }
 .task-panel .control-group {
   border: none;
@@ -692,9 +695,6 @@ div.task-panel .undo-redo-control,
 .task-panel .reality-done-control {
   width: 3.5rem;
   text-align: center;
-}
-.plan-start-control {
-  width: 11.5rem;
 }
 /* Limit table column width */
 .task-panel-category .category-plan-start-date-control,
