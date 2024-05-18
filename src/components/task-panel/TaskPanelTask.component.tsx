@@ -21,11 +21,13 @@ import {
   selectDisplayPlan,
   selectDisplayReality,
   selectTask,
+  selectTaskColor,
 } from '../../app/reducers/tasks.reducer';
 import { CSS_MAX_ZINDEX } from '../../services/constants.service';
 
 export const TaskPanelTask = ({ taskId }: { taskId: string }) => {
   const task = useSelector(selectTask(taskId));
+  const colorSetting = useSelector(selectTaskColor(taskId));
   const displayPlan = useSelector(selectDisplayPlan);
   const displayReality = useSelector(selectDisplayReality);
   const displayGantt = useSelector(selectDisplayGantt);
@@ -33,7 +35,10 @@ export const TaskPanelTask = ({ taskId }: { taskId: string }) => {
     <tr
       key={taskId}
       class="task-panel-task"
-      style={`z-index: ${CSS_MAX_ZINDEX - (task?.orderNumber ?? 1)};`}
+      style={
+        `z-index: ${CSS_MAX_ZINDEX - (task?.orderNumber ?? 1)};` +
+        `--control-highlight: ${colorSetting?.color ?? 'transparent'};`
+      }
     >
       {/* Task info */}
       <td class="task-panel-info sticky-col-0">

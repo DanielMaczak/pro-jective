@@ -694,6 +694,11 @@ export const selectCategoryIds = (state: RootState) => {
     .map(category => (category.inSearchResults ? category.id : ''))
     .filter(categoryId => categoryId);
 };
+export const selectTaskColor = (taskId: string) => (state: RootState) => {
+  return colorPickOptions.find(
+    option => option.id === state.tasks.present.tasks[taskId].info.colorOptionId
+  );
+};
 export const selectDepedentOptions = (taskId: string) => (state: RootState) => {
   const options: Option[] = [{ id: independentOptionId, value: 'Independent' }];
   Object.values(state.tasks.present.tasks).forEach(task => {
@@ -703,7 +708,6 @@ export const selectDepedentOptions = (taskId: string) => (state: RootState) => {
   });
   return options;
 };
-
 export const selectDisplaySetting = (state: RootState) => {
   return state.tasks.present.settings.displayOptionIds;
 };

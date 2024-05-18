@@ -3,7 +3,6 @@ import { FaRegStar, FaStarHalfAlt, FaStar } from 'react-icons/fa';
 
 import { AddCategoryControl } from './AddCategoryControl.component';
 import { metricHeaders } from '../../services/options.service';
-// import { ZoomInOutControl } from '../control-panel/ZoomInOutControl.component';
 import {
   selectDisplayGantt,
   selectDisplayPlan,
@@ -89,7 +88,6 @@ export const TaskPanelHeader = () => {
               <h3>Gantt chart</h3>
             </th>
             <th class="task-panel-gantt header-to-right">
-              {/* <ZoomInOutControl /> */}
               <GanttTimelineControl />
             </th>
             <th class="task-panel-gantt top-right"></th>

@@ -27,6 +27,11 @@ body {
   --color-font: #111;
   --color-top-panel: linear-gradient(to bottom, #f6d365 0%, #fda085 100%);
   --color-controls: #ffffff;
+  --color-controls-overlay: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0.55)
+  );
   --color-controls-disabled: #efedf0;
   --color-controls-hover: #eeeeee;
   --color-controls-hover-2: #ffd95b 50%, #ffb45f 100%;
@@ -378,6 +383,7 @@ body {
 }
 .input-group .pj-control__input:disabled {
   background: var(--color-controls-disabled);
+  background-image: var(--color-controls-overlay), var(--control-highlight);
 }
 .task-panel-table .pj-control__list {
   margin-top: calc(
@@ -441,7 +447,7 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index: 100;
+  z-index: 99998;
   background: var(--color-bg-overlay);
 }
 .task-panel-popup-container {
@@ -458,7 +464,7 @@ body {
   max-width: calc(100% - 2 * var(--padding-panel));
   max-height: calc(100% - 2 * var(--padding-panel));
   min-width: 33vw;
-  z-index: 101;
+  z-index: 99999;
   overflow: hidden;
   padding: var(--padding-panel);
   background: var(--color-top-panel);
@@ -552,6 +558,10 @@ body {
 .remove-task {
   font-size: 1.1rem;
 }
+.add-category {
+  margin-left: calc(-1 * var(--border-width));
+  box-shadow: 0 0 0 var(--border-width) var(--color-scrollbar);
+}
 .add-task {
   margin: var(--padding-control-v) var(--padding-control-h);
 }
@@ -559,7 +569,7 @@ body {
 .remove-task {
   margin: 0 var(--padding-control-h) 0 0;
 }
-.remove .pick-color-control .pj-control__input,
+.pick-color-control .pj-control__input,
 .pick-color-control .pj-control__option span {
   width: calc(var(--padding-panel) * 1.8);
   height: calc(var(--padding-panel) * 1.8);
@@ -572,8 +582,8 @@ body {
   display: inline-block;
 }
 .pick-color-control .pj-control__input span {
-  width: 10rem;
-  height: 10rem;
+  width: calc(var(--padding-panel) * 1.8);
+  height: calc(var(--padding-panel) * 1.8);
 }
 .pick-color-control .pj-control__arrow {
   position: absolute;
@@ -657,13 +667,9 @@ body {
   background: var(--color-controls);
 }
 .zoom-in-out-control .pj-control__button {
-  padding-top: 0.4rem;
-  padding-bottom: 0.2rem;
+  padding-top: 0.45rem;
+  padding-bottom: 0.25rem;
   font-size: 0.8rem;
-}
-.add-category,
-.zoom-in-out-control {
-  box-shadow: 0 0 0 var(--border-width) var(--color-scrollbar);
 }
 .gantt-timeline-control {
   margin-left: calc(-1 * var(--padding-control-h));
@@ -689,12 +695,13 @@ body {
 }
 .gantt-bar-plan-control {
   height: var(--bar-max-height);
-  opacity: 0.6;
-  background: var(--color-bar-plan);
+  opacity: 0.45;
+  background: var(--control-highlight);
 }
 .gantt-bar-reality-control {
   height: calc(var(--bar-max-height) / 2);
-  background: var(--color-bar-reality);
+  background: var(--control-highlight);
+  border: calc(var(--border-width) / 2) solid var(--color-controls);
 }
 .gantt-bar-back-control {
   position: relative;

@@ -6,15 +6,17 @@ import { CSS_CONTROL } from '../../services/constants.service';
 import {
   selectCanZoomIn,
   selectCanZoomOut,
+  selectDisplayGantt,
   zoomIn,
   zoomOut,
 } from '../../app/reducers/tasks.reducer';
 
 export const ZoomInOutControl = () => {
   const dispatch = useDispatch();
+  const ganttVisible = useSelector(selectDisplayGantt);
   const canZoomIn = useSelector(selectCanZoomIn);
   const canZoomOut = useSelector(selectCanZoomOut);
-  return (
+  return ganttVisible ? (
     <div class="control-group zoom-in-out-control">
       <Button
         value=""
@@ -33,5 +35,5 @@ export const ZoomInOutControl = () => {
         <FaPlus />
       </Button>
     </div>
-  );
+  ) : null;
 };
