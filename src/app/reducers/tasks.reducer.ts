@@ -27,7 +27,6 @@ export interface TasksSliceState {
   settings: Settings;
   lists: {
     sortedCategories: string[];
-    sortedTasks: string[];
   };
   properties: {
     popupTaskId: string | null;
@@ -69,7 +68,6 @@ const setInitialState = (
   };
   state.lists = {
     sortedCategories: [],
-    sortedTasks: [],
   };
   state.properties = {
     popupTaskId: null,
@@ -214,6 +212,45 @@ const getNextWorkday = (date: number, workdays: number): number => {
   return weekday > workdays ? (date += (8 - weekday) * DAY_SEC) : date;
 };
 
+const getSortField = (
+  entry: Task | Category,
+  state: TasksSliceState
+): number => {
+  switch (state.settings.sortByOptionId) {
+    case sortByOptions[0].id:
+      return entry.plan.startDate || 0;
+    case sortByOptions[1].id:
+      return entry.reality.startDate || 0;
+  }
+  return 0;
+};
+
+const sortData = (state: TasksSliceState) => {
+  //  Sort categories
+  const categories = Object.values(state.categories);
+  state.lists.sortedCategories = categories
+    .sort(
+      (categoryA: Category, categoryB: Category) =>
+        getSortField(categoryA, state) - getSortField(categoryB, state) ||
+        categoryA.info.name.localeCompare(categoryB.info.name)
+    )
+    .map(category => category.id);
+  //  Sort tasks within each category
+  categories.forEach(category => {
+    category.taskIds = category.taskIds.sort(
+      (taskIdA: string, taskIdB: string) => {
+        const taskA = state.tasks[taskIdA];
+        const taskB = state.tasks[taskIdB];
+        return (
+          getSortField(taskA, state) - getSortField(taskB, state) ||
+          taskA.info.name.localeCompare(taskB.info.name) ||
+          taskA.info.owner.localeCompare(taskB.info.owner)
+        );
+      }
+    );
+  });
+};
+
 export const tasksSlice = createSlice({
   name: 'tasks',
   initialState: setInitialState(),
@@ -229,6 +266,7 @@ export const tasksSlice = createSlice({
           state,
           newCategoryId
         );
+        sortData(state);
       }
     },
 
@@ -248,6 +286,7 @@ export const tasksSlice = createSlice({
           parentCategoryId
         );
         parentCategory.taskIds.push(newTaskId);
+        sortData(state);
       }
     },
 
@@ -263,6 +302,7 @@ export const tasksSlice = createSlice({
       //  Change state
       if (!state.error) {
         changeCategory[property] = value;
+        sortData(state);
       }
     },
 
@@ -296,6 +336,7 @@ export const tasksSlice = createSlice({
         else {
           dependentTask.dependentOnId = null;
         }
+        sortData(state);
       }
     },
 
@@ -309,6 +350,20 @@ export const tasksSlice = createSlice({
       //  Change state
       if (!state.error) {
         state.settings.displayOptionIds = [...setting];
+      }
+    },
+
+    changeSortBySetting: (state, { payload: { setting } }) => {
+      //  Verify valid state
+      if (typeof setting !== 'string')
+        state.error = `Incompatible setting type: ${JSON.stringify(setting)}.`;
+      const optionIds = sortByOptions.map(option => option.id);
+      if (!optionIds.includes(setting))
+        state.error = `Non-existent option ID: ${JSON.stringify(setting)}.`;
+      //  Change state
+      if (!state.error) {
+        state.settings.sortByOptionId = setting;
+        sortData(state);
       }
     },
 
@@ -443,6 +498,7 @@ export const tasksSlice = createSlice({
           },
           null
         );
+        sortData(state);
       }
     },
 
@@ -467,6 +523,7 @@ export const tasksSlice = createSlice({
             state.properties.workdays = 7;
             break;
         }
+        sortData(state);
       }
     },
 
@@ -492,6 +549,7 @@ export const tasksSlice = createSlice({
         });
         copyProperties(loadedState.settings, state.settings);
         copyProperties(loadedState.lists, state.lists);
+        sortData(state);
       } else {
         state.error = `Cannot parse file as tasks: ${JSON.stringify(
           fileContents
@@ -509,6 +567,7 @@ export const tasksSlice = createSlice({
           delete state.tasks[taskId];
         });
         delete state.categories[removeCategoryId];
+        sortData(state);
       }
     },
 
@@ -526,6 +585,7 @@ export const tasksSlice = createSlice({
           taskId => taskId !== removeTaskId
         );
         delete state.tasks[removeTaskId];
+        sortData(state);
       }
     },
 
@@ -620,7 +680,8 @@ export const selectCategory = (categoryId: string) => (state: RootState) => {
     : undefined;
 };
 export const selectCategoryIds = (state: RootState) => {
-  return Object.values(state.tasks.present.categories)
+  return state.tasks.present.lists.sortedCategories
+    .map(categoryId => state.tasks.present.categories[categoryId])
     .map(category => (category.inSearchResults ? category.id : ''))
     .filter(categoryId => categoryId);
 };
@@ -677,6 +738,11 @@ export const selectMinDate = (state: RootState) => {
     FIRST_DATE
   );
 };
+export const selectSortBySetting = (state: RootState) => {
+  return sortByOptions.find(
+    option => option.id === state.tasks.present.settings.sortByOptionId
+  );
+};
 export const selectTask = (taskId: string) => (state: RootState) => {
   return Object.hasOwn(state.tasks.present.tasks, taskId)
     ? state.tasks.present.tasks[taskId]
@@ -723,8 +789,9 @@ export const {
   changeCategory,
   changeDependency,
   changeDisplaySetting,
-  changeWorkdaysSetting,
+  changeSortBySetting,
   changeTask,
+  changeWorkdaysSetting,
   loadFromFile,
   removeCategory,
   removeTask,

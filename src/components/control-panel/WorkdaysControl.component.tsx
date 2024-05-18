@@ -1,8 +1,8 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { DropdownInput, Option } from 'irmas-preact-form-components';
 
 import { workdaysOptions } from '../../services/options.service';
 import { CSS_CONTROL } from '../../services/constants.service';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   changeWorkdaysSetting,
   selectWorkdaysSetting,

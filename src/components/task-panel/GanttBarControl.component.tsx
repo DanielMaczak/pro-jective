@@ -35,7 +35,9 @@ const convertToRem = (days: number, zoomCoef: number): number => {
 };
 
 const getTotalWidth = (minDate: number, maxDate: number): number[] => {
-  return [...Array(Math.max(1, (maxDate - minDate) / DAY_SEC + 1)).keys()];
+  return [
+    ...Array(Math.max(1, Math.ceil((maxDate - minDate) / DAY_SEC + 1))).keys(),
+  ];
 };
 
 export const GanttTimelineControl = () => {
