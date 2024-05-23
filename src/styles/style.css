@@ -430,14 +430,6 @@ body {
   text-align: center;
   line-height: 1.8;
 }
-.task-panel-table .gantt-bar-back-control td {
-  padding: 0;
-  vertical-align: bottom;
-  font-size: 0.7rem;
-  font-weight: 500;
-  text-align: center;
-  border: 0;
-}
 .task-panel-table .gantt-timeline-month {
   position: absolute;
   bottom: 1rem;
@@ -473,6 +465,17 @@ body {
   background-color: var(--color-gantt-bar);
   background-image: var(--control-highlight);
   border: calc(var(--border-width) / 2) solid var(--color-controls);
+}
+.task-panel-table .gantt-bar-back-control td {
+  padding: 0;
+  vertical-align: bottom;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-align: center;
+  border: 0;
+}
+.task-panel-table .gantt-bar-back-control .even-week {
+  background: var(--color-controls-disabled);
 }
 
 /* Task panel - mobile */
