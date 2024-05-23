@@ -12,7 +12,7 @@ export const RemoveCategoryControl = ({
 }) => {
   const dispatch = useDispatch();
   return (
-    <div class="control-group remove-category">
+    <div class="control-group remove-category-control">
       <Button
         value=""
         action={() =>

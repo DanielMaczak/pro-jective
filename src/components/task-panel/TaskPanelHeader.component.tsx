@@ -18,15 +18,15 @@ export const TaskPanelHeader = () => {
     <thead class="task-panel-header">
       <tr class="task-panel-header-row">
         {/* Task info */}
-        <th class="task-panel-info sticky-col-0 top-left">
+        <th class="add-task-category top-left">
           <AddCategoryControl />
         </th>
-        <th class="task-panel-info sticky-col-1"></th>
-        <th class="task-panel-info task-name-control sticky-col-2 header-to-left">
+        <th class="remove-task-category"></th>
+        <th class="task-category-name header-to-left">
           <h3>Info</h3>
           {metricHeaders.info.name}
         </th>
-        <th class="task-panel-info task-owner-control sticky-col-3 top-right header-to-left">
+        <th class="task-owner top-right header-to-left">
           {metricHeaders.info.owner}
         </th>
         {/* Space */}
@@ -34,24 +34,22 @@ export const TaskPanelHeader = () => {
         {/* Plan */}
         {displayPlan && (
           <>
-            <th class="task-panel-plan plan-start-control top-left header-to-left">
+            <th class="plan-start-date top-left header-to-left">
               <h3>Plan</h3>
               {metricHeaders.plan.startDate}
             </th>
-            <th class="task-panel-plan plan-duration-ideal-control">
+            <th class="plan-duration-ideal">
               <FaStar />
             </th>
-            <th class="task-panel-plan plan-duration-normal-control">
+            <th class="plan-duration-normal">
               <h4>Duration</h4>
               <FaStarHalfAlt />
             </th>
-            <th class="task-panel-plan plan-duration-bad-control">
+            <th class="plan-duration-bad">
               <FaRegStar />
             </th>
-            <th class="task-panel-plan plan-duration-calculated-control">
-              Calc
-            </th>
-            <th class="task-panel-plan plan-end-date-control top-right">
+            <th class="plan-duration-calculated">Calc</th>
+            <th class="plan-end-date top-right">
               {metricHeaders.plan.endDate}
             </th>
             {/* Space */}
@@ -61,21 +59,21 @@ export const TaskPanelHeader = () => {
         {/* Reality */}
         {displayReality && (
           <>
-            <th class="task-panel-reality reality-start-control top-left header-to-left">
+            <th class="reality-start-date top-left header-to-left">
               <h3>Reality</h3>
               {metricHeaders.reality.startDate}
             </th>
-            <th class="task-panel-reality reality-start-delay-control">
-              {metricHeaders.reality.startDelay}
+            <th class="reality-start-delay">
+              Start
+              <br />
+              delay
             </th>
-            <th class="task-panel-reality reality-done-control">
-              {metricHeaders.reality.done}
-            </th>
-            <th class="task-panel-reality reality-end-date-control">
-              {metricHeaders.reality.endDate}
-            </th>
-            <th class="task-panel-reality reality-end-delay-control top-right">
-              {metricHeaders.reality.endDelay}
+            <th class="reality-done">{metricHeaders.reality.done}</th>
+            <th class="reality-end-date">{metricHeaders.reality.endDate}</th>
+            <th class="reality-end-delay top-right">
+              End
+              <br />
+              delay
             </th>
             {/* Space */}
             <th class="task-panel-space"></th>
@@ -84,13 +82,11 @@ export const TaskPanelHeader = () => {
         {/* Gantt */}
         {displayGantt && (
           <>
-            <th class="task-panel-gantt top-left header-to-left">
-              <h3>Gantt chart</h3>
-            </th>
-            <th class="task-panel-gantt header-to-right">
+            <th class="top-left header-to-left"></th>
+            <th>
               <GanttTimelineControl />
             </th>
-            <th class="task-panel-gantt top-right"></th>
+            <th class="top-right"></th>
           </>
         )}
       </tr>

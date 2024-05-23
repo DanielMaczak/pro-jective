@@ -9,6 +9,7 @@ import { AddCategoryControl } from '../task-panel/AddCategoryControl.component';
 import { AddTaskControl } from '../task-panel/AddTaskControl.component';
 import {
   selectCategoryIds,
+  selectTaskColor,
   selectTaskIds,
 } from '../../app/reducers/tasks.reducer';
 import { GanttBarInfoControl } from '../task-panel/GanttBarInfoControl.component';
@@ -46,7 +47,14 @@ export const MobileTaskPanel = () => {
                   </div>
                   {useSelector(selectTaskIds(categoryId))?.map(
                     (taskId: string) => (
-                      <div key={taskId} class="task-panel-task">
+                      <div
+                        key={taskId}
+                        class="task-panel-task"
+                        style={`--control-highlight: ${
+                          useSelector(selectTaskColor(taskId))?.color ??
+                          'transparent'
+                        };`}
+                      >
                         <GanttBarInfoControl taskId={taskId} />
                         <div class="task-panel-gantt hover-effect">
                           <GanttBarControl taskId={taskId} />

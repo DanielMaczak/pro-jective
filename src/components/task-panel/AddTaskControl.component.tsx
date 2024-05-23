@@ -12,7 +12,7 @@ export const AddTaskControl = ({
 }) => {
   const dispatch = useDispatch();
   return (
-    <div class="control-group add-task">
+    <div class="control-group add-task-control">
       <Button
         value=""
         action={() => dispatch(addTask({ parentCategoryId }))}

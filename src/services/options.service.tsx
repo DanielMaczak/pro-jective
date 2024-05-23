@@ -66,18 +66,18 @@ export const metricHeaders = {
   },
   plan: {
     startDate: 'Start date',
-    durationIdeal: 'Best possible duration',
-    durationNormal: 'Expected duration',
-    durationBad: 'Worst possible duration',
-    durationCalculated: 'Forecasted duration',
+    durationIdeal: 'Optimal length',
+    durationNormal: 'Anticipated',
+    durationBad: 'Maximum length',
+    durationCalculated: 'Forecasted',
     endDate: 'End date',
   },
   reality: {
     startDate: 'Start date',
-    startDelay: 'Delay',
+    startDelay: 'Start delay',
     done: 'Done',
     endDate: 'End date',
-    endDelay: 'Delay',
+    endDelay: 'End delay',
   },
 };
 

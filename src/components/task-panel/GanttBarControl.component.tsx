@@ -6,7 +6,6 @@ import {
   selectMaxDate,
   selectMinDate,
   selectTask,
-  selectTaskColor,
   selectWorkdays,
   selectZoomCoef,
   showTask,
@@ -21,14 +20,14 @@ const getWorkdaysBetween = (
   startDate: Moment,
   endDate: Moment
 ): number => {
-  let endOfFirstWk = startDate.clone().endOf('week');
-  let startOfLastWk = endDate.clone().startOf('week');
-  let wholeWks = (startOfLastWk.diff(endOfFirstWk, 'days') * workdays) / 7;
-  let firstWk = endOfFirstWk.day() - startDate.day();
-  if (workdays < 7 && startDate.day() == 0) --firstWk;
-  let lastWk = endDate.day() - startOfLastWk.day();
-  if (workdays < 6 && endDate.day() == 6) --lastWk;
-  return firstWk + Math.floor(wholeWks) + lastWk;
+  let diff = moment.duration(endDate.diff(startDate));
+  if (endDate.weekday() >= startDate.weekday() && diff.days() <= 7) {
+    return diff.days();
+  } else if (endDate.diff(startDate.endOf('isoWeek').add(7, 'days')) <= 0) {
+    return diff.days() - 7 + workdays;
+  } else {
+    return diff.days() - Math.ceil(diff.asWeeks()) * (7 - workdays);
+  }
 };
 
 const convertToRem = (days: number, zoomCoef: number): number => {
@@ -63,10 +62,17 @@ export const GanttTimelineControl = () => {
         <tr>
           {totalWidth.map((_, i) => (
             <td
-              class="gantt-timeline-day"
+              class={`gantt-timeline-day${
+                dates[i].weekday() === 1 ? ' monday' : ''
+              }`}
               style={`width: ${convertToRem(1, zoomCoef)}rem;`}
             >
-              {dates[i].date()}
+              {i === 0 || dates[i].month() !== dates[i - 1].month() ? (
+                <span class="gantt-timeline-month">
+                  {dates[i].format('MMM')}
+                </span>
+              ) : null}
+              <span class="gantt-timeline-date">{dates[i].date()}</span>
             </td>
           ))}
         </tr>
@@ -82,7 +88,6 @@ export const GanttBarControl = ({ taskId }: { taskId: string }) => {
   const maxDate = useSelector(selectMaxDate);
   const zoomCoef = useSelector(selectZoomCoef);
   const workdays = useSelector(selectWorkdays);
-  const colorSetting = useSelector(selectTaskColor(taskId));
   const totalWidth = getTotalWidth(minDate, maxDate);
   let planOffset = 0;
   let planWidth = 0;
@@ -98,7 +103,7 @@ export const GanttBarControl = ({ taskId }: { taskId: string }) => {
       planWidth = getWorkdaysBetween(
         workdays,
         moment(task.plan.startDate),
-        moment(task.plan.endDate + DAY_SEC)
+        moment(task.plan.endDate + 2 * DAY_SEC)
       );
     }
     if (task.reality.startDate && task.reality.endDate) {
@@ -110,35 +115,36 @@ export const GanttBarControl = ({ taskId }: { taskId: string }) => {
       realityWidth = getWorkdaysBetween(
         workdays,
         moment(task.reality.startDate),
-        moment(task.reality.endDate + DAY_SEC)
+        moment(task.reality.endDate + 2 * DAY_SEC)
       );
     }
   }
   return task ? (
     <div
-      class="input-group gantt-bar-control"
-      style={
-        `width: ${convertToRem(totalWidth.length, zoomCoef)}rem;` +
-        `--control-highlight: ${colorSetting?.color ?? 'transparent'};`
-      }
+      class="input-group gantt-bar-control hover-effect"
+      style={`width: ${convertToRem(totalWidth.length, zoomCoef)}rem;`}
       onClick={() => dispatch(showTask({ taskId }))}
     >
       {/* Lighter bar showing plan */}
-      <div
-        class="gantt-bar-plan-control"
-        style={
-          `left: ${convertToRem(planOffset, zoomCoef)}rem;` +
-          `width: ${convertToRem(planWidth, zoomCoef)}rem;`
-        }
-      ></div>
+      {planWidth ? (
+        <div
+          class="gantt-bar-plan-control"
+          style={
+            `left: ${convertToRem(planOffset, zoomCoef)}rem;` +
+            `width: ${convertToRem(planWidth, zoomCoef)}rem;`
+          }
+        ></div>
+      ) : null}
       {/* Darker bar showing real progress */}
-      <div
-        class="gantt-bar-reality-control"
-        style={
-          `left: ${convertToRem(realityOffset, zoomCoef)}rem;` +
-          `width: ${convertToRem(realityWidth, zoomCoef)}rem;`
-        }
-      ></div>
+      {realityWidth ? (
+        <div
+          class="gantt-bar-reality-control"
+          style={
+            `left: ${convertToRem(realityOffset, zoomCoef)}rem;` +
+            `width: ${convertToRem(realityWidth, zoomCoef)}rem;`
+          }
+        ></div>
+      ) : null}
       {/* Grid behind */}
       <table class="gantt-bar-back-control">
         <tr>

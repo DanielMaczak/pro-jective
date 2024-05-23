@@ -14,21 +14,21 @@ export const TaskPanelFooter = () => {
     <tfoot class="task-panel-footer">
       <tr class="task-panel-footer-row">
         {/* Task info */}
-        <td class="task-panel-info sticky-col-0 bottom-left"></td>
-        <td class="task-panel-info sticky-col-1"></td>
-        <td class="task-panel-info sticky-col-2"></td>
-        <td class="task-panel-info sticky-col-3 bottom-right"></td>
+        <td class="add-task-category bottom-left"></td>
+        <td class="remove-task-category"></td>
+        <td class="task-category-name"></td>
+        <td class="task-owner bottom-right"></td>
         {/* Space */}
         <td class="task-panel-space"></td>
         {/* Plan */}
         {displayPlan && (
           <>
-            <td class="task-panel-plan bottom-left"></td>
-            <td class="task-panel-plan"></td>
-            <td class="task-panel-plan"></td>
-            <td class="task-panel-plan"></td>
-            <td class="task-panel-plan"></td>
-            <td class="task-panel-plan bottom-right"></td>
+            <td class="plan-start-date bottom-left"></td>
+            <td class="plan-duration-ideal"></td>
+            <td class="plan-duration-normal"></td>
+            <td class="plan-duration-bad"></td>
+            <td class="plan-duration-calculated"></td>
+            <td class="plan-end-date bottom-right"></td>
             {/* Space */}
             <td class="task-panel-space"></td>
           </>
@@ -36,11 +36,11 @@ export const TaskPanelFooter = () => {
         {/* Reality */}
         {displayReality && (
           <>
-            <td class="task-panel-reality bottom-left"></td>
-            <td class="task-panel-reality"></td>
-            <td class="task-panel-reality"></td>
-            <td class="task-panel-reality"></td>
-            <td class="task-panel-reality bottom-right"></td>
+            <td class="reality-start-date bottom-left"></td>
+            <td class="reality-start-delay"></td>
+            <td class="reality-done"></td>
+            <td class="reality-end-date"></td>
+            <td class="reality-end-delay bottom-right"></td>
             {/* Space */}
             <td class="task-panel-space"></td>
           </>
@@ -48,9 +48,9 @@ export const TaskPanelFooter = () => {
         {/* Gantt */}
         {displayGantt && (
           <>
-            <td class="task-panel-gantt bottom-left"></td>
-            <td class="task-panel-gantt"></td>
-            <td class="task-panel-gantt bottom-right"></td>
+            <td class="bottom-left"></td>
+            <td></td>
+            <td class="bottom-right"></td>
           </>
         )}
       </tr>

@@ -8,7 +8,7 @@ import { addCategory } from '../../app/reducers/tasks.reducer';
 export const AddCategoryControl = () => {
   const dispatch = useDispatch();
   return (
-    <div class="control-group add-category">
+    <div class="control-group add-category-control">
       <Button
         value=""
         action={() => dispatch(addCategory())}

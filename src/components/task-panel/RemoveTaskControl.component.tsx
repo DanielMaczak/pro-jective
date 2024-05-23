@@ -8,7 +8,7 @@ import { removeTask } from '../../app/reducers/tasks.reducer';
 export const RemoveTaskControl = ({ taskId }: { taskId: string }) => {
   const dispatch = useDispatch();
   return (
-    <div class="control-group remove-task">
+    <div class="control-group remove-task-control">
       <Button
         value=""
         action={() => dispatch(removeTask({ removeTaskId: taskId }))}

@@ -35,8 +35,8 @@ export const TaskPanelPopup = () => {
           {/* Task info */}
           <div class="task-panel-popup-info">
             <div class="task-panel-popup-header">
-              <RemoveTaskControl taskId={taskId} />
               Info
+              <RemoveTaskControl taskId={taskId} />
             </div>
             <PickColorControl taskId={taskId} label />
             <TaskNameControl taskId={taskId} label />

@@ -41,16 +41,16 @@ export const TaskPanelTask = ({ taskId }: { taskId: string }) => {
       }
     >
       {/* Task info */}
-      <td class="task-panel-info sticky-col-0 hover-effect">
+      <td class="add-task-category hover-effect">
         <PickColorControl taskId={taskId} />
       </td>
-      <td class="task-panel-info sticky-col-1">
+      <td class="remove-task-category hover-effect">
         <RemoveTaskControl taskId={taskId} />
       </td>
-      <td class="task-panel-info sticky-col-2 hover-effect">
+      <td class="task-category-name hover-effect">
         <TaskNameControl taskId={taskId} />
       </td>
-      <td class="task-panel-info sticky-col-3 hover-effect">
+      <td class="task-owner hover-effect">
         <TaskOwnerControl taskId={taskId} />
       </td>
       {/* Space */}
@@ -58,22 +58,22 @@ export const TaskPanelTask = ({ taskId }: { taskId: string }) => {
       {/* Plan */}
       {displayPlan && (
         <>
-          <td class="task-panel-plan plan-start-control hover-effect">
+          <td class="plan-start-date hover-effect">
             <PlanStartDateControl taskId={taskId} />
           </td>
-          <td class="task-panel-plan hover-effect">
+          <td class="plan-duration-ideal hover-effect">
             <PlanDurationIdealControl taskId={taskId} />
           </td>
-          <td class="task-panel-plan hover-effect">
+          <td class="plan-duration-normal hover-effect">
             <PlanDurationNormalControl taskId={taskId} />
           </td>
-          <td class="task-panel-plan hover-effect">
+          <td class="plan-duration-bad hover-effect">
             <PlanDurationBadControl taskId={taskId} />
           </td>
-          <td class="task-panel-plan">
+          <td class="plan-duration-calculated">
             <PlanDurationCalculatedControl taskId={taskId} />
           </td>
-          <td class="task-panel-plan">
+          <td class="plan-end-date">
             <PlanEndDateControl taskId={taskId} />
           </td>
           {/* Space */}
@@ -83,19 +83,19 @@ export const TaskPanelTask = ({ taskId }: { taskId: string }) => {
       {/* Reality */}
       {displayReality && (
         <>
-          <td class="task-panel-reality hover-effect">
+          <td class="reality-start-date hover-effect">
             <RealityStartDateControl taskId={taskId} />
           </td>
-          <td class="task-panel-reality">
+          <td class="reality-start-delay">
             <RealityStartDelayControl taskId={taskId} />
           </td>
-          <td class="task-panel-reality hover-effect">
+          <td class="reality-done hover-effect">
             <RealityDoneControl taskId={taskId} />
           </td>
-          <td class="task-panel-reality">
+          <td class="reality-end-date">
             <RealityEndDateControl taskId={taskId} />
           </td>
-          <td class="task-panel-reality">
+          <td class="reality-end-delay">
             <RealityEndDelayControl taskId={taskId} />
           </td>
           {/* Space */}
@@ -105,11 +105,11 @@ export const TaskPanelTask = ({ taskId }: { taskId: string }) => {
       {/* Gantt */}
       {displayGantt && (
         <>
-          <td class="task-panel-gantt"></td>
-          <td class="task-panel-gantt hover-effect">
+          <td></td>
+          <td>
             <GanttBarControl taskId={taskId} />
           </td>
-          <td class="task-panel-gantt"></td>
+          <td></td>
         </>
       )}
     </tr>

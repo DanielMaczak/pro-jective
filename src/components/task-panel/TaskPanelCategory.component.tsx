@@ -26,29 +26,29 @@ export const TaskPanelCategory = () => {
         <>
           <tr key={categoryId} class="task-panel-category">
             {/* Task info */}
-            <td class="task-panel-info sticky-col-0">
+            <td class="add-task-category">
               <AddTaskControl parentCategoryId={categoryId} />
             </td>
-            <td class="task-panel-info sticky-col-1">
+            <td class="remove-task-category">
               <RemoveCategoryControl categoryId={categoryId} />
             </td>
-            <td class="task-panel-info sticky-col-2">
+            <td class="task-category-name">
               <CategoryNameControl categoryId={categoryId} />
             </td>
-            <td class="task-panel-info sticky-col-3"></td>
+            <td class="task-owner"></td>
             {/* Space */}
             <td class="task-panel-space"></td>
             {/* Plan */}
             {displayPlan && (
               <>
-                <td class="task-panel-plan">
+                <td class="plan-start-date">
                   <CategoryPlanStartDateControl categoryId={categoryId} />
                 </td>
-                <td class="task-panel-plan"></td>
-                <td class="task-panel-plan"></td>
-                <td class="task-panel-plan"></td>
-                <td class="task-panel-plan"></td>
-                <td class="task-panel-plan">
+                <td class="plan-duration-ideal"></td>
+                <td class="plan-duration-normal"></td>
+                <td class="plan-duration-bad"></td>
+                <td class="plan-duration-calculated"></td>
+                <td class="plan-end-date">
                   <CategoryPlanEndDateControl categoryId={categoryId} />
                 </td>
                 {/* Space */}
@@ -58,15 +58,15 @@ export const TaskPanelCategory = () => {
             {/* Reality */}
             {displayReality && (
               <>
-                <td class="task-panel-reality">
+                <td class="reality-start-date">
                   <CategoryRealityStartDateControl categoryId={categoryId} />
                 </td>
-                <td class="task-panel-reality"></td>
-                <td class="task-panel-reality"></td>
-                <td class="task-panel-reality">
+                <td class="reality-start-delay"></td>
+                <td class="reality-done"></td>
+                <td class="reality-end-date">
                   <CategoryRealityEndDateControl categoryId={categoryId} />
                 </td>
-                <td class="task-panel-reality"></td>
+                <td class="reality-end-delay"></td>
                 {/* Space */}
                 <td class="task-panel-space"></td>
               </>
@@ -74,9 +74,9 @@ export const TaskPanelCategory = () => {
             {/* Gantt */}
             {displayGantt && (
               <>
-                <td class="task-panel-gantt"></td>
-                <td class="task-panel-gantt"></td>
-                <td class="task-panel-gantt"></td>
+                <td></td>
+                <td></td>
+                <td></td>
               </>
             )}
           </tr>
