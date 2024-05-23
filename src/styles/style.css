@@ -983,6 +983,11 @@ body {
 
 /* Controls - mobile */
 
+div.mobile-controls .search-control,
+div.mobile-controls .search-control:focus-within,
+div.mobile-controls .search-control .pj-control__input {
+  width: 100%;
+}
 div.task-panel-table .add-category-control,
 div.task-panel-table .zoom-in-out-control,
 div.task-panel-table .undo-redo-control,
