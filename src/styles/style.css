@@ -96,6 +96,63 @@ body {
   --color-scrollbar-back: transparent;
 }
 body.nightmode {
+  /* Color constants - general */
+  --color-bg: linear-gradient(to bottom right, #353535 0%, #272727 100%);
+  --color-bg-overlay: rgba(0, 0, 0, 0.2);
+  --color-border: #3c3c3d;
+  --color-font: #e6e6e6;
+  --color-heading: #babcbe;
+  /* Color constants - controls */
+  --color-controls: #434445;
+  --color-controls-disabled: #434547;
+  --color-controls-hover: #2e2f30;
+  --color-controls-hover-2: #4da2c1 50%, #5f50de 100%;
+  --color-dropdown-shadow: rgba(0, 0, 0, 0.2);
+  --color-input-disabled-overlay: linear-gradient(
+    to bottom,
+    rgba(100, 100, 100, 0.35),
+    rgba(100, 100, 100, 0.35)
+  );
+  /* Color constants - panels */
+  --color-top-panel: linear-gradient(to bottom, #9d9ea3 0%, #bdbbbe 100%);
+  --color-task-panel: linear-gradient(
+    to bottom right,
+    #525354 0%,
+    #343636 100%
+  );
+  --color-task-panel-header: linear-gradient(
+    to bottom,
+    #7c7a7a 0%,
+    #53585a 100%
+  );
+  --color-task-panel-category: linear-gradient(
+    to bottom,
+    #9d9ea3 0%,
+    #bdbbbe 100%
+  );
+  --color-task-panel-task: #56595c;
+  --color-task-panel-footer: linear-gradient(
+    to bottom,
+    #9d9ea3 0%,
+    #bdbbbe 100%
+  );
+  --color-task-panel-popup-header: linear-gradient(
+    to bottom,
+    #7c7a7a 0%,
+    #53585a 100%
+  );
+  --color-task-panel-average: #434445;
+  --color-gantt-bar: #c5c1bc;
+  /* Color constants - scrollbar */
+  --color-scrollbar: #848386;
+  --color-scrollbar-hover: #bfbcc0;
+  --color-scrollbar-back: transparent;
+}
+.nightmode textarea::placeholder {
+  color: #b6b5b5;
+}
+.nightmode input {
+  color-scheme: dark;
 }
 
 /* Global styling */
@@ -551,7 +608,7 @@ body {
     z-index: 3;
     font-size: 0.8rem;
     font-weight: 500;
-    background-color: var(--color-controls);
+    background-color: var(--color-task-panel-task);
   }
   div.task-panel-task .task-panel-gantt {
     padding: 0 var(--padding-panel);
@@ -609,7 +666,6 @@ body {
   max-height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  margin-bottom: var(--padding-body);
   background: var(--color-bg);
   border-radius: var(--padding-panel);
 }
@@ -699,6 +755,7 @@ body {
   display: flex;
   justify-content: space-between;
   vertical-align: middle;
+  fill: var(--color-font);
 }
 .pj-control__input:focus {
   /* Disable default accessiblity styling, will be replaced */
